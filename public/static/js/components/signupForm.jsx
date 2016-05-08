@@ -9,7 +9,7 @@ export default class SignupForm extends Component {
                 <TextField
                     name="username"
                     hintText="Enter your email"
-                    floatingLabelText="Username"
+                    floatingLabelText="Email"
                     type="email"
                     />
                 <br/>
@@ -23,7 +23,7 @@ export default class SignupForm extends Component {
                 <TextField
                     name="confirmPassword"
                     hintText="Confirm your password"
-                    floatingLabelText="Password"
+                    floatingLabelText="Confirm your Password"
                     type="password"
                     />
                 <br/>

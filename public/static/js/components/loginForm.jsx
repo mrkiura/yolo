@@ -7,9 +7,9 @@ export default class LoginForm extends Component {
         return(
             <div>
                 <TextField
-                    hintText="Enter your username"
-                    floatingLabelText="Username"
-                    type="text"
+                    hintText="Enter your email"
+                    floatingLabelText="Email"
+                    type="email"
                     />
                 <br/>
                 <TextField
@@ -22,5 +22,3 @@ export default class LoginForm extends Component {
         );
     }
 }
-
-// module.exports = LoginForm
