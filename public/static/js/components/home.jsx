@@ -7,6 +7,7 @@ import Tabs from 'material-ui/lib/tabs/tabs';
 import Tab from 'material-ui/lib/tabs/tab';
 import SwipeableViews from 'react-swipeable-views';
 import LoginForm from './loginForm.jsx';
+import SignupForm from './signupForm.jsx';
 
 
 const styles = {
@@ -40,7 +41,7 @@ class AuthTabs extends Component {
                     onChangeIndex={this.handleChange}
                 >
                     <div style={styles.slide}><LoginForm /></div>
-                    <div style={styles.slide}>Sign up tab</div>
+                    <div style={styles.slide}><SignupForm /></div>
                 </SwipeableViews>
             </div>
         );
