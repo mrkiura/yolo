@@ -1,16 +1,16 @@
 import { render } from 'react-dom';
-import injectTapEventPlugin from 'react-tap-event-plugin';
+import Main from './components/main.jsx';
+import Home from './components/home.jsx';
 import React, { Component } from 'react';
 import { Router, Route, Link, browserHistory, IndexRoute} from 'react-router';
+import injectTapEventPlugin from 'react-tap-event-plugin';
+injectTapEventPlugin();
 
 let routes = (<Router history={browserHistory}>
                 <Route path="/" component={Main}>
                     <IndexRoute component={Home}/>
-                    <Route path="/home" component={About}/>
-                    <Route path="/bucketlist" component={Team}/>
+                    <Route path="/home" component={Home}/>
                 </Route>
               </Router>)
 
-render(
-    <AppBarExampleIconMenu />, document.getElementById('yolo')
-);
+render(<Home />, document.getElementById('yolo'));
