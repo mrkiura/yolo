@@ -13,6 +13,9 @@ import SignupForm from './signupForm.jsx';
 const styles = {
     slide: {
         padding: 10,
+        textAlign: "center",
+        width: 100,
+        height: 250
     },
     tab: {
         fontSize: 24,
@@ -62,7 +65,7 @@ class Home extends Component {
 
     render() {
         return(
-            <div className="center"><AuthTabs /></div>
+            <div className="container"><AuthTabs /></div>
         );
     }
 }
