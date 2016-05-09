@@ -1,6 +1,15 @@
-.center {
-    margin: 0 auto;
-    width: 40%;
-    border: 3px solid #73AD21;
-    padding: 10px;
+.container {
+  position: absolute;
+  margin: auto;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 40%;
+  height: 50%;
+  border-radius: 3px;
+}
+
+.field {
+
 }
