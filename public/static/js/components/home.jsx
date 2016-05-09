@@ -14,6 +14,13 @@ const styles = {
     slide: {
         padding: 10,
     },
+    tab: {
+        fontSize: 24,
+        paddingTop: 16,
+        marginBottom: 12,
+        fontWeight: 400,
+        width: 200
+  },
 };
 
 class AuthTabs extends Component {
@@ -55,7 +62,7 @@ class Home extends Component {
 
     render() {
         return(
-            <div><AuthTabs/></div>
+            <div className="center"><AuthTabs /></div>
         );
     }
 }
