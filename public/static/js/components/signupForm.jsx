@@ -1,6 +1,7 @@
 import { render } from 'react-dom'
 import React, {Component} from 'react';
 import TextField from 'material-ui/lib/text-field';
+import RaisedButton from 'material-ui/lib/raised-button';
 
 export default class SignupForm extends Component {
     render() {
@@ -27,6 +28,7 @@ export default class SignupForm extends Component {
                     type="password"
                     />
                 <br/>
+                <RaisedButton label="SIGN UP" secondary={true}/>
             </div>
         );
     }
