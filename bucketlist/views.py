@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from models import Bucketlist, BucketlistItem
 from rest_framework import viewsets
 from serializers import UserSerializer, BucketlistSerializer, \
     BucketlistItemSerializer
@@ -20,3 +21,11 @@ class UserCreateViewSet(viewsets.ModelViewSet):
         data = serializer.data
         data.update({'token': token.key})
         return Response(data=data, status=status.HTTP_201_CREATED)
+
+
+class BucketListViewSet(viewsets.ModelViewSet):
+    """
+    Api endpoint that exposes CRUD functionality for bucketlists.
+    """
+    queryset = Bucketlist.objects.all().order_by('-date_created')
+    serializer_class = BucketlistSerializer
