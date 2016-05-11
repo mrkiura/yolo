@@ -37,7 +37,8 @@ class BucketlistItem(models.Model):
         ('M', 'Medium'),
         ('L', 'Low'),
     )
-    bucketlist = models.ForeignKey(Bucketlist, on_delete=models.CASCADE)
+    bucketlist = models.ForeignKey(Bucketlist, on_delete=models.CASCADE,
+                                   related_name="items")
     item_name = models.CharField(max_length=100, blank=True, default='')
     priority = models.CharField(max_length=1, choices=PRIORITIES)
     done = models.BooleanField(default=False)
