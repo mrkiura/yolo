@@ -15,7 +15,7 @@ class Bucketlist(models.Model):
     """
 
     date_created = models.DateTimeField(auto_now_add=True)
-    date_created = models.DateTimeField(auto_now=True)
+    date_modified = models.DateTimeField(auto_now=True)
     list_name = models.CharField(max_length=100, blank=True, default='')
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, default=0)
 
@@ -42,4 +42,4 @@ class BucketlistItem(models.Model):
     priority = models.CharField(max_length=1, choices=PRIORITIES)
     done = models.BooleanField(default=False)
     date_created = models.DateTimeField(auto_now_add=True)
-    date_created = models.DateTimeField(auto_now=True)
+    date_modified = models.DateTimeField(auto_now=True)
