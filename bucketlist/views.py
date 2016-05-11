@@ -1,9 +1,10 @@
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User
 from rest_framework import viewsets
-from serializers import UserSerializer, BucketlistSerializer, BucketlistItemSerializer
+from serializers import UserSerializer, BucketlistSerializer, \
+    BucketlistItemSerializer
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
-
+from rest_framework import status
 
 class UserCreateViewSet(viewsets.ModelViewSet):
     """
@@ -12,6 +13,10 @@ class UserCreateViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
 
-    def perform_create(self, serializer):
+    def create(self, request):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
         token = Token.objects.create(user=serializer.save())
-        # import ipdb; ipdb.set_trace()
+        data = serializer.data
+        data.update({'token': token.key})
+        return Response(data=data, status=status.HTTP_201_CREATED)
