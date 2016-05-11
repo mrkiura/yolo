@@ -20,6 +20,7 @@ from bucketlist import views
 
 router = routers.DefaultRouter()
 router.register(r'users', views.UserCreateViewSet)
+router.register(r'bucketlists', views.BucketListViewSet)
 
 urlpatterns = [
     url(r'^', include(router.urls)),
