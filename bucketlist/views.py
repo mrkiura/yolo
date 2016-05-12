@@ -29,3 +29,17 @@ class BucketListViewSet(viewsets.ModelViewSet):
     """
     queryset = Bucketlist.objects.all().order_by('-date_created')
     serializer_class = BucketlistSerializer
+
+
+class BucketListItemViewSet(viewsets.ModelViewSet):
+    """
+    Api endpoint that exposes CRUD functionality for bucketlists.
+    """
+    queryset = BucketlistItem.objects.all().order_by('-date_created')
+    serializer_class = BucketlistItemSerializer
+
+    def create(self, request, bucketlists_pk):
+        item_name = request.get('item_name', '')
+        priority = request.get('priority', '')
+        done = request.get('done', False)
+        
