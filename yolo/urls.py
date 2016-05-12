@@ -15,13 +15,11 @@ Including another URLconf
 """
 
 from django.conf.urls import url, include
-from rest_framework import routers
 from bucketlist.views import BucketListViewSet, BucketListItemViewSet,\
     UserCreateViewSet
 from rest_framework_nested import routers
 
 router = routers.SimpleRouter()
-# router = routers.DefaultRouter()
 router.register(r'users', UserCreateViewSet)
 router.register(r'bucketlists', BucketListViewSet)
 
@@ -29,7 +27,7 @@ bucketlist_router = routers.NestedSimpleRouter(router, r'bucketlists',
                                                lookup='bucketlists')
 bucketlist_router.register(r'items', BucketListItemViewSet,
                            base_name='bucketlists-items')
-# router.register(r'bucketlists', views.Buc ketListViewSet)
+
 
 urlpatterns = [
     url(r'^', include(router.urls)),
