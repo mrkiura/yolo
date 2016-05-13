@@ -17,7 +17,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 class BucketlistItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = BucketlistItem
-        fields = ('item_name', 'priority', 'done', 'date_created',
+        fields = ('id', 'item_name', 'priority', 'done', 'date_created',
                   'date_modified')
 
 
@@ -26,5 +26,5 @@ class BucketlistSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Bucketlist
-        fields = ('list_name', 'created_by', 'date_created', 'date_modified',
+        fields = ('id', 'list_name', 'created_by', 'date_created', 'date_modified',
                   'items')
