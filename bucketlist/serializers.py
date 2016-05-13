@@ -1,22 +1,30 @@
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User
 from rest_framework import serializers
 from models import Bucketlist, BucketlistItem
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
+    email = serializers.EmailField(max_length=100, required=True)
+    username = serializers.CharField(max_length=100, required=True)
+    password = serializers.CharField(max_length=100,
+                                     style={'input_type': 'password'},
+                                     required=True, write_only=True)
+
     class Meta:
         model = User
         fields = ('url', 'username', 'email', 'password')
-        extra_kwargs = {'password': {'write_only': True}}
-
-class BucketlistSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Bucketlist
-        fields = ('list_name', 'created_by', 'date_created', 'date_modified',
-                  'items')
 
 class BucketlistItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = BucketlistItem
         fields = ('item_name', 'priority', 'done', 'date_created',
                   'date_modified')
+
+
+class BucketlistSerializer(serializers.ModelSerializer):
+    items = BucketlistItemSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Bucketlist
+        fields = ('list_name', 'created_by', 'date_created', 'date_modified',
+                  'items')
