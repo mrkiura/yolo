@@ -39,7 +39,7 @@ class BucketListItemViewSet(viewsets.ModelViewSet):
     serializer_class = BucketlistItemSerializer
 
     def create(self, request, bucketlists_pk):
-        item_name = request.get('item_name', '')
-        priority = request.get('priority', '')
-        done = request.get('done', False)
-        
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save(bucketlist_id=bucketlists_pk)
+        return Response(data=serializer.data, status=status.HTTP_201_CREATED)
