@@ -30,6 +30,9 @@ class BucketListViewSet(viewsets.ModelViewSet):
     queryset = Bucketlist.objects.all().order_by('-date_created')
     serializer_class = BucketlistSerializer
 
+    def destroy(self, request, pk=None):
+        return Response({'Message': 'Successfully deleted bucketlist'})
+
 
 class BucketListItemViewSet(viewsets.ModelViewSet):
     """
