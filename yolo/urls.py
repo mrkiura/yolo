@@ -33,6 +33,7 @@ urlpatterns = [
     url(r'^', include(router.urls)),
     url(r'^', include(bucketlist_router.urls)),
     url(r'^api/v1/auth/login/', views.obtain_auth_token),
+    url(r'^api/v1/auth/register/', UserCreateViewSet.as_view({'post': 'create'})),
     url(r'^api/v1/', include('rest_framework.urls')),
     url(r'^', include('rest_framework.urls', namespace='rest_framework'))
 ]
