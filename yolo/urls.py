@@ -15,23 +15,24 @@ Including another URLconf
 """
 
 from django.conf.urls import url, include
-from bucketlist.views import BucketListViewSet, BucketListItemViewSet,\
+from bucketlist.api import BucketListViewSet, BucketListItemViewSet,\
     UserCreateViewSet
 from rest_framework_nested import routers
+from rest_framework.authtoken import views
 
 router = routers.SimpleRouter()
-router.register(r'users', UserCreateViewSet)
 router.register(r'bucketlists', BucketListViewSet)
-
+#
 bucketlist_router = routers.NestedSimpleRouter(router, r'bucketlists',
                                                lookup='bucketlists')
+
 bucketlist_router.register(r'items', BucketListItemViewSet,
                            base_name='bucketlists-items')
-
 
 urlpatterns = [
     url(r'^', include(router.urls)),
     url(r'^', include(bucketlist_router.urls)),
-    url(r'^api-auth/', include('rest_framework.urls',
-                               namespace='rest_framework'))
+    url(r'^api/v1/auth/login/', views.obtain_auth_token),
+    url(r'^api/v1/', include('rest_framework.urls')),
+    url(r'^', include('rest_framework.urls', namespace='rest_framework'))
 ]
