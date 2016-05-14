@@ -3,7 +3,7 @@ from rest_framework import serializers
 from models import Bucketlist, BucketlistItem
 
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(max_length=100, required=True)
     username = serializers.CharField(max_length=100, required=True)
     password = serializers.CharField(max_length=100,
@@ -12,7 +12,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = User
-        fields = ('url', 'username', 'email', 'password')
+        fields = ('username', 'email', 'password',)
 
 class BucketlistItemSerializer(serializers.ModelSerializer):
     class Meta:
