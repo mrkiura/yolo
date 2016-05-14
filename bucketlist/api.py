@@ -6,6 +6,8 @@ from serializers import UserSerializer, BucketlistSerializer, \
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated, AllowAny
 
 class UserCreateViewSet(viewsets.ModelViewSet):
     """
@@ -13,15 +15,14 @@ class UserCreateViewSet(viewsets.ModelViewSet):
     """
     queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
+    permission_classes = (AllowAny,)
 
     def create(self, request):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         token = Token.objects.create(user=serializer.save())
-        data = serializer.data
-        data.update({'token': token.key})
-        return Response(data=data, status=status.HTTP_201_CREATED)
-
+        return Response({'Authorization': token.key},
+                        status=status.HTTP_201_CREATED)
 
 class BucketListViewSet(viewsets.ModelViewSet):
     """
