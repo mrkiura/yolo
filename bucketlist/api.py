@@ -20,11 +20,26 @@ class UserCreateViewSet(viewsets.ModelViewSet):
     permission_classes = (AllowAny,)
 
     def create(self, request):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        token = Token.objects.create(user=serializer.save())
+        data = request.data
+        username, email, password = data['username'], data['email'], \
+            data['password']
+        user = User.objects.create_user(username=username, password=password,
+                                        email=email)
+        token = Token.objects.create(user=user)
         return Response({'Authorization': token.key},
                         status=status.HTTP_201_CREATED)
+
+
+class UserLoginView(views.ObtainAuthToken):
+    renderer_classes, serializer_class, permission_classes = \
+        (renderers.JSONRenderer,), AuthTokenSerializer, (AllowAny,)
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data['user']
+        token, created = Token.objects.get_or_create(user=user)
+        return Response({'Authorization': token.key})
 
 class BucketListViewSet(viewsets.ModelViewSet):
     """
@@ -32,6 +47,13 @@ class BucketListViewSet(viewsets.ModelViewSet):
     """
     queryset = Bucketlist.objects.all().order_by('-date_created')
     serializer_class = BucketlistSerializer
+    permission_classes = (IsAuthenticated,)
+
+    # def create(self, request):
+    #     import ipdb; ipdb.set_trace()
+    #
+    # def list(self, request):
+    #     import ipdb; ipdb.set_trace()
 
     def destroy(self, request, pk=None):
         return Response({'Message': 'Successfully deleted bucketlist'})
