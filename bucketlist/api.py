@@ -51,17 +51,13 @@ class BucketListViewSet(viewsets.ModelViewSet):
 
     def create(self, request):
         data = {'list_name': request.data['list_name'],
-                'created_by': request.user}
+                'created_by': request.user.username}
         serializer = self.get_serializer(data=data)
         if serializer.is_valid():
             serializer.save()
-        # list_name, user = request.data['list_name'], request.user
-        # bucketlist = Bucketlist.objects.create(list_name=list_name,
-                                            #    created_by=user)
-        # import ipdb; ipdb.set_trace()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    # def list(self, request):
-    #     import ipdb; ipdb.set_trace()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response({'error': 'Please provide a valid bucketlistname'})
 
     def destroy(self, request, pk=None):
         return Response({'Message': 'Successfully deleted bucketlist'})
