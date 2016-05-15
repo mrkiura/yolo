@@ -16,7 +16,7 @@ Including another URLconf
 
 from django.conf.urls import url, include
 from bucketlist.api import BucketListViewSet, BucketListItemViewSet,\
-    UserCreateViewSet
+    UserCreateViewSet, UserLoginView
 from rest_framework_nested import routers
 from rest_framework.authtoken import views
 
@@ -32,7 +32,7 @@ bucketlist_router.register(r'items', BucketListItemViewSet,
 urlpatterns = [
     url(r'^api/v1/', include(router.urls)),
     url(r'^api/v1/', include(bucketlist_router.urls)),
-    url(r'^api/v1/auth/login/', views.obtain_auth_token),
+    url(r'^api/v1/auth/login/', UserLoginView.as_view()),
     url(r'^api/v1/auth/register/', UserCreateViewSet.as_view({'post': 'create'})),
     url(r'^api/v1/', include('rest_framework.urls')),
     url(r'^', include('rest_framework.urls', namespace='rest_framework'))
