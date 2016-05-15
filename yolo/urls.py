@@ -30,8 +30,8 @@ bucketlist_router.register(r'items', BucketListItemViewSet,
                            base_name='bucketlists-items')
 
 urlpatterns = [
-    url(r'^', include(router.urls)),
-    url(r'^', include(bucketlist_router.urls)),
+    url(r'^api/v1/', include(router.urls)),
+    url(r'^api/v1/', include(bucketlist_router.urls)),
     url(r'^api/v1/auth/login/', views.obtain_auth_token),
     url(r'^api/v1/auth/register/', UserCreateViewSet.as_view({'post': 'create'})),
     url(r'^api/v1/', include('rest_framework.urls')),
