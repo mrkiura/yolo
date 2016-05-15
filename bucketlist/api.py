@@ -49,9 +49,17 @@ class BucketListViewSet(viewsets.ModelViewSet):
     serializer_class = BucketlistSerializer
     permission_classes = (IsAuthenticated,)
 
-    # def create(self, request):
-    #     import ipdb; ipdb.set_trace()
-    #
+    def create(self, request):
+        data = {'list_name': request.data['list_name'],
+                'created_by': request.user}
+        serializer = self.get_serializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+        # list_name, user = request.data['list_name'], request.user
+        # bucketlist = Bucketlist.objects.create(list_name=list_name,
+                                            #    created_by=user)
+        # import ipdb; ipdb.set_trace()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
     # def list(self, request):
     #     import ipdb; ipdb.set_trace()
 
