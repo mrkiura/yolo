@@ -4,3 +4,4 @@ public/static/js/build/*
 tasks.md
 .imdone/
 */migrations/
+*.sh
