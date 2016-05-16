@@ -18,7 +18,7 @@ from django.conf.urls import url, include
 from bucketlist.api import BucketListViewSet, BucketListItemViewSet,\
     UserCreateViewSet, UserLoginView
 from rest_framework_nested import routers
-from rest_framework.authtoken import views
+from django.views.generic.base import TemplateView
 
 router = routers.SimpleRouter()
 router.register(r'bucketlists', BucketListViewSet)
@@ -35,5 +35,6 @@ urlpatterns = [
     url(r'^api/v1/auth/login/', UserLoginView.as_view()),
     url(r'^api/v1/auth/register/', UserCreateViewSet.as_view({'post': 'create'})),
     url(r'^api/v1/', include('rest_framework.urls')),
-    url(r'^', include('rest_framework.urls', namespace='rest_framework'))
+    url(r'^', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^', TemplateView.as_view(template_name='index.html')),
 ]
