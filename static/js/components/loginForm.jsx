@@ -2,6 +2,7 @@ import { render } from 'react-dom'
 import React, {Component} from 'react';
 import TextField from 'material-ui/lib/text-field';
 import RaisedButton from 'material-ui/lib/raised-button';
+import request from 'superagent';
 
 const style = {
   margin: 12,
@@ -36,7 +37,8 @@ export default class LoginForm extends Component {
         .send({'username': username, 'password': password })
         .end((err, result) => {
             this.setState({
-                token: result.body.token
+                token: result.body.Authorization
+
             });
             console.log(`response code is ${result.status}`);
             console.log(this.state);
@@ -46,18 +48,23 @@ export default class LoginForm extends Component {
         return(
             <div>
                 <TextField
-                    hintText="Enter your email"
-                    floatingLabelText="Email"
-                    type="email"
+                    hintText="Enter your username"
+                    floatingLabelText="Username"
+                    type="text"
+                    name="username"
+                    onChange={this.handleFieldChange}
                     />
                 <br/>
                 <TextField
                     hintText="Password Field"
                     floatingLabelText="Password"
                     type="password"
+                    name="password"
+                    onChange={this.handleFieldChange}
                     />
                 <br/>
-                <RaisedButton label="LOGIN" secondary={true} />
+                <RaisedButton label="LOGIN" secondary={true}
+                    onMouseDown={this.handleSubmit}/>
             </div>
         );
     }

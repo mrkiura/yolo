@@ -1,0 +1,14 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Yolo</title>
+    <link href="{% static 'css/style.css'%}" rel="stylesheet">
+  </head>
+  <body>
+    {% csrf_token %}
+    <div id="yolo"> </div>
+    <script src="{% static 'js/build/bundle.js'%}"></script>
+  </body>
+</html>
