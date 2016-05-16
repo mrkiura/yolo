@@ -70,10 +70,12 @@ MIDDLEWARE_CLASSES = [
 
 ROOT_URLCONF = 'yolo.urls'
 
+SETTINGS_PATH = os.path.normpath(os.path.dirname(__file__))
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -85,6 +87,12 @@ TEMPLATES = [
         },
     },
 ]
+
+STATICFILES_DIRS = (
+    'static',
+)
+
+STATIC_ROOT = 'staticfiles'
 
 WSGI_APPLICATION = 'yolo.wsgi.application'
 
