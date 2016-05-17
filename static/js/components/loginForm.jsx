@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 import TextField from 'material-ui/lib/text-field';
 import RaisedButton from 'material-ui/lib/raised-button';
 import request from 'superagent';
+import {browserHistory} from 'react-router';
 
 const style = {
   margin: 12,
@@ -38,8 +39,10 @@ export default class LoginForm extends Component {
         .end((err, result) => {
             this.setState({
                 token: result.body.Authorization
-
             });
+            if (result.status === 200) {
+                 browserHistory.push('/home');
+            }
             console.log(`response code is ${result.status}`);
             console.log(this.state);
         })
