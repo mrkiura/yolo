@@ -34,14 +34,6 @@ class Menu extends Component {
 
 }
 
-let routes = (<Router history={browserHistory}>
-                <Route path="/" component={Main}>
-                    <IndexRoute component={Home}/>
-                    <Route path="/about" component={About}/>
-                    <Route path="/team" component={Team}/>
-                    <Route path="/contact" component={Contact}/>
-                </Route>
-              </Router>)
 export default AppBarExampleIconMenu;
 render(
     <AppBarExampleIconMenu />, document.getElementById('yolo')
