@@ -59,6 +59,16 @@ class BucketListViewSet(viewsets.ModelViewSet):
         else:
             return Response({'error': 'Please provide a valid bucketlistname'})
 
+    def list(self, request):
+        username = request.user.username
+        bucketlists = Bucketlist.objects.filter(created_by=username)
+        page = self.paginate_queryset(bucketlists)
+        if page:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+        serializer = self.get_serializer(bucketlists, many=True)
+        return Response(serializer.data)
+
     def destroy(self, request, pk=None):
         return Response({'Message': 'Successfully deleted bucketlist'})
 
