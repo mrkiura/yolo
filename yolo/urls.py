@@ -15,7 +15,7 @@ Including another URLconf
 """
 
 from django.conf.urls import url, include
-from bucketlist.api import BucketListViewSet, BucketListItemViewSet,\
+from api_v1.api import BucketListViewSet, BucketListItemViewSet,\
     UserCreateViewSet, UserLoginView
 from rest_framework_nested import routers
 from django.views.generic.base import TemplateView

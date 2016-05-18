@@ -42,7 +42,7 @@ PREREQ_APPS = [
 ]
 
 PROJECT_APPS = [
-    'bucketlist'
+    'api_v1'
 ]
 
 REST_FRAMEWORK = {
