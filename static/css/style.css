@@ -25,3 +25,16 @@
   background-size: cover;
   /*margin-top: -70px;*/
 }
+
+.list-input {
+  margin-top:1cm;
+  margin-left:auto;
+  margin-right:auto;
+  margin-bottom: auto;
+  width: 40%;
+}
+
+.text-input {
+  padding-left:25px;
+  padding-right:25px;
+}
