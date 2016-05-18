@@ -10,7 +10,7 @@ injectTapEventPlugin();
 
 let routes = (<Router history={browserHistory}>
                 <Route path="/" component={Main}>
-                    <IndexRoute component={Landing}/>
+                    <IndexRoute component={Auth}/>
                     <Route path="/home" component={Home}/>
                     <Route path="/bucketlists" component={Home}/>
                 </Route>
