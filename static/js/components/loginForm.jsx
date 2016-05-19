@@ -10,6 +10,12 @@ const style = {
 };
 
 export default class LoginForm extends Component {
+    getChildcontext() {
+        return {
+            token: this.state.token
+        }
+    }
+
     constructor() {
         super();
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -18,6 +24,9 @@ export default class LoginForm extends Component {
             username: '',
             password: '',
             token: ''
+        }
+        childContextTypes: {
+            token: React.PropTypes.string
         }
     }
     handleSubmit(event) {
@@ -37,14 +46,17 @@ export default class LoginForm extends Component {
         .post('/api/v1/auth/login/')
         .send({'username': username, 'password': password })
         .end((err, result) => {
-            this.setState({
-                token: result.body.Authorization
-            });
             if (result.status === 200) {
-                 browserHistory.push('/home');
+                this.setState({
+                    token: result.body.Authorization
+                });
+                localStorage.setItem('token', JSON.stringify(this.state.token));
+                localStorage.setItem('username',
+                    JSON.stringify(this.state.username));
+
+                browserHistory.push('/home');
             }
-            console.log(`response code is ${result.status}`);
-            console.log(this.state);
+
         })
 }
     render() {
