@@ -6,3 +6,5 @@ tasks.md
 */migrations/
 *.sh
 staticfiles/
+.coverage
+.coveragerc
