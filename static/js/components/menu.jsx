@@ -10,11 +10,19 @@ import FlatButton from 'material-ui/lib/flat-button';
 
 
 class Menu extends Component {
+    constructor() {
+         super();
+         this.state = {
+             username: JSON.parse(localStorage.getItem('username') || '{}'),
+             loggedIn: typeof username==='string'? true: false
+         };
+     }
     render() {
         return(
             <AppBar
                 title="Yolo"
-                iconElementRight={<FlatButton label="Login"/>}
+                iconElementRight={<FlatButton label={this.state.loggedIn? 'Logout':
+                    'Login'}/>}
                 showMenuIconButton={false}
             />
         );
