@@ -5,7 +5,7 @@ import TextField from 'material-ui/lib/text-field';
 import Paper from 'material-ui/lib/paper';
 import ActionNoteAdd from 'material-ui/lib/svg-icons/action/note-add';
 import IconButton from 'material-ui/lib/icon-button';
-
+import request from 'superagent';
 
 const style = {
     float: 'right',
@@ -14,7 +14,23 @@ const style = {
 class Home extends Component {
    constructor() {
         super();
-        this.state = {showAddButton: false};
+        this.state = {
+            showAddButton: false,
+            token: JSON.parse(localStorage.getItem('token') || '{}'),
+	        bucketlists: []
+            };
+    }
+    componentDidMount() {
+        this.fetchBucketlists()
+    }
+
+    fetchBucketlists() {
+    request
+        .get('/api/v1/bucketlists/')
+        .set('Authorization', 'Token ' + this.state.token)
+        .end((err, result) => {
+            console.log(result.body.results)
+        })
     }
 
     onEnter() {
