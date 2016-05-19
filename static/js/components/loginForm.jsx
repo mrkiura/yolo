@@ -4,6 +4,7 @@ import TextField from 'material-ui/lib/text-field';
 import RaisedButton from 'material-ui/lib/raised-button';
 import request from 'superagent';
 import {browserHistory} from 'react-router';
+import Snackbar from 'material-ui/lib/snackbar';
 
 const style = {
   margin: 12,
@@ -23,7 +24,8 @@ export default class LoginForm extends Component {
         this.state = {
             username: '',
             password: '',
-            token: ''
+            token: '',
+            error: false,
         }
         childContextTypes: {
             token: React.PropTypes.string
@@ -55,10 +57,19 @@ export default class LoginForm extends Component {
                     JSON.stringify(this.state.username));
 
                 browserHistory.push('/home');
+            } else {
+                this.setState({
+                    error: true
+                })
             }
 
         })
-}
+    }
+    handleRequestClose() {
+        this.setState({
+          error: false,
+        });
+  }
     render() {
         return(
             <div>
@@ -80,6 +91,14 @@ export default class LoginForm extends Component {
                 <br/>
                 <RaisedButton label="LOGIN" secondary={true}
                     onMouseDown={this.handleSubmit}/>
+
+            <Snackbar
+              className="toast-alerts"
+              open={this.state.error}
+              message="Please provide a correct username and password"
+              autoHideDuration={4000}
+              onRequestClose={this.handleRequestClose}
+            />
             </div>
         );
     }
