@@ -12,6 +12,7 @@ let routes = (<Router history={browserHistory}>
                 <Route path="/" component={Main}>
                     <IndexRoute component={Auth}/>
                     <Route path="/home" component={Home}/>
+                    <Route path="/login" component={Auth}/>
                     <Route path="/bucketlists" component={Home}/>
                 </Route>
               </Router>)
