@@ -11,12 +11,6 @@ const style = {
 };
 
 export default class LoginForm extends Component {
-    getChildcontext() {
-        return {
-            token: this.state.token
-        }
-    }
-
     constructor() {
         super();
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -26,9 +20,6 @@ export default class LoginForm extends Component {
             password: '',
             token: '',
             error: false,
-        }
-        childContextTypes: {
-            token: React.PropTypes.string
         }
     }
     handleSubmit(event) {
