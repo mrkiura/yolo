@@ -28,4 +28,4 @@ class UserActions(APITestCase):
                                      'password': 'nomasana'},
                                     format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertIn('Authorization', response.data)
+        self.assertIn('token', response.data)
