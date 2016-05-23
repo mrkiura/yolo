@@ -4,7 +4,7 @@ import Home from './components/home.jsx';
 import Auth from './components/auth.jsx';
 import Landing from './components/landing.jsx';
 import React, { Component } from 'react';
-import { Router, Route, Link, browserHistory, IndexRoute} from 'react-router';
+import { Router, Route, Link, browserHistory, IndexRoute } from 'react-router';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 
