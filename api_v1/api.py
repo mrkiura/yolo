@@ -29,18 +29,6 @@ class UserCreateViewSet(viewsets.ModelViewSet):
         return Response({'Authorization': token.key},
                         status=status.HTTP_201_CREATED)
 
-
-class UserLoginView(views.ObtainAuthToken):
-    renderer_classes, serializer_class, permission_classes = \
-        (renderers.JSONRenderer,), AuthTokenSerializer, (AllowAny,)
-
-    def post(self, request, *args, **kwargs):
-        serializer = self.serializer_class(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        user = serializer.validated_data['user']
-        token, created = Token.objects.get_or_create(user=user)
-        return Response({'token': token.key})
-
 class BucketListViewSet(viewsets.ModelViewSet):
     """
     Api endpoint that exposes CRUD functionality for bucketlists.
