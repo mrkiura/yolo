@@ -6,6 +6,8 @@ import Paper from 'material-ui/lib/paper';
 import ActionNoteAdd from 'material-ui/lib/svg-icons/action/note-add';
 import IconButton from 'material-ui/lib/icon-button';
 import request from 'superagent';
+import {Card, CardActions, CardHeader, CardText} from 'material-ui/lib/card'
+import FlatButton from 'material-ui/lib/flat-button';
 
 const style = {
     float: 'right',
@@ -60,6 +62,20 @@ class Home extends Component {
                          : null
                      }
                  </Paper>
+                 <br/>
+                 <Card>
+    <CardHeader
+      title="Bucketlist"
+      subtitle="Hiking in Himalayas"
+      actAsExpander={true}
+      showExpandableButton={true}
+    />
+    <CardText expandable={true}>
+      Bucketlist items here.
+    </CardText>
+    <CardActions expandable={true}>
+    </CardActions>
+  </Card>
                 </div>
             </div>
         );
