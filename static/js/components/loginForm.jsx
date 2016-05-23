@@ -41,8 +41,9 @@ export default class LoginForm extends Component {
         .end((err, result) => {
             if (result.status === 200) {
                 this.setState({
-                    token: result.body.Authorization
+                    token: result.body.token
                 });
+                console.log(result.body);
                 localStorage.setItem('token', JSON.stringify(this.state.token));
                 localStorage.setItem('username',
                     JSON.stringify(this.state.username));
