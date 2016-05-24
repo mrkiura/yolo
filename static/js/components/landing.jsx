@@ -8,7 +8,7 @@ class Landing extends Component {
 
     render() {
         return (
-            <div>
+            <div className="parent">
                 <div className="body-landing">
                     <br></br>
                     <br></br>
