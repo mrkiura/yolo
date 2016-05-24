@@ -49,7 +49,7 @@ class Home extends Component {
 
     render() {
         return (
-            <div>
+            <div className="parent">
                 <div className="list-input">
                     <Paper zDepth={2}>
                      <TextField
@@ -69,20 +69,52 @@ class Home extends Component {
                      }
                  </Paper>
                  <br/>
-                 <Card>
-    <CardHeader
-      title="Bucketlist"
-      subtitle="Hiking in Himalayas"
-      actAsExpander={true}
-      showExpandableButton={true}
-    />
-    <CardText expandable={true}>
-      Bucketlist items here.
-    </CardText>
-    <CardActions expandable={true}>
-    </CardActions>
-  </Card>
-                </div>
+                 </div>
+                 <Card className="col-md-4">
+
+                    <CardHeader
+                        title="Bucketlist"
+                        subtitle="Hiking in Himalayas"
+                        actAsExpander={true}
+                        showExpandableButton={true}
+                    />
+                    <CardText expandable={true}>
+                        Bucketlist items here.
+                    </CardText>
+                    <CardActions expandable={true}>
+                    </CardActions>
+                </Card>
+
+              <Card className="col-md-4">
+
+                <CardHeader
+                    title="Bucketlist"
+                    subtitle="Hiking in Himalayas"
+                    actAsExpander={true}
+                    showExpandableButton={true}
+                />
+                <CardText expandable={true}>
+                    Bucketlist items here.
+                </CardText>
+                <CardActions expandable={true}>
+                </CardActions>
+            </Card>
+
+            <Card className="col-md-4">
+
+                <CardHeader
+                    title="Bucketlist"
+                    subtitle="Hiking in Himalayas"
+                    actAsExpander={true}
+                    showExpandableButton={true}
+                />
+                <CardText expandable={true}>
+                Bucketlist items here.
+                </CardText>
+                <CardActions expandable={true}>
+                </CardActions>
+            </Card>
+
             </div>
         );
     }
