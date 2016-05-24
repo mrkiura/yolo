@@ -43,12 +43,10 @@ export default class LoginForm extends Component {
                 this.setState({
                     token: result.body.token
                 });
-                console.log(result.body);
                 localStorage.setItem('token', JSON.stringify(this.state.token));
                 localStorage.setItem('username',
                     JSON.stringify(this.state.username));
-
-                browserHistory.push('/home');
+                this.props.history.pushState({token: this.state.token}, '/home');
             } else {
                 this.setState({
                     error: true
