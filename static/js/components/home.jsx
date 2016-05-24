@@ -19,23 +19,25 @@ class Home extends Component {
         this.state = {
             token: '',
             showAddButton: false,
-            token: JSON.parse(localStorage.getItem('token') || '{}'),
 	        bucketlists: []
             };
     }
     componentDidMount() {
         this.setState({
-            token: this.props.location.token
+            token: this.props.location.state.token
+        }, ()=> {
+            this.fetchBucketlists()
         })
-        this.fetchBucketlists()
     }
 
     fetchBucketlists() {
     request
         .get('/api/v1/bucketlists/')
-        .set('Authorization', 'JWT ' + this.state.token)
+        .set('Authorization', 'JWT ' + this.props.location.state.token)
         .end((err, result) => {
-            console.log(result.body.results)
+            this.setState({
+                bucketlists: result.body.results
+            });
         })
     }
 
