@@ -3,8 +3,8 @@ import React, {Component} from 'react';
 import TextField from 'material-ui/lib/text-field';
 import RaisedButton from 'material-ui/lib/raised-button';
 import request from 'superagent';
-import {browserHistory} from 'react-router';
 import Snackbar from 'material-ui/lib/snackbar';
+import { Link, browserHistory } from 'react-router';
 
 const style = {
   margin: 12,
@@ -65,6 +65,7 @@ export default class LoginForm extends Component {
     render() {
         return(
             <div>
+                <p>Login to continue</p>
                 <TextField
                     hintText="Enter your username"
                     floatingLabelText="Username"
@@ -83,6 +84,7 @@ export default class LoginForm extends Component {
                 <br/>
                 <RaisedButton label="LOGIN" secondary={true}
                     onMouseDown={this.handleSubmit}/>
+                <p>Need an account? <Link to="/register">Sign up</Link></p>
 
             <Snackbar
               className="toast-alerts"
