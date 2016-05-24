@@ -47,7 +47,7 @@ export default class SignupForm extends Component {
         .end((err, result) => {
             if (result.status === 201) {
                 this.setState({
-                    token: result.body.Authorization
+                    token: result.body.token
                 });
                 localStorage.setItem('token', JSON.stringify(this.state.token));
                 localStorage.setItem('username',
