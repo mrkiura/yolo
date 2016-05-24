@@ -65,7 +65,7 @@ class Auth extends Component {
 
     render() {
         return(
-            <div className="container"><AuthTabs /></div>
+            <div className="container"><LoginForm /></div>
         );
     }
 }
