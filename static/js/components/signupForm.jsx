@@ -30,7 +30,6 @@ export default class SignupForm extends Component {
                 {error: true}
             )
         }
-        console.log(this.state);
         this.registerUser(this.state.username, this.state.email, this.state.password);
     }
     handleFieldChange(event) {
