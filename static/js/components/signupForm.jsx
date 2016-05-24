@@ -69,51 +69,54 @@ export default class SignupForm extends Component {
   }
     render() {
         return(
-                <div>
-                    <p>Register to continue</p>
-                    <TextField
-                        hintText="Enter your username"
-                        floatingLabelText="Username"
-                        type="text"
-                        name="username"
-                        onChange={this.handleFieldChange}
-                        />
-                    <br/>
-                    <TextField
-                        hintText="Email Field"
-                        floatingLabelText="Email"
-                        type="email"
-                        name="email"
-                        onChange={this.handleFieldChange}
-                    />
-                <br/>
-                    <TextField
-                        hintText="Password Field"
-                        floatingLabelText="Password"
-                        type="password"
-                        name="password"
-                        onChange={this.handleFieldChange}
-                        />
-                    <br/>
-                    <TextField
-                        hintText="Password Field"
-                        floatingLabelText="Confirm Password"
-                        type="password"
-                        name="password2"
-                        onChange={this.handleFieldChange}
-                    />
-                <br/>
-                    <RaisedButton label="REGISTER" secondary={true}
-                        onMouseDown={this.handleSubmit}/>
+                <div className="parent">
+                    <div className="component">
+
+                        <p>Register to continue</p>
+                        <TextField
+                            hintText="Enter your username"
+                            floatingLabelText="Username"
+                            type="text"
+                            name="username"
+                            onChange={this.handleFieldChange}
+                            />
+                        <br/>
+                        <TextField
+                            hintText="Email Field"
+                            floatingLabelText="Email"
+                            type="email"
+                            name="email"
+                            onChange={this.handleFieldChange}
+                            />
+                        <br/>
+                        <TextField
+                            hintText="Password Field"
+                            floatingLabelText="Password"
+                            type="password"
+                            name="password"
+                            onChange={this.handleFieldChange}
+                            />
+                        <br/>
+                        <TextField
+                            hintText="Password Field"
+                            floatingLabelText="Confirm Password"
+                            type="password"
+                            name="password2"
+                            onChange={this.handleFieldChange}
+                            />
+                        <br/>
+                        <RaisedButton label="REGISTER" secondary={true}
+                            onMouseDown={this.handleSubmit}/>
 
 
-                <Snackbar
-                  className="toast-alerts"
-                  open={this.state.error}
-                  message="Please provide a correct username and password"
-                  autoHideDuration={4000}
-                  onRequestClose={this.handleRequestClose}
-                />
+                        <Snackbar
+                            className="toast-alerts"
+                            open={this.state.error}
+                            message="Please provide a correct username and password"
+                            autoHideDuration={4000}
+                            onRequestClose={this.handleRequestClose}
+                            />
+                    </div>
                 </div>
         );
     }

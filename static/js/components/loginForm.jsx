@@ -62,35 +62,38 @@ export default class LoginForm extends Component {
   }
     render() {
         return(
-            <div>
-                <p>Login to continue</p>
-                <TextField
-                    hintText="Enter your username"
-                    floatingLabelText="Username"
-                    type="text"
-                    name="username"
-                    onChange={this.handleFieldChange}
-                    />
-                <br/>
-                <TextField
-                    hintText="Password Field"
-                    floatingLabelText="Password"
-                    type="password"
-                    name="password"
-                    onChange={this.handleFieldChange}
-                    />
-                <br/>
-                <RaisedButton label="LOGIN" secondary={true}
-                    onMouseDown={this.handleSubmit}/>
-                <p>Need an account? <Link to="/register">Sign up</Link></p>
+            <div className="parent">
+                <div className="component">
 
-            <Snackbar
-              className="toast-alerts"
-              open={this.state.error}
-              message="Please provide a correct username and password"
-              autoHideDuration={4000}
-              onRequestClose={this.handleRequestClose}
-            />
+                    <p>Login to continue</p>
+                    <TextField
+                        hintText="Enter your username"
+                        floatingLabelText="Username"
+                        type="text"
+                        name="username"
+                        onChange={this.handleFieldChange}
+                        />
+                    <br/>
+                    <TextField
+                        hintText="Password Field"
+                        floatingLabelText="Password"
+                        type="password"
+                        name="password"
+                        onChange={this.handleFieldChange}
+                        />
+                    <br/>
+                    <RaisedButton label="LOGIN" secondary={true}
+                        onMouseDown={this.handleSubmit}/>
+                    <p>Need an account? <Link to="/register">Sign up</Link></p>
+
+                    <Snackbar
+                        className="toast-alerts"
+                        open={this.state.error}
+                        message="Please provide a correct username and password"
+                        autoHideDuration={4000}
+                        onRequestClose={this.handleRequestClose}
+                        />
+                </div>
             </div>
         );
     }
