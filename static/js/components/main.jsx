@@ -12,7 +12,9 @@ class Main extends Component {
         return (
             <div>
                 <Menu />
-                {this.props.children}
+                <div className="body-landing">
+                    {this.props.children}
+                </div>
             </div>
         );
     }
