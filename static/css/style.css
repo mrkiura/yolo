@@ -18,11 +18,11 @@ p {
   font-family:"Roboto", sans-serif;
 	color:black;
 	font-size:22px;
-  height: 80vh;
+  height: 100vh;
   padding-top: 5%;
   padding-bottom: 1%;
   position: relative;
-  background:url("../images/bucketlist2.jpg");
+  background:url("../images/life_pic.jpg");
   background-size: cover;
   /*margin-top: -70px;*/
 }
@@ -42,4 +42,15 @@ p {
 
 .toast-alerts {
   font-family:"Roboto", sans-serif;
+}
+
+.parent {
+    display: flex;
+    height: 500px;
+}
+
+.component {
+  margin: auto;
+  /*width: 50%;*/
+  /*height: 50%;*/
 }
