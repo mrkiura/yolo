@@ -17,19 +17,23 @@ class Home extends Component {
    constructor() {
         super();
         this.state = {
+            token: '',
             showAddButton: false,
             token: JSON.parse(localStorage.getItem('token') || '{}'),
 	        bucketlists: []
             };
     }
     componentDidMount() {
+        this.setState({
+            token: this.props.location.token
+        })
         this.fetchBucketlists()
     }
 
     fetchBucketlists() {
     request
         .get('/api/v1/bucketlists/')
-        .set('Authorization', 'Token ' + this.state.token)
+        .set('Authorization', 'JWT ' + this.state.token)
         .end((err, result) => {
             console.log(result.body.results)
         })
