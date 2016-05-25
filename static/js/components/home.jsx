@@ -8,12 +8,30 @@ import IconButton from 'material-ui/lib/icon-button';
 import request from 'superagent';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/lib/card'
 import FlatButton from 'material-ui/lib/flat-button';
+import { List, ListItem } from 'material-ui/lib/lists';
+import Checkbox from 'material-ui/lib/checkbox';
 
 const style = {
     float: 'right',
 };
 
+class BucketListItem extends Component {
+    render() {
+        return (
+            <ListItem
+                primaryText={this.props.itemName}
+                leftCheckbox={<Checkbox />}
+            />
+        )
+    }
+}
+
 class Bucketlist extends Component {
+    renderBucketListItems(bucketlistItems) {
+        return bucketlistItems.map((bucketlistItem) => {
+            return (<BucketListItem itemName={bucketlistItem.item_name} key={bucketlistItem.id}/>)
+        })
+    }
     render() {
         return (
             <div className="col-xs-12 col-md-4">
@@ -25,7 +43,9 @@ class Bucketlist extends Component {
                         showExpandableButton={true}
                         />
                     <CardText expandable={true}>
-                        Bucketlist items here.
+                        <List>
+                            {this.renderBucketListItems(this.props.items)}
+                        </List>
                     </CardText>
                     <CardActions expandable={true}>
                     </CardActions>
@@ -34,6 +54,7 @@ class Bucketlist extends Component {
         )
     }
 }
+
 class Home extends Component {
    constructor() {
         super();
@@ -58,13 +79,16 @@ class Home extends Component {
         .end((err, result) => {
             this.setState({
                 bucketlists: result.body.results
+            }, () => {
+                console.log(this.state.bucketlists)
             });
         })
     }
 
     renderBucketlists() {
         return this.state.bucketlists.map((bucketlist) => {
-            return (<Bucketlist listName={bucketlist.list_name} key={bucketlist.id}/>)
+            return (<Bucketlist listName={bucketlist.list_name} key={bucketlist.id}
+                    items={bucketlist.items}/>)
         })
     }
 
