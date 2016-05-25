@@ -13,6 +13,27 @@ const style = {
     float: 'right',
 };
 
+class Bucketlist extends Component {
+    render() {
+        return (
+            <div className="col-xs-12 col-md-4">
+                <Card >
+                    <CardHeader
+                        title="Bucketlist"
+                        subtitle={this.props.listName}
+                        actAsExpander={true}
+                        showExpandableButton={true}
+                        />
+                    <CardText expandable={true}>
+                        Bucketlist items here.
+                    </CardText>
+                    <CardActions expandable={true}>
+                    </CardActions>
+                </Card>
+            </div>
+        )
+    }
+}
 class Home extends Component {
    constructor() {
         super();
@@ -41,13 +62,20 @@ class Home extends Component {
         })
     }
 
+    renderBucketlists() {
+        return this.state.bucketlists.map((bucketlist) => {
+            return (<Bucketlist listName={bucketlist.list_name} key={bucketlist.id}/>)
+        })
+    }
+
     onEnter() {
         this.setState(
             {showAddButton: !this.state.showAddButton}
         );
     }
-
     render() {
+        const bucketlists = this.renderBucketlists();
+        let bucketlistNodes = <div className="component">{bucketlists}</div>
         return (
             <div className="container-fluid">
                 <div className="list-input">
@@ -69,57 +97,9 @@ class Home extends Component {
                         }
                     </Paper>
                 </div>
-
                 <div className="parent">
                     <div className="component">
-                        <div className="col-xs-12 col-md-4">
-                            <Card >
-
-                                <CardHeader
-                                    title="Bucketlist"
-                                    subtitle="Hiking in Himalayas"
-                                    actAsExpander={true}
-                                    showExpandableButton={true}
-                                    />
-                                <CardText expandable={true}>
-                                    Bucketlist items here.
-                                </CardText>
-                                <CardActions expandable={true}>
-                                </CardActions>
-                            </Card>
-                        </div>
-                        <div className="col-xs-12 col-md-4">
-                            <Card >
-
-                                <CardHeader
-                                    title="Bucketlist"
-                                    subtitle="Hiking in Himalayas"
-                                    actAsExpander={true}
-                                    showExpandableButton={true}
-                                    />
-                                <CardText expandable={true}>
-                                    Bucketlist items here.
-                                </CardText>
-                                <CardActions expandable={true}>
-                                </CardActions>
-                            </Card>
-                        </div>
-                        <div className="col-xs-12 col-md-4">
-                            <Card >
-
-                                <CardHeader
-                                    title="Bucketlist"
-                                    subtitle="Hiking in Himalayas"
-                                    actAsExpander={true}
-                                    showExpandableButton={true}
-                                    />
-                                <CardText expandable={true}>
-                                    Bucketlist items here.
-                                </CardText>
-                                <CardActions expandable={true}>
-                                </CardActions>
-                            </Card>
-                        </div>
+                        {bucketlistNodes}
                     </div>
                 </div>
 
