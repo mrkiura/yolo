@@ -49,71 +49,79 @@ class Home extends Component {
 
     render() {
         return (
-            <div className="parent">
+            <div className="container-fluid">
                 <div className="list-input">
                     <Paper zDepth={2}>
-                     <TextField
-                         className="text-input"
-                         underlineShow={false}
-                         hintText=" Add a bucketlist "
-                         onFocus={this.onEnter.bind(this)}
-                         onBlur={this.onEnter.bind(this)}
-                         />
-                     {this.state.showAddButton ?
-                         <IconButton
-                             style={style}
-                             tooltip="add bucketlsit">
-                             <ActionNoteAdd />
-                         </IconButton>
-                         : null
-                     }
-                 </Paper>
-                 <br/>
-                 </div>
-                 <Card className="col-md-4">
+                        <TextField
+                            className="text-input"
+                            underlineShow={false}
+                            hintText=" Add a bucketlist "
+                            onFocus={this.onEnter.bind(this)}
+                            onBlur={this.onEnter.bind(this)}
+                            />
+                        {this.state.showAddButton ?
+                            <IconButton
+                                style={style}
+                                tooltip="add bucketlsit">
+                                <ActionNoteAdd />
+                            </IconButton>
+                            : null
+                        }
+                    </Paper>
+                </div>
 
-                    <CardHeader
-                        title="Bucketlist"
-                        subtitle="Hiking in Himalayas"
-                        actAsExpander={true}
-                        showExpandableButton={true}
-                    />
-                    <CardText expandable={true}>
-                        Bucketlist items here.
-                    </CardText>
-                    <CardActions expandable={true}>
-                    </CardActions>
-                </Card>
+                <div className="parent">
+                    <div className="component">
+                        <div className="col-xs-12 col-md-4">
+                            <Card >
 
-              <Card className="col-md-4">
+                                <CardHeader
+                                    title="Bucketlist"
+                                    subtitle="Hiking in Himalayas"
+                                    actAsExpander={true}
+                                    showExpandableButton={true}
+                                    />
+                                <CardText expandable={true}>
+                                    Bucketlist items here.
+                                </CardText>
+                                <CardActions expandable={true}>
+                                </CardActions>
+                            </Card>
+                        </div>
+                        <div className="col-xs-12 col-md-4">
+                            <Card >
 
-                <CardHeader
-                    title="Bucketlist"
-                    subtitle="Hiking in Himalayas"
-                    actAsExpander={true}
-                    showExpandableButton={true}
-                />
-                <CardText expandable={true}>
-                    Bucketlist items here.
-                </CardText>
-                <CardActions expandable={true}>
-                </CardActions>
-            </Card>
+                                <CardHeader
+                                    title="Bucketlist"
+                                    subtitle="Hiking in Himalayas"
+                                    actAsExpander={true}
+                                    showExpandableButton={true}
+                                    />
+                                <CardText expandable={true}>
+                                    Bucketlist items here.
+                                </CardText>
+                                <CardActions expandable={true}>
+                                </CardActions>
+                            </Card>
+                        </div>
+                        <div className="col-xs-12 col-md-4">
+                            <Card >
 
-            <Card className="col-md-4">
-
-                <CardHeader
-                    title="Bucketlist"
-                    subtitle="Hiking in Himalayas"
-                    actAsExpander={true}
-                    showExpandableButton={true}
-                />
-                <CardText expandable={true}>
-                Bucketlist items here.
-                </CardText>
-                <CardActions expandable={true}>
-                </CardActions>
-            </Card>
+                                <CardHeader
+                                    title="Bucketlist"
+                                    subtitle="Hiking in Himalayas"
+                                    actAsExpander={true}
+                                    showExpandableButton={true}
+                                    />
+                                <CardText expandable={true}>
+                                    Bucketlist items here.
+                                </CardText>
+                                <CardActions expandable={true}>
+                                </CardActions>
+                            </Card>
+                        </div>
+                    </div>
+                </div>
 
             </div>
         );
