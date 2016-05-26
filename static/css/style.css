@@ -19,7 +19,7 @@ p {
 	color:black;
 	font-size:22px;
   height: 100vh;
-  padding-top: 5%;
+  /*padding-top: 5%;*/
   padding-bottom: 1%;
   position: relative;
   background:url("../images/life_pic.jpg");
@@ -51,12 +51,11 @@ p {
 
 .component {
   margin: auto;
-  width: 95%;
   height: 80%;
 }
 
 .bucketlist {
-  padding:10px;
+  padding-top: 25px;
   width: 33.33%;
   float: left;
 }
