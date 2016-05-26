@@ -34,7 +34,7 @@ class Bucketlist extends Component {
     }
     render() {
         return (
-            <div className="col-xs-12 col-md-4">
+            <div className="col-xs-12 col-md-4 bucketlist">
                 <Card >
                     <CardHeader
                         title="Bucketlist"
