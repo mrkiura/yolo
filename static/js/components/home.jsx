@@ -58,11 +58,14 @@ class Bucketlist extends Component {
 class Home extends Component {
    constructor() {
         super();
+        this.makeValueLink = this.makeValueLink.bind(this);
         this.state = {
             token: '',
             showAddButton: false,
-	        bucketlists: []
+	        bucketlists: [],
+            listName: ''
             };
+        // mixins: [LinkedStateMixin]
     }
     componentDidMount() {
         this.setState({
@@ -98,29 +101,25 @@ class Home extends Component {
             {showAddButton: !this.state.showAddButton}
         );
     }
+    makeValueLink(key) {
+        return {
+            value: this.state[key],
+            requestChange: (newValue) => {
+                let newState = {};
+                newState[key] = newValue;
+                this.setState(newState);
+            }
+        }
+    }
     render() {
         const bucketlists = this.renderBucketlists();
         let bucketlistNodes = <div className="component">{bucketlists}</div>
+        let input = <input type="text" placeholder="Add a bucketlist"></input>
         return (
             <div className="container-fluid">
                 <div className="list-input">
-                    <Paper zDepth={2}>
-                        <TextField
-                            className="text-input"
-                            underlineShow={false}
-                            hintText=" Add a bucketlist "
-                            onFocus={this.onEnter.bind(this)}
-                            onBlur={this.onEnter.bind(this)}
-                            />
-                        {this.state.showAddButton ?
-                            <IconButton
-                                style={style}
-                                tooltip="add bucketlsit">
-                                <ActionNoteAdd />
-                            </IconButton>
-                            : null
-                        }
-                    </Paper>
+                    <input type="text" valueLink={this.makeValueLink('listName')}
+                        placeholder="Create a new bucketlist" />
                 </div>
                 <div className="parent">
                     <div className="component">
