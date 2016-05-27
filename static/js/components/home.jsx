@@ -65,7 +65,8 @@ class Home extends Component {
             token: '',
             showAddButton: false,
 	        bucketlists: [],
-            listName: ''
+            listName: '',
+            success: true
             };
         // mixins: [LinkedStateMixin]
     }
@@ -120,6 +121,21 @@ class Home extends Component {
                 items: []
             }])
         })
+        request
+            .post('/api/v1/bucketlists/')
+            .set('Authorization', 'JWT ' +
+                this.props.location.state.token || (JSON.parse(localStorage.getItem('username') || '{}') || 'token'))
+            .send({'list_name': this.state.listName})
+            .end((err, result) => {
+                if (result.status === 201) {
+                    this.fetchBucketlists()
+                } else {
+                    this.setState({
+                        success: true
+                    })
+                }
+
+            })
     }
     render() {
         const bucketlists = this.renderBucketlists();
