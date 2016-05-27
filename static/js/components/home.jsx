@@ -60,6 +60,7 @@ class Home extends Component {
    constructor() {
         super();
         this.makeValueLink = this.makeValueLink.bind(this);
+        this.submitBucketlist = this.submitBucketlist.bind(this);
         this.state = {
             token: '',
             showAddButton: false,
@@ -112,6 +113,14 @@ class Home extends Component {
             }
         }
     }
+    submitBucketlist() {
+        this.setState({
+            bucketlists: this.state.bucketlists.concat([{
+                list_name: this.state.listName,
+                items: []
+            }])
+        })
+    }
     render() {
         const bucketlists = this.renderBucketlists();
         let bucketlistNodes = <div className="component">{bucketlists}</div>
@@ -119,9 +128,11 @@ class Home extends Component {
             <div className="container-fluid">
                 <div className="list-input">
                     <div className="input-group">
-                        <input type="text" className="form-control" placeholder="Add bucketlist..." />
+                        <input type="text" className="form-control" placeholder="Add bucketlist..."
+                            valueLink={this.makeValueLink('listName')}/>
                         <span className="input-group-btn">
-                            <button className="btn btn-secondary" type="button">Add</button>
+                            <button className="btn btn-secondary" type="button"
+                                onClick={this.submitBucketlist}>Add</button>
                         </span>
                         </div>
                 </div>
