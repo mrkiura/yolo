@@ -10,6 +10,7 @@ import {Card, CardActions, CardHeader, CardText} from 'material-ui/lib/card'
 import FlatButton from 'material-ui/lib/flat-button';
 import { List, ListItem } from 'material-ui/lib/lists';
 import Checkbox from 'material-ui/lib/checkbox';
+import RaisedButton from 'material-ui/lib/raised-button';
 
 const style = {
     float: 'right',
@@ -114,21 +115,15 @@ class Home extends Component {
     render() {
         const bucketlists = this.renderBucketlists();
         let bucketlistNodes = <div className="component">{bucketlists}</div>
-        let input = <input type="text" placeholder="Add a bucketlist"></input>
         return (
             <div className="container-fluid">
                 <div className="list-input">
-                    <Paper zDepth={2}>
-                    <TextField
-                        className="text-input"
-                        underlineShow={false}
-                        hintText=" Add a bucketlist "
-                        onFocus={this.onEnter.bind(this)}
-                        onBlur={this.onEnter.bind(this)}
-                        valueLink={this.makeValueLink('listName')}
-                        fullWidth={true}
-                        />
-                </Paper>
+                    <div className="input-group">
+                        <input type="text" className="form-control" placeholder="Add bucketlist..." />
+                        <span className="input-group-btn">
+                            <button className="btn btn-secondary" type="button">Add</button>
+                        </span>
+                        </div>
                 </div>
                 <div className="parent">
                     <div className="component">
