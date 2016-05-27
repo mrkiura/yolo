@@ -118,8 +118,17 @@ class Home extends Component {
         return (
             <div className="container-fluid">
                 <div className="list-input">
-                    <input type="text" valueLink={this.makeValueLink('listName')}
-                        placeholder="Create a new bucketlist" />
+                    <Paper zDepth={2}>
+                    <TextField
+                        className="text-input"
+                        underlineShow={false}
+                        hintText=" Add a bucketlist "
+                        onFocus={this.onEnter.bind(this)}
+                        onBlur={this.onEnter.bind(this)}
+                        valueLink={this.makeValueLink('listName')}
+                        fullWidth={true}
+                        />
+                </Paper>
                 </div>
                 <div className="parent">
                     <div className="component">
