@@ -1,15 +1,3 @@
-/*.container {
-  position: absolute;
-  margin: auto;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  width: 40%;
-  height: 50%;
-  border-radius: 3px;
-}*/
-
 p {
     font-family:"Roboto", sans-serif;
 }
@@ -19,12 +7,10 @@ p {
 	color:black;
 	font-size:22px;
   height: 100vh;
-  /*padding-top: 5%;*/
   padding-bottom: 1%;
   position: relative;
   background:url("../images/life_pic.jpg");
   background-size: cover;
-  /*margin-top: -70px;*/
 }
 
 .list-input {
@@ -37,7 +23,6 @@ p {
 
 .text-input {
   padding-left:25px;
-  /*padding-right:25px;*/
 }
 
 .toast-alerts {
