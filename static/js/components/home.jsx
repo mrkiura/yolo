@@ -67,7 +67,6 @@ class Home extends Component {
 	        bucketlists: [],
             listName: ''
             };
-        // mixins: [LinkedStateMixin]
     }
     componentDidMount() {
         this.setState({
