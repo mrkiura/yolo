@@ -67,7 +67,7 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.JSONRenderer',
         'rest_framework.renderers.TemplateHTMLRenderer'
     ),
-    'PAGE_SIZE': 10
+    # 'PAGE_SIZE': 10
 }
 
 INSTALLED_APPS = PREREQ_APPS + PROJECT_APPS
