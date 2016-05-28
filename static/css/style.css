@@ -30,17 +30,21 @@ p {
 }
 
 .parent {
-    display: flex;
-    height: 500px;
+    position: relative;
 }
 
 .component {
   margin: auto;
-  height: 80%;
 }
 
 .bucketlist {
   padding-top: 25px;
   width: 33.33%;
   float: left;
+}
+
+.center {
+  transform: translateY(50%);
+	margin:0 auto;
+	width:30%;
 }

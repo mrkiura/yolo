@@ -62,8 +62,8 @@ export default class LoginForm extends Component {
   }
     render() {
         return(
-            <div className="parent">
-                <div className="component">
+            <div className="container-fluid parent">
+                <div className="component center">
 
                     <p>Login to continue</p>
                     <TextField

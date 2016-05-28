@@ -69,8 +69,8 @@ export default class SignupForm extends Component {
   }
     render() {
         return(
-                <div className="parent">
-                    <div className="component">
+                <div className="container-fluid parent">
+                    <div className="component center">
 
                         <p>Register to continue</p>
                         <TextField
