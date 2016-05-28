@@ -65,8 +65,7 @@ class Home extends Component {
             token: '',
             showAddButton: false,
 	        bucketlists: [],
-            listName: '',
-            success: true
+            listName: ''
             };
         // mixins: [LinkedStateMixin]
     }
@@ -79,17 +78,17 @@ class Home extends Component {
     }
 
     fetchBucketlists() {
-    request
-        .get('/api/v1/bucketlists/')
-        .set('Authorization', 'JWT ' +
-            this.props.location.state.token || (JSON.parse(localStorage.getItem('username') || '{}') || 'token'))
-        .end((err, result) => {
-            this.setState({
-                bucketlists: result.body.results
-            }, () => {
-                console.log(this.state.bucketlists)
-            });
-        })
+        request
+            .get('/api/v1/bucketlists/')
+            .set('Authorization', 'JWT ' +
+                this.props.location.state.token || (JSON.parse(localStorage.getItem('username') || '{}') || 'token'))
+            .end((err, result) => {
+                this.setState({
+                    bucketlists: result.body
+                }, () => {
+                    console.log(this.state.bucketlists)
+                });
+            })
     }
 
     renderBucketlists() {
@@ -123,18 +122,15 @@ class Home extends Component {
         })
         request
             .post('/api/v1/bucketlists/')
-            .set('Authorization', 'JWT ' +
-                this.props.location.state.token || (JSON.parse(localStorage.getItem('username') || '{}') || 'token'))
             .send({'list_name': this.state.listName})
             .end((err, result) => {
                 if (result.status === 201) {
                     this.fetchBucketlists()
                 } else {
                     this.setState({
-                        success: true
+                        error: true
                     })
                 }
-
             })
     }
     render() {
