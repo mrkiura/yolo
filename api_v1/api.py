@@ -3,13 +3,10 @@ from models import Bucketlist, BucketlistItem
 from rest_framework import viewsets
 from serializers import UserSerializer, BucketlistSerializer, \
     BucketlistItemSerializer
-from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
-from rest_framework.authtoken import views
-from rest_framework.authtoken.serializers import AuthTokenSerializer
-from rest_framework import renderers
+from rest_framework_jwt.settings import api_settings
 
 class UserCreateViewSet(viewsets.ModelViewSet):
     """
@@ -25,8 +22,11 @@ class UserCreateViewSet(viewsets.ModelViewSet):
             data['password']
         user = User.objects.create_user(username=username, password=password,
                                         email=email)
-        token = Token.objects.create(user=user)
-        return Response({'token': token.key},
+        jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
+        jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
+        payload = jwt_payload_handler(user)
+        token = jwt_encode_handler(payload)
+        return Response({'token': token},
                         status=status.HTTP_201_CREATED)
 
 class BucketListViewSet(viewsets.ModelViewSet):
