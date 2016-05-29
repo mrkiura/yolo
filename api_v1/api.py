@@ -26,7 +26,7 @@ class UserCreateViewSet(viewsets.ModelViewSet):
         user = User.objects.create_user(username=username, password=password,
                                         email=email)
         token = Token.objects.create(user=user)
-        return Response({'Authorization': token.key},
+        return Response({'token': token.key},
                         status=status.HTTP_201_CREATED)
 
 class BucketListViewSet(viewsets.ModelViewSet):
