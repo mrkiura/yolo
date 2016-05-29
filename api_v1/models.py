@@ -44,3 +44,4 @@ class BucketlistItem(models.Model):
     done = models.BooleanField(default=False)
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
+    created_by = models.CharField(max_length=100, blank=True, default='')
