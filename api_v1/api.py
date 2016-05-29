@@ -68,6 +68,7 @@ class BucketListItemViewSet(viewsets.ModelViewSet):
     """
     queryset = BucketlistItem.objects.all().order_by('-date_created')
     serializer_class = BucketlistItemSerializer
+    permission_classes = (IsAuthenticated, IsOwner,)
 
     def create(self, request, bucketlists_pk):
         data = {'item_name': request.data['item_name'],
