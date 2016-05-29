@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_jwt.settings import api_settings
+from permissions import IsOwner
 
 class UserCreateViewSet(viewsets.ModelViewSet):
     """
@@ -35,7 +36,7 @@ class BucketListViewSet(viewsets.ModelViewSet):
     """
     queryset = Bucketlist.objects.all().order_by('-date_created')
     serializer_class = BucketlistSerializer
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated, IsOwner)
 
     def create(self, request):
         data = {'list_name': request.data['list_name'],
