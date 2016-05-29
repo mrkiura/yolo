@@ -48,12 +48,13 @@ export default class SignupForm extends Component {
             if (result.status === 201) {
                 this.setState({
                     token: result.body.token
-                });
-                localStorage.setItem('token', JSON.stringify(this.state.token));
-                localStorage.setItem('username',
+                }, () => {
+                    localStorage.setItem('token', JSON.stringify(this.state.token));
+                    localStorage.setItem('username',
                     JSON.stringify(this.state.username));
-
-                browserHistory.push('/home');
+                    console.log(this.state);
+                    this.props.history.pushState({token: this.state.token}, '/home');
+                });
             } else {
                 this.setState({
                     error: true
