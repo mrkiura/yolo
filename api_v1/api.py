@@ -120,3 +120,17 @@ class BucketListItemViewSet(viewsets.ModelViewSet):
         else:
             return Response(
                 {'error': 'You dont have permissions to edit the bucketlist'})
+
+    def update(self, request, pk_bucketlist, pk_item):
+        return Response({'pk_bucketlist': pk_bucketlist,
+                         'pk_item': pk_item})
+
+    @list_route()
+    def list_items(self, request, pk_bucketlist):
+        items = BucketlistItem.objects.filter(bucketlist_id=pk_bucketlist)
+        page = self.paginate_queryset(items)
+        if page:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+        serializer = self.get_serializer(items, many=True)
+        return Response(serializer.data)
