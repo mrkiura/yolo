@@ -10,6 +10,7 @@ from rest_framework_jwt.settings import api_settings
 from permissions import IsOwner
 from rest_framework.decorators import detail_route, list_route
 
+
 class UserCreateViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.
@@ -31,6 +32,7 @@ class UserCreateViewSet(viewsets.ModelViewSet):
         return Response({'token': token},
                         status=status.HTTP_201_CREATED)
 
+
 class BucketListViewSet(viewsets.ModelViewSet):
     """
     Api endpoint that exposes CRUD functionality for bucketlists.
@@ -41,9 +43,13 @@ class BucketListViewSet(viewsets.ModelViewSet):
 
     @detail_route()
     def list_bucketlist(self, request, pk):
-        bucketlist = Bucketlist.objects.get(pk=1)
-        serializer = self.get_serializer(bucketlist)
-        return Response(serializer.data)
+        bucketlist = Bucketlist.objects.get(pk=pk)
+        if request.user.username == bucketlist.created_by:
+            serializer = self.get_serializer(bucketlist)
+            return Response(serializer.data)
+        else:
+            return Response(
+                {'error': 'You dont have permissions to access the bucketlist'})
 
     def create(self, request):
         data = {'list_name': request.data['list_name'],
@@ -66,7 +72,8 @@ class BucketListViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(bucketlists, many=True)
         return Response(serializer.data)
 
-    def destroy(self, request, pk=None):
+    def destroy(self, request, pk):
+        Bucketlist.objects.get(pk=pk).delete()
         return Response({'Message': 'Successfully deleted bucketlist'})
 
 
@@ -79,14 +86,20 @@ class BucketListItemViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated, IsOwner,)
 
     def create(self, request, pk_bucketlist):
-        data = {'item_name': request.data['item_name'],
-                'created_by': request.user.username,
-                'priority': request.data['priority'],
-                'bucketlist_id': int(pk_bucketlist)}
-        serializer = self.get_serializer(data=data)
-        if serializer.is_valid():
-            serializer.save(bucketlist_id=pk_bucketlist)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        bucketlist = Bucketlist.objects.get(pk=pk_bucketlist)
+        if request.user.username == bucketlist.created_by:
+            data = {'item_name': request.data['item_name'],
+                    'created_by': request.user.username,
+                    'priority': request.data['priority'],
+                    'bucketlist_id': int(pk_bucketlist)}
+            serializer = self.get_serializer(data=data)
+            if serializer.is_valid():
+                serializer.save(bucketlist_id=pk_bucketlist)
+                return Response(serializer.data,
+                                status=status.HTTP_201_CREATED)
+            else:
+                return Response(
+                    {'error': 'Please provide a valid bucketlist item name'})
         else:
             return Response(
-                {'error': 'Please provide a valid bucketlist item name'})
+                {'error': 'You dont have permissions to edit the bucketlist'})
