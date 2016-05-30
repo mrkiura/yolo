@@ -72,7 +72,7 @@ class BucketListViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(bucketlists, many=True)
         return Response(serializer.data)
 
-    def update(self, request, pk=None):
+    def update(self, request, pk):
         bucketlist = Bucketlist.objects.get(pk=pk)
         if bucketlist:
             if request.user.username == bucketlist.created_by:
