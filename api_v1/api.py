@@ -142,6 +142,20 @@ class BucketListItemViewSet(viewsets.ModelViewSet):
             return Response(
                 {'error': 'The requested item was not found'},
                 status=status.HTTP_404_NOT_FOUND)
+    def destroy(self, request, pk_bucketlist, pk_item):
+        try:
+            item = BucketlistItem.objects.get(pk=pk_item)
+            if item.created_by == request.user.username:
+                item.delete()
+                return Response({'message': 'Item successfully deleted'})
+            else:
+                return Response(
+                    {'error': 'You dont have permissions to delete the item'},
+                    status=status.HTTP_403_FORBIDDEN)
+        except BucketlistItem.DoesNotExist:
+            return Response(
+                {'error': 'The requested item was not found'},
+                status=status.HTTP_404_NOT_FOUND)
 
     @list_route()
     def list_items(self, request, pk_bucketlist):
