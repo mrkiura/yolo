@@ -8,6 +8,7 @@ from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_jwt.settings import api_settings
 from permissions import IsOwner
+from rest_framework.decorators import detail_route, list_route
 
 class UserCreateViewSet(viewsets.ModelViewSet):
     """
@@ -38,6 +39,12 @@ class BucketListViewSet(viewsets.ModelViewSet):
     serializer_class = BucketlistSerializer
     permission_classes = (IsAuthenticated, IsOwner)
 
+    @detail_route()
+    def bucketlist_detail(self, request, pk):
+        bucketlist = Bucketlist.objects.get(pk=1)
+        serializer = self.get_serializer(bucketlist)
+        return Response(serializer.data)
+
     def create(self, request):
         data = {'list_name': request.data['list_name'],
                 'created_by': request.user.username}
@@ -48,6 +55,7 @@ class BucketListViewSet(viewsets.ModelViewSet):
         else:
             return Response({'error': 'Please provide a valid bucketlistname'})
 
+    # @list_route()
     def list(self, request):
         username = request.user.username
         bucketlists = Bucketlist.objects.filter(created_by=username)
