@@ -40,7 +40,7 @@ class BucketListViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated, IsOwner)
 
     @detail_route()
-    def bucketlist_detail(self, request, pk):
+    def list_bucketlist(self, request, pk):
         bucketlist = Bucketlist.objects.get(pk=1)
         serializer = self.get_serializer(bucketlist)
         return Response(serializer.data)
@@ -55,8 +55,8 @@ class BucketListViewSet(viewsets.ModelViewSet):
         else:
             return Response({'error': 'Please provide a valid bucketlistname'})
 
-    # @list_route()
-    def list(self, request):
+    @list_route()
+    def list_bucketlists(self, request):
         username = request.user.username
         bucketlists = Bucketlist.objects.filter(created_by=username)
         page = self.paginate_queryset(bucketlists)
