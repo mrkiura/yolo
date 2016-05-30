@@ -72,6 +72,23 @@ class BucketListViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(bucketlists, many=True)
         return Response(serializer.data)
 
+    def update(self, request, pk=None):
+        bucketlist = Bucketlist.objects.get(pk=pk)
+        if bucketlist:
+            if request.user.username == bucketlist.created_by:
+                bucketlist.list_name = request.data['list_name']
+                serializer = self.get_serializer(bucketlist)
+                bucketlist.save()
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            else:
+                return Response(
+                    {'error': 'You dont have permissions to access the bucketlist'},
+                    status=status.HTTP_403_FORBIDDEN)
+        else:
+            return Response(
+                {'error': 'You dont have permissions to access the bucketlist'},
+                status=status.HTTP_404_NOT_FOUND)
+
     def destroy(self, request, pk):
         Bucketlist.objects.get(pk=pk).delete()
         return Response({'Message': 'Successfully deleted bucketlist'})
