@@ -38,6 +38,7 @@ urlpatterns = [
     url(r'^api/v1/bucketlists/(?P<pk>[0-9]+)/$',
         BucketListViewSet.as_view({'get': 'list_bucketlist',
                                    'post': 'create',
+                                   'put': 'update',
                                    'delete': 'destroy'})),
     url(r'^api/v1/bucketlists/(?P<pk_bucketlist>[0-9]+)/items/$',
         BucketListItemViewSet.as_view({'post': 'create'})),
