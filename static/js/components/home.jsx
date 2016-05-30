@@ -22,7 +22,9 @@ class BucketListItem extends Component {
             <ListItem
                 primaryText={this.props.itemName}
                 leftCheckbox={<Checkbox />}
-            />
+            >
+            <div> Another one man</div>
+                </ListItem>
         )
     }
 }
@@ -65,7 +67,8 @@ class Home extends Component {
             token: '',
             showAddButton: false,
 	        bucketlists: [],
-            listName: ''
+            listName: '',
+            itemName: ''
             };
     }
     componentDidMount() {
@@ -147,7 +150,7 @@ class Home extends Component {
                             <button className="btn btn-secondary" type="button"
                                 onClick={this.submitBucketlist}>Add</button>
                         </span>
-                        </div>
+                    </div>
                 </div>
                 <div className="parent">
                     <div className="component">
