@@ -24,7 +24,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 router = routers.SimpleRouter()
 router.register(r'bucketlists', BucketListViewSet)
-#
+
 bucketlist_router = routers.NestedSimpleRouter(router, r'bucketlists',
                                                lookup='bucketlists')
 
