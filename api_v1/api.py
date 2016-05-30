@@ -122,8 +122,26 @@ class BucketListItemViewSet(viewsets.ModelViewSet):
                 {'error': 'You dont have permissions to edit the bucketlist'})
 
     def update(self, request, pk_bucketlist, pk_item):
-        return Response({'pk_bucketlist': pk_bucketlist,
-                         'pk_item': pk_item})
+        try:
+            item = BucketlistItem.objects.get(pk=pk_item)
+            if item.created_by == request.user.username:
+                item_name = request.data.get('item_name', '')
+                priority = request.data.get('priority', '')
+                if item_name:
+                    item.item_name = item_name
+                if priority:
+                    item.priority = priority
+                    serializer = self.get_serializer(item)
+                item.save()
+                return Response(serializer.data)
+            else:
+                return Response(
+                    {'error': 'You dont have permissions to edit the item'},
+                    status=status.HTTP_403_FORBIDDEN)
+        except BucketlistItem.DoesNotExist:
+            return Response(
+                {'error': 'The requested item was not found'},
+                status=status.HTTP_404_NOT_FOUND)
 
     @list_route()
     def list_items(self, request, pk_bucketlist):
