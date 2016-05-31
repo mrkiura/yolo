@@ -13,8 +13,11 @@ from rest_framework.decorators import detail_route, list_route
 
 class UserCreateViewSet(viewsets.ModelViewSet):
     """
-    API endpoint that allows users to be viewed or edited.
+    API View that receives a POST with a user's username and password.
+
+    Returns a JSON Web Token that can be used for authenticated requests..
     """
+
     queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
     permission_classes = (AllowAny,)
