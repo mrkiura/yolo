@@ -1,9 +1,6 @@
 import { render } from 'react-dom';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import React, { Component } from 'react';
-import TextField from 'material-ui/lib/text-field';
-import Paper from 'material-ui/lib/paper';
-import ActionNoteAdd from 'material-ui/lib/svg-icons/action/note-add';
 import IconButton from 'material-ui/lib/icon-button';
 import request from 'superagent';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/lib/card'
@@ -11,20 +8,48 @@ import FlatButton from 'material-ui/lib/flat-button';
 import { List, ListItem } from 'material-ui/lib/lists';
 import Checkbox from 'material-ui/lib/checkbox';
 import RaisedButton from 'material-ui/lib/raised-button';
+import Divider from 'material-ui/lib/divider';
+import MenuItem from 'material-ui/lib/menus/menu-item';
+import IconMenu from 'material-ui/lib/menus/icon-menu';
+import MoreVertIcon from 'material-ui/lib/svg-icons/navigation/more-vert';
+import {grey400} from 'material-ui/lib/styles/colors';
+import ImageEdit from 'material-ui/lib/svg-icons/image/edit';
+import Delete from 'material-ui/lib/svg-icons/action/delete'
 
 const style = {
     float: 'right',
+    'font-weight': 'normal'
 };
+
+const iconButtonElement = (
+  <IconButton
+    touch={true}
+    tooltip="more"
+    tooltipPosition="bottom-left"
+  >
+    <MoreVertIcon color={grey400} />
+  </IconButton>
+);
+
+const rightIconMenu = (
+  <IconMenu iconButtonElement={iconButtonElement}>
+    <MenuItem primaryText="Edit" leftIcon={<ImageEdit />}/>
+    <MenuItem leftIcon={<Delete/>} primaryText="Delete" />
+  </IconMenu>
+);
 
 class BucketListItem extends Component {
     render() {
         return (
-            <ListItem
-                primaryText={this.props.itemName}
-                leftCheckbox={<Checkbox />}
-            >
-            <div> Another one man</div>
-                </ListItem>
+            <div>
+                <ListItem
+                    primaryText={this.props.itemName}
+                    id='list-item'
+                    disabled={true}
+                    rightIconButton={rightIconMenu}
+                    />
+                <Divider />
+        </div>
         )
     }
 }
