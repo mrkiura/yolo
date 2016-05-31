@@ -21,6 +21,10 @@ p {
   width: 30%;
 }
 
+#list-item {
+  font-weight: normal;
+}
+
 .text-input {
   padding-left:25px;
 }
