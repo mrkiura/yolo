@@ -15,10 +15,16 @@ import MoreVertIcon from 'material-ui/lib/svg-icons/navigation/more-vert';
 import {grey400} from 'material-ui/lib/styles/colors';
 import ImageEdit from 'material-ui/lib/svg-icons/image/edit';
 import Delete from 'material-ui/lib/svg-icons/action/delete'
+import Dialog from 'material-ui/lib/dialog';
+import TextField from 'material-ui/lib/text-field';
 
 const style = {
     float: 'right',
-    'font-weight': 'normal'
+    'font-weight': 'normal',
+    checkbox: {
+        marginBottom: 16,
+    },
+
 };
 
 const iconButtonElement = (
@@ -31,23 +37,59 @@ const iconButtonElement = (
   </IconButton>
 );
 
-const rightIconMenu = (
-  <IconMenu iconButtonElement={iconButtonElement}>
-    <MenuItem primaryText="Edit" leftIcon={<ImageEdit />}/>
-    <MenuItem leftIcon={<Delete/>} primaryText="Delete" />
-  </IconMenu>
-);
 
 class BucketListItem extends Component {
+    constructor() {
+        super()
+        this.state = {
+            open: false
+        }
+    }
+    handleClick() {
+        this.setState({open: true});
+        console.log(this.props.key);
+    }
+    handleOpen() {
+         this.setState({open: true});
+    }
+
+    handleClose() {
+        console.log('closing dialog...');
+        this.setState({open: false});
+    }
+
     render() {
+        const actions = [
+          <FlatButton
+            label="Ok"
+            primary={true}
+            keyboardFocused={true}
+            onTouchTap={this.handleClose}
+          />,
+        ]
         return (
             <div>
                 <ListItem
                     primaryText={this.props.itemName}
                     id='list-item'
                     disabled={true}
-                    rightIconButton={rightIconMenu}
+                    children={
+                        <div className="pull-right item-action">
+                            <IconButton
+                                touch={true}
+                                tooltip="edit"
+                                tooltipPosition="bottom-left"
+                                ><ImageEdit /></IconButton>
+                            <IconButton
+                                touch={true}
+                                tooltip="delete"
+                                tooltipPosition="bottom-left"
+                                ><Delete/></IconButton>
+                            <br/>
+                        </div>
+                    }
                     />
+
                 <Divider />
         </div>
         )
