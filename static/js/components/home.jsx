@@ -170,9 +170,17 @@ class Bucketlist extends Component {
         }
     }
     renderBucketListItems(bucketlistItems) {
-        return bucketlistItems.map((bucketlistItem) => {
-            return (<BucketListItem itemName={bucketlistItem.item_name} key={bucketlistItem.id}/>)
-        })
+        if (bucketlistItems.length) {
+            return bucketlistItems.map((bucketlistItem) => {
+                return (<BucketListItem itemName={bucketlistItem.item_name} key={bucketlistItem.id}/>)
+            })
+        } else {
+            return (<ListItem
+                primaryText="No items yet"
+                id='list-item'
+                disabled={false}/>)
+
+        }
     }
 
     render() {
