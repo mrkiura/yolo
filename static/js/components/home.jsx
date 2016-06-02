@@ -111,13 +111,23 @@ class Bucketlist extends Component {
                         subtitle={this.props.listName}
                         actAsExpander={true}
                         showExpandableButton={true}
-                        />
+                         />
                     <CardText expandable={true}>
                         <List>
                             {this.renderBucketListItems(this.props.items)}
                         </List>
                     </CardText>
-                    <CardActions expandable={true}>
+                    <CardActions className="pull-right">
+                        <IconButton
+                            touch={true}
+                            tooltip="edit"
+                            tooltipPosition="top-center"
+                            ><ImageEdit /></IconButton>
+                        <IconButton
+                            touch={true}
+                            tooltip="delete"
+                            tooltipPosition="top-center"
+                            ><Delete/></IconButton>
                     </CardActions>
                 </Card>
             </div>
