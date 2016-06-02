@@ -24,7 +24,6 @@ const style = {
     checkbox: {
         marginBottom: 16,
     },
-
 };
 
 const iconButtonElement = (
@@ -97,12 +96,60 @@ class BucketListItem extends Component {
 }
 
 class Bucketlist extends Component {
+    constructor() {
+        super();
+        this.state = {
+            showDialog: false,
+            deleteList: false
+        }
+        // Bind methods
+        this.handleDeleteDialog = this.handleDeleteDialog.bind(this)
+        this.handleConfirmDelete = this.handleConfirmDelete.bind(this)
+        this.handleCancelDelete = this.handleCancelDelete.bind(this)
+    }
+    handleDeleteDialog() {
+        this.setState({
+            showDialog: !this.state.showDialog
+        })
+    }
+    handleConfirmDelete() {
+        this.handleDeleteDialog()
+        this.setState({
+            deleteList: true
+        }, () => {
+            this.handleDelete()
+        })
+    }
+    handleCancelDelete() {
+        this.handleDeleteDialog()
+        this.setState({
+            deleteList: true
+        })
+    }
     renderBucketListItems(bucketlistItems) {
         return bucketlistItems.map((bucketlistItem) => {
             return (<BucketListItem itemName={bucketlistItem.item_name} key={bucketlistItem.id}/>)
         })
     }
+    handleDelete() {
+        if (this.state.deleteList) {
+            this.props.onDelete(this.props.bucketlist)
+        }
+    }
+
     render() {
+        const dialogActions = [
+            <FlatButton
+                label="Cancel"
+                primary={true}
+                onClick={this.handleCancelDelete}
+            />,
+            <FlatButton
+                label="Delete"
+                primary={true}
+                onClick={this.handleConfirmDelete}
+            />
+        ]
         return (
             <div className="col-xs-12 col-md-4 bucketlist">
                 <Card >
@@ -127,7 +174,16 @@ class Bucketlist extends Component {
                             touch={true}
                             tooltip="delete"
                             tooltipPosition="top-center"
+                            onTouchTap={this.handleDeleteDialog}
                             ><Delete/></IconButton>
+                        <Dialog
+                            actions={dialogActions}
+                            modal={false}
+                            open={this.state.showDialog}
+                            onRequestClose={this.handleDeleteDialog}
+                            >
+                        Delete bucketlist?
+                        </Dialog>
                     </CardActions>
                 </Card>
             </div>
@@ -145,7 +201,9 @@ class Home extends Component {
             showAddButton: false,
 	        bucketlists: [],
             listName: '',
-            itemName: ''
+            itemName: '',
+            addError: false,
+            deleteError: false,
             };
     }
     componentDidMount() {
@@ -169,11 +227,35 @@ class Home extends Component {
                 });
             })
     }
+    deleteBucketlist(bucketlist) {
+        console.log(bucketlist)
+        const bucketlists = [...this.state.bucketlists];
+        const bucketlistIndex = bucketlists.indexOf(bucketlist)
+        bucketlists.splice(bucketlistIndex, 1);
+
+        this.setState({
+            bucketlists: bucketlists
+        })
+        request
+            .delete(`/api/v1/bucketlists/${bucketlist.id}/`)
+            .set('Authorization', 'JWT ' +
+                this.props.location.state.token || (JSON.parse(localStorage.getItem('username') || '{}') || 'token'))
+            .end((err, result) => {
+                if (result.status == 200 ){
+                    this.fetchBucketlists()
+                } else {
+                    this.setState({
+                        deleteError: true
+                    })
+                }
+            })
+    }
 
     renderBucketlists() {
         return this.state.bucketlists.map((bucketlist) => {
             return (<Bucketlist listName={bucketlist.list_name} key={bucketlist.id}
-                    items={bucketlist.items}/>)
+                    id={bucketlist.id} items={bucketlist.items}
+                    bucketlist={bucketlist} onDelete={this.deleteBucketlist.bind(this)}/>)
         })
     }
 
