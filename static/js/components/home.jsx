@@ -28,9 +28,15 @@ const style = {
         float: 'right'
     },
     itemAction: {
-        transform: 'translateY(-35%);',
+        transform: 'translateY(-35%)',
         float: 'right'
-    }
+    },
+  checkbox: {
+      marginBottom: 16,
+  },
+  label: {
+      fontWeight: 'normal'
+  }
 };
 
 const iconButtonElement = (
@@ -51,7 +57,8 @@ class BucketListItem extends Component {
             showEditDialog: false,
             showDeleteDialog: false,
             newItemName: '',
-            editName: true
+            editName: true,
+
         }
         this.handleEditDialog = this.handleEditDialog.bind(this)
         this.handleDeleteDialog = this.handleDeleteDialog.bind(this)
@@ -165,6 +172,14 @@ class BucketListItem extends Component {
                     defaultValue={this.props.itemName}
                     name="newItemName"
                     onChange={this.handleFieldChange} />
+                <br />
+                <Checkbox
+                    checked={true}
+                    label="Mark item as done"
+                    labelPosition="left"
+                    style={style.checkbox}
+                    labelStyle={style.label}
+                />
                 </Dialog>
                 <Divider />
         </div>
@@ -259,11 +274,14 @@ class Bucketlist extends Component {
     renderBucketListItems(bucketlistItems) {
         if (bucketlistItems.length) {
             return bucketlistItems.map((bucketlistItem) => {
-                return (<BucketListItem itemName={bucketlistItem.item_name} key={bucketlistItem.id}
-                    id={bucketlistItem.id} item={bucketlistItem}
-                    bucketlist={this.props.bucketlist}
-                    onEditItem={this.props.onEditItem}
-                    />)
+                return (bucketlistItem.done !== true) ?
+                    <BucketListItem itemName={bucketlistItem.item_name}
+                        key={bucketlistItem.id}
+                        done={bucketlistItem.done}
+                        id={bucketlistItem.id} item={bucketlistItem}
+                        bucketlist={this.props.bucketlist}
+                        onEditItem={this.props.onEditItem}
+                    />: null
             })
         } else {
             return (<ListItem
