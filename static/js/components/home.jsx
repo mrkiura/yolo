@@ -537,7 +537,10 @@ class Home extends Component {
             .send({'list_name': this.state.listName})
             .end((err, result) => {
                 if (result.status === 201) {
-                    this.fetchBucketlists()
+                    this.fetchBucketlists(),
+                    this.setState({
+                        listName: ''
+                    })
                 } else {
                     this.setState({
                         error: true
