@@ -58,7 +58,8 @@ class BucketListItem extends Component {
             showDeleteDialog: false,
             newItemName: '',
             editName: true,
-            done: false
+            done: false,
+            deleteName: true
 
         }
         this.handleEditDialog = this.handleEditDialog.bind(this)
@@ -67,8 +68,11 @@ class BucketListItem extends Component {
         this.handleFieldChange = this.handleFieldChange.bind(this)
         this.handleCancelEdit = this.handleCancelEdit.bind(this)
         this.handleConfirmEdit = this.handleConfirmEdit.bind(this)
+        this.handleCancelDelete = this.handleCancelDelete.bind(this)
+        this.handleConfirmDelete = this.handleConfirmDelete.bind(this)
         this.handleEdit = this.handleEdit.bind(this)
         this.handleCheckbox = this.handleCheckbox.bind(this)
+        this.handleDelete = this.handleDelete.bind(this)
     }
     handleEditDialog() {
         this.setState({
@@ -92,7 +96,7 @@ class BucketListItem extends Component {
         })
     }
     handleCheckbox(event, isInputChecked) {
-        // event.preventDefault()
+        event.preventDefault()
         this.setState({
             done: isInputChecked
         })
@@ -103,6 +107,20 @@ class BucketListItem extends Component {
             editName: true
         }, () => {
             this.handleEdit()
+        })
+    }
+    handleConfirmDelete() {
+        this.handleDeleteDialog()
+        this.setState({
+            deleteName: true
+        }, () => {
+            this.handleDelete()
+        })
+    }
+    handleCancelDelete() {
+        this.handleDeleteDialog()
+        this.setState({
+            deleteList: false
         })
     }
     handleCancelEdit() {
@@ -118,6 +136,16 @@ class BucketListItem extends Component {
                 done: this.state.done
             }
             this.props.onEditItem(item,
+                this.props.item, this.props.bucketlist)
+        }
+    }
+    handleDelete() {
+        if (this.state.deleteName) {
+            const item = {
+                item_name: this.state.newItemName,
+                done: this.state.done
+            }
+            this.props.onDeleteItem(
                 this.props.item, this.props.bucketlist)
         }
     }
@@ -192,6 +220,14 @@ class BucketListItem extends Component {
                     onCheck={this.handleCheckbox}
                     labelStyle={style.label}
                 />
+                </Dialog>
+                <Dialog
+                    actions={deleteDialogActions}
+                    modal={false}
+                    open={this.state.showDeleteDialog}
+                    onRequestClose={this.handleDeleteDialog}
+                    >
+                Delete bucketlist item?
                 </Dialog>
                 <Divider />
         </div>
@@ -293,6 +329,7 @@ class Bucketlist extends Component {
                         id={bucketlistItem.id} item={bucketlistItem}
                         bucketlist={this.props.bucketlist}
                         onEditItem={this.props.onEditItem}
+                        onDeleteItem={this.props.onDeleteItem}
                     />: null
             })
         } else {
@@ -527,12 +564,39 @@ class Home extends Component {
             })
     }
 
+    deleteBucketlistItem(item, bucketlist) {
+        const bucketlists = [...this.state.bucketlists];
+        const bucketlistIndex = bucketlists.indexOf(bucketlist)
+        const itemIndex = bucketlist.items.indexOf(item)
+        bucketlist.items.splice(itemIndex, 1);
+        bucketlists.splice(bucketlistIndex, 1, bucketlist);
+        this.setState({
+            bucketlists: bucketlists
+        })
+        request
+            .delete(`/api/v1/bucketlists/${bucketlist.id}/items/${item.id}/`)
+            .set('Authorization', 'JWT ' +
+                this.props.location.state.token || (JSON.parse(localStorage.getItem('username') || '{}') || 'token'))
+            .end((err, result) => {
+                if (result.status == 200 ){
+                    this.fetchBucketlists()
+                } else {
+                    this.setState({
+                        deleteError: true
+                    })
+                }
+            })
+    }
+
+
+
     renderBucketlists() {
         return this.state.bucketlists.map((bucketlist) => {
             return (<Bucketlist listName={bucketlist.list_name} key={bucketlist.id}
                     id={bucketlist.id} items={bucketlist.items}
                     bucketlist={bucketlist} onDelete={this.deleteBucketlist.bind(this)}
                     onEdit={this.editBucketlist.bind(this)}
+                    onDeleteItem={this.deleteBucketlistItem.bind(this)}
                     onEditItem={this.editBucketlistItem.bind(this)}
                     onAddItem={this.addBucketlistItem.bind(this)}/>)
         })
