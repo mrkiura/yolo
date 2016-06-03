@@ -58,6 +58,7 @@ class BucketListItem extends Component {
             showDeleteDialog: false,
             newItemName: '',
             editName: true,
+            done: false
 
         }
         this.handleEditDialog = this.handleEditDialog.bind(this)
@@ -67,6 +68,7 @@ class BucketListItem extends Component {
         this.handleCancelEdit = this.handleCancelEdit.bind(this)
         this.handleConfirmEdit = this.handleConfirmEdit.bind(this)
         this.handleEdit = this.handleEdit.bind(this)
+        this.handleCheckbox = this.handleCheckbox.bind(this)
     }
     handleEditDialog() {
         this.setState({
@@ -89,6 +91,12 @@ class BucketListItem extends Component {
             [key] : value
         })
     }
+    handleCheckbox(event, isInputChecked) {
+        // event.preventDefault()
+        this.setState({
+            done: isInputChecked
+        })
+    }
     handleConfirmEdit() {
         this.handleEditDialog()
         this.setState({
@@ -105,7 +113,10 @@ class BucketListItem extends Component {
     }
     handleEdit() {
         if (this.state.editName) {
-            const item = {item_name: this.state.newItemName}
+            const item = {
+                item_name: this.state.newItemName,
+                done: this.state.done
+            }
             this.props.onEditItem(item,
                 this.props.item, this.props.bucketlist)
         }
@@ -174,10 +185,11 @@ class BucketListItem extends Component {
                     onChange={this.handleFieldChange} />
                 <br />
                 <Checkbox
-                    checked={true}
                     label="Mark item as done"
                     labelPosition="left"
+                    name="done"
                     style={style.checkbox}
+                    onCheck={this.handleCheckbox}
                     labelStyle={style.label}
                 />
                 </Dialog>
