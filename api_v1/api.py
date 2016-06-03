@@ -130,11 +130,14 @@ class BucketListItemViewSet(viewsets.ModelViewSet):
             if item.created_by == request.user.username:
                 item_name = request.data.get('item_name', '')
                 priority = request.data.get('priority', '')
+                done = request.data.get('done')
                 if item_name:
                     item.item_name = item_name
                 if priority:
                     item.priority = priority
-                    serializer = self.get_serializer(item)
+                if done:
+                    item.done = done
+                serializer = self.get_serializer(item)
                 item.save()
                 return Response(serializer.data)
             else:
