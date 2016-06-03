@@ -110,7 +110,6 @@ class BucketListItemViewSet(viewsets.ModelViewSet):
         if request.user.username == bucketlist.created_by:
             data = {'item_name': request.data['item_name'],
                     'created_by': request.user.username,
-                    'priority': request.data['priority'],
                     'bucketlist_id': int(pk_bucketlist)}
             serializer = self.get_serializer(data=data)
             if serializer.is_valid():
@@ -129,12 +128,9 @@ class BucketListItemViewSet(viewsets.ModelViewSet):
             item = BucketlistItem.objects.get(pk=pk_item)
             if item.created_by == request.user.username:
                 item_name = request.data.get('item_name', '')
-                priority = request.data.get('priority', '')
                 done = request.data.get('done')
                 if item_name:
                     item.item_name = item_name
-                if priority:
-                    item.priority = priority
                 if done:
                     item.done = done
                 serializer = self.get_serializer(item)
