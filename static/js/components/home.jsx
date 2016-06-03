@@ -103,7 +103,8 @@ class Bucketlist extends Component {
             editName: false,
             showEditDialog: false,
             showDeleteDialog: false,
-            newName: ''
+            newName: '',
+            newItemName: ''
         }
         // Bind methods
         this.handleDeleteDialog = this.handleDeleteDialog.bind(this)
@@ -113,6 +114,7 @@ class Bucketlist extends Component {
         this.handleCancelDelete = this.handleCancelDelete.bind(this)
         this.handleConfirmDelete = this.handleConfirmDelete.bind(this)
         this.handleFieldChange = this.handleFieldChange.bind(this)
+        this.handleAddItem = this.handleAddItem.bind(this)
     }
     handleEditDialog() {
         this.setState({
@@ -159,8 +161,10 @@ class Bucketlist extends Component {
     }
     handleFieldChange(event) {
         event.preventDefault()
+        const key = event.target.name
+        const value = event.target.value
         this.setState({
-            newName: event.target.value
+            key : value
         })
     }
     handleEdit() {
@@ -168,6 +172,9 @@ class Bucketlist extends Component {
             console.log('editing in a few....')
             this.props.onEdit(this.state.newName, this.props.bucketlist)
         }
+    }
+    handleAddItem() {
+        this.props.onAddItem(this.state.newItemName, this.props.bucketlist)
     }
     renderBucketListItems(bucketlistItems) {
         if (bucketlistItems.length) {
@@ -221,6 +228,14 @@ class Bucketlist extends Component {
                         <List>
                             {this.renderBucketListItems(this.props.items)}
                         </List>
+                        <div>
+                            <TextField name="newItemName"
+                                hintText="Add an item to the bucketlist..."
+                                onChange={this.handleFieldChange}/>
+                            <FlatButton label="Add"
+                                onClick={this.handleAddItem}/>
+
+                        </div>
                     </CardText>
                     <CardActions className="pull-right">
                         <IconButton
@@ -243,6 +258,7 @@ class Bucketlist extends Component {
                             >
                         <TextField
                             defaultValue={this.props.bucketlist.list_name}
+                            name="newName"
                             onChange={this.handleFieldChange}
 
 
@@ -276,7 +292,8 @@ class Home extends Component {
             itemName: '',
             addError: false,
             deleteError: false,
-            editError: false
+            editError: false,
+            addItemError: false
             };
     }
     componentDidMount() {
@@ -324,8 +341,6 @@ class Home extends Component {
             })
     }
     editBucketlist(newName, bucketlist) {
-        console.log(newName)
-        console.log(bucketlist);
         const bucketlists = [...this.state.bucketlists];
         const bucketlistIndex = bucketlists.indexOf(bucketlist)
         bucketlist.list_name = newName
@@ -348,13 +363,38 @@ class Home extends Component {
                 }
             })
     }
+    addBucketlistItem(itemName, bucketlist) {
+        const bucketlists = [...this.state.bucketlists];
+        const bucketlistIndex = bucketlists.indexOf(bucketlist)
+        bucketlist.items.push({'item_name': itemName})
+        bucketlists.splice(bucketlistIndex, 1, bucketlist);
+        this.setState({
+            bucketlists: bucketlists
+        })
+        request
+            .post(`/api/v1/bucketlists/${bucketlist.id}/items/`)
+            .set('Authorization', 'JWT ' +
+                this.props.location.state.token || (JSON.parse(localStorage.getItem('username') || '{}') || 'token'))
+            .send({'item_name': newName})
+            .end((err, result) => {
+                if (result.status == 201 ){
+                    this.fetchBucketlists()
+                } else {
+                    this.setState({
+                        addItemError: true
+                    })
+                }
+            })
+
+    }
 
     renderBucketlists() {
         return this.state.bucketlists.map((bucketlist) => {
             return (<Bucketlist listName={bucketlist.list_name} key={bucketlist.id}
                     id={bucketlist.id} items={bucketlist.items}
                     bucketlist={bucketlist} onDelete={this.deleteBucketlist.bind(this)}
-                    onEdit={this.editBucketlist.bind(this)} />)
+                    onEdit={this.editBucketlist.bind(this)}
+                    onAddItem={this.addBucketlistItem.bind(this)}/>)
         })
     }
 
