@@ -46,14 +46,12 @@ class BucketListItem extends Component {
     }
     handleClick() {
         this.setState({open: true});
-        console.log(this.props.key);
     }
     handleOpen() {
          this.setState({open: true});
     }
 
     handleClose() {
-        console.log('closing dialog...');
         this.setState({open: false});
     }
 
@@ -164,17 +162,19 @@ class Bucketlist extends Component {
         const key = event.target.name
         const value = event.target.value
         this.setState({
-            key : value
+            [key] : value
         })
     }
     handleEdit() {
         if (this.state.editName) {
-            console.log('editing in a few....')
             this.props.onEdit(this.state.newName, this.props.bucketlist)
         }
     }
     handleAddItem() {
         this.props.onAddItem(this.state.newItemName, this.props.bucketlist)
+        this.setState({
+            newItemName: ''
+        })
     }
     renderBucketListItems(bucketlistItems) {
         if (bucketlistItems.length) {
@@ -186,7 +186,6 @@ class Bucketlist extends Component {
                 primaryText="No items yet"
                 id='list-item'
                 disabled={false}/>)
-
         }
     }
 
@@ -229,8 +228,11 @@ class Bucketlist extends Component {
                             {this.renderBucketListItems(this.props.items)}
                         </List>
                         <div>
-                            <TextField name="newItemName"
+                            <br />
+                            <TextField
+                                name="newItemName"
                                 hintText="Add an item to the bucketlist..."
+                                value={this.state.newItemName}
                                 onChange={this.handleFieldChange}/>
                             <FlatButton label="Add"
                                 onClick={this.handleAddItem}/>
@@ -312,13 +314,10 @@ class Home extends Component {
             .end((err, result) => {
                 this.setState({
                     bucketlists: result.body
-                }, () => {
-                    console.log(this.state.bucketlists)
                 });
             })
     }
     deleteBucketlist(bucketlist) {
-        console.log(bucketlist)
         const bucketlists = [...this.state.bucketlists];
         const bucketlistIndex = bucketlists.indexOf(bucketlist)
         bucketlists.splice(bucketlistIndex, 1);
@@ -375,7 +374,7 @@ class Home extends Component {
             .post(`/api/v1/bucketlists/${bucketlist.id}/items/`)
             .set('Authorization', 'JWT ' +
                 this.props.location.state.token || (JSON.parse(localStorage.getItem('username') || '{}') || 'token'))
-            .send({'item_name': newName})
+            .send({'item_name': itemName})
             .end((err, result) => {
                 if (result.status == 201 ){
                     this.fetchBucketlists()
