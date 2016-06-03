@@ -18,6 +18,7 @@ from django.conf.urls import url
 from api import BucketListViewSet, BucketListItemViewSet,\
     UserCreateViewSet
 from rest_framework_jwt.views import obtain_jwt_token
+from rest_framework_jwt.views import refresh_jwt_token
 
 
 urlpatterns = [
@@ -36,6 +37,7 @@ urlpatterns = [
         BucketListItemViewSet.as_view({'put': 'update',
                                        'delete': 'destroy'})),
     url(r'^auth/login/', obtain_jwt_token),
+    url(r'^auth/token-refresh/', refresh_jwt_token),
     url(r'^auth/register/',
         UserCreateViewSet.as_view({'post': 'create'})),
 ]
