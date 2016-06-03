@@ -24,6 +24,13 @@ const style = {
     checkbox: {
         marginBottom: 16,
     },
+    right: {
+        float: 'right'
+    },
+    itemAction: {
+        transform: 'translateY(-35%);',
+        float: 'right'
+    }
 };
 
 const iconButtonElement = (
@@ -129,7 +136,9 @@ class BucketListItem extends Component {
                     id='list-item'
                     disabled={true}
                     children={
-                        <div className="pull-right item-action">
+                        <div
+                            style={style.itemAction}
+                            >
                             <IconButton
                                 touch={true}
                                 tooltip="edit"
@@ -314,7 +323,7 @@ class Bucketlist extends Component {
 
                         </div>
                     </CardText>
-                    <CardActions className="pull-right">
+                    <CardActions style={style.right}>
                         <IconButton
                             touch={true}
                             tooltip="edit"
