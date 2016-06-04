@@ -7,23 +7,30 @@ import IconMenu from 'material-ui/lib/menus/icon-menu';
 import MoreVertIcon from 'material-ui/lib/svg-icons/navigation/more-vert';
 import MenuItem from 'material-ui/lib/menus/menu-item';
 import FlatButton from 'material-ui/lib/flat-button';
+import { browserHistory } from 'react-router';
 
 
 class Menu extends Component {
     constructor() {
          super();
-         //.state = {
-             //username: JSON.parse(localStorage.getItem('username') || '{}'),
-             //loggedIn: typeof username==='string'? true: false
-         //};
+         this.state = {
+             username: (JSON.parse(localStorage.getItem('username') || '{}')),
+             token: (JSON.parse(localStorage.getItem('token') || '{}')),
+             loggedIn: (typeof username==='string' && typeof token ==='string')? true: false,
+             hasUsername: (typeof username==='string')? true: false
+         };
+     }
+     handleLogout() {
+         localStorage.clear()
+         browserHistory.push('/login')
      }
     render() {
         return(
             <AppBar
                 title="Yolo"
-                iconElementRight={<FlatButton label=' '/>}
-                showMenuIconButton={false}
-            />
+                iconElementRight={<FlatButton
+                onClick={this.handleLogout.bind(this)}label='LOGOUT'/>}
+                showMenuIconButton={false} />
         );
     }
 
