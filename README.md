@@ -1,4 +1,6 @@
 # yolo
+[![Coverage Status](https://coveralls.io/repos/github/andela-akiura/yolo/badge.svg?branch=feature-review)](https://coveralls.io/github/andela-akiura/yolo?branch=feature-review)
+[![Build Status](https://travis-ci.org/andela-akiura/yolo.svg?branch=feature-review)](https://travis-ci.org/andela-akiura/yolo)
 
 ## What is it?
 
