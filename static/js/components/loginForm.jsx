@@ -46,6 +46,7 @@ export default class LoginForm extends Component {
                 localStorage.setItem('token', JSON.stringify(this.state.token));
                 localStorage.setItem('username',
                     JSON.stringify(this.state.username));
+                window.location.reload()
                 this.props.history.pushState({token: this.state.token}, '/home');
             } else {
                 this.setState({
