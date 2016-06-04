@@ -1,11 +1,5 @@
 from .base import *
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(os.path.dirname(__file__), 'test.db')
-    }
-}
 
 """
 Django settings for yolo project.
@@ -54,6 +48,7 @@ PREREQ_APPS = [
 PROJECT_APPS = [
     'api_v1'
 ]
+INSTALLED_APPS = PREREQ_APPS + PROJECT_APPS
 
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
@@ -77,7 +72,6 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 10
 }
 
-INSTALLED_APPS = PREREQ_APPS + PROJECT_APPS
 
 MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
@@ -117,6 +111,13 @@ STATICFILES_DIRS = (
 STATIC_ROOT = 'staticfiles'
 
 WSGI_APPLICATION = 'yolo.wsgi.application'
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'yolo-testdb',
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
