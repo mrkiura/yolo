@@ -17,6 +17,7 @@ import ImageEdit from 'material-ui/lib/svg-icons/image/edit';
 import Delete from 'material-ui/lib/svg-icons/action/delete'
 import Dialog from 'material-ui/lib/dialog';
 import TextField from 'material-ui/lib/text-field';
+import AutoComplete from 'material-ui/lib/auto-complete';
 
 const style = {
     float: 'right',
@@ -446,7 +447,8 @@ class Home extends Component {
             addError: false,
             deleteError: false,
             editError: false,
-            addItemError: false
+            addItemError: false,
+            dataSource: [],
             };
     }
     componentDidMount() {
@@ -642,11 +644,24 @@ class Home extends Component {
                 }
             })
     }
+    handleUpdateInput(value) {
+        console.log(value)
+    }
     render() {
         const bucketlists = this.renderBucketlists();
         let bucketlistNodes = <div className="component">{bucketlists}</div>
         return (
+
             <div className="container-fluid">
+                <div
+                    className="center">
+                    <AutoComplete
+                        hintText="Search for a bucketlist"
+                        filter={AutoComplete.caseInsensitiveFilter}
+                        dataSource={this.state.bucketlists.map((bucketlist) => {return bucketlist.list_name})}
+                        onUpdateInput={this.handleUpdateInput.bind(this)}
+                        />
+                </div>
                 <div className="list-input">
                     <div className="input-group">
                         <input type="text" className="form-control" placeholder="Add bucketlist..."
