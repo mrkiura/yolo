@@ -6,6 +6,8 @@ python:
 install:
   - pip install -r requirements.txt
   - pip install coveralls
+env:
+  - DB=sqlite
 # command to run tests
 script: python manage.py test
 after_success:
