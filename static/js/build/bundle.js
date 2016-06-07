@@ -14627,7 +14627,7 @@
 	 *
 	 * @providesModule shallowEqual
 	 * @typechecks
-	 * 
+	 *
 	 */
 
 	'use strict';
@@ -33757,7 +33757,7 @@
 	 * nested.
 	 *
 	 *   import { Route, createRoutesFromReactChildren } from 'react-router'
-	 *   
+	 *
 	 *   const routes = createRoutesFromReactChildren(
 	 *     <Route component={App}>
 	 *       <Route path="home" component={Dashboard}/>
@@ -40446,7 +40446,7 @@
 	};
 
 	/**
-	 * Set responseType to `val`. Presently valid responseTypes are 'blob' and 
+	 * Set responseType to `val`. Presently valid responseTypes are 'blob' and
 	 * 'arraybuffer'.
 	 *
 	 * Examples:
@@ -40946,7 +40946,7 @@
 /* 333 */
 /***/ function(module, exports, __webpack_require__) {
 
-	
+
 	/**
 	 * Expose `Emitter`.
 	 */
@@ -41115,7 +41115,7 @@
 /* 334 */
 /***/ function(module, exports) {
 
-	
+
 	/**
 	 * Reduce `arr` with `fn`.
 	 *
@@ -41126,7 +41126,7 @@
 	 * TODO: combatible error handling?
 	 */
 
-	module.exports = function(arr, fn, initial){  
+	module.exports = function(arr, fn, initial){
 	  var idx = 0;
 	  var len = arr.length;
 	  var curr = arguments.length == 3
@@ -41136,7 +41136,7 @@
 	  while (idx < len) {
 	    curr = fn.call(null, curr, arr[idx], ++idx, arr);
 	  }
-	  
+
 	  return curr;
 	};
 
