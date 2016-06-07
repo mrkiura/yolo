@@ -1,2 +1,1 @@
-web: source ./build.sh;
-worker: python codango/manage.py celery worker -B -l info
+worker: python manage.py runserver
