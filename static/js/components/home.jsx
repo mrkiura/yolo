@@ -15,6 +15,7 @@ import MoreVertIcon from 'material-ui/lib/svg-icons/navigation/more-vert';
 import {grey400} from 'material-ui/lib/styles/colors';
 import ImageEdit from 'material-ui/lib/svg-icons/image/edit';
 import Delete from 'material-ui/lib/svg-icons/action/delete'
+import Search from 'material-ui/lib/svg-icons/action/search'
 import Dialog from 'material-ui/lib/dialog';
 import TextField from 'material-ui/lib/text-field';
 import AutoComplete from 'material-ui/lib/auto-complete';
@@ -30,6 +31,10 @@ const style = {
     },
     itemAction: {
         transform: 'translateY(-35%)',
+        float: 'right'
+    },
+    itemSearch: {
+        transform: 'translateY(45%)',
         float: 'right'
     },
   checkbox: {
@@ -656,11 +661,15 @@ class Home extends Component {
                 <div
                     className="center">
                     <AutoComplete
+                        animated={true}
                         hintText="Search for a bucketlist"
                         filter={AutoComplete.caseInsensitiveFilter}
                         dataSource={this.state.bucketlists.map((bucketlist) => {return bucketlist.list_name})}
                         onUpdateInput={this.handleUpdateInput.bind(this)}
                         />
+                     <IconButton
+                       touch={true}
+                     ><Search style={style.itemSearch}/></IconButton>
                 </div>
                 <div className="list-input">
                     <div className="input-group">
