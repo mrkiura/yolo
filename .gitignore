@@ -1,6 +1,5 @@
 node_modules/
 
-static/js/build/*
 tasks.md
 .imdone/
 */migrations/
