@@ -15,6 +15,7 @@ drf-nested-routers==0.11.1
 drfdocs==0.0.10
 Flask==0.10.1
 gnureadline==6.3.3
+gunicorn==19.6.0
 httpie==0.9.3
 ipdb==0.9.3
 ipython==4.2.0
