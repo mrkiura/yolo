@@ -1,2 +1,1 @@
-web: gunicorn server:app
-heroku ps:scale web=1
+web: python manage.py migrate --settings=yolo.settings.prod; gunicorn yolo.wsgi --pythonpath=yolo --log-file -
