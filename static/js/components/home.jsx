@@ -470,9 +470,15 @@ class Home extends Component {
             .set('Authorization', 'JWT ' +
                 this.props.location.state.token || (JSON.parse(localStorage.getItem('username') || '{}') || 'token'))
             .end((err, result) => {
-                this.setState({
-                    bucketlists: result.body
-                });
+                if (result.body) {
+                    this.setState({
+                        bucketlists: result.body
+                    });
+                } else {
+                    this.setState({
+                        bucketlists: []
+                    });
+                }
             })
     }
     deleteBucketlist(bucketlist) {
