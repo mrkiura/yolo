@@ -39729,7 +39729,7 @@
 	        value: function renderBucketlists() {
 	            var _this16 = this;
 
-	            return this.state.bucketlists.length ? this.state.bucketlists.map(function (bucketlist) {
+	            return this.state.bucketlists ? this.state.bucketlists.map(function (bucketlist) {
 	                return _react2.default.createElement(Bucketlist, { listName: bucketlist.list_name, key: bucketlist.id,
 	                    id: bucketlist.id, items: bucketlist.items,
 	                    bucketlist: bucketlist, onDelete: _this16.deleteBucketlist.bind(_this16),
