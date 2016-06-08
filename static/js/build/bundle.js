@@ -39605,9 +39605,15 @@
 	            var _this10 = this;
 
 	            _superagent2.default.get('/api/v1/bucketlists/').set('Authorization', 'JWT ' + this.props.location.state.token || JSON.parse(localStorage.getItem('username') || '{}') || 'token').end(function (err, result) {
-	                _this10.setState({
-	                    bucketlists: result.body
-	                });
+	                if (result.body) {
+	                    _this10.setState({
+	                        bucketlists: result.body
+	                    });
+	                } else {
+	                    _this10.setState({
+	                        bucketlists: []
+	                    });
+	                }
 	            });
 	        }
 	    }, {
