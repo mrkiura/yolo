@@ -598,15 +598,17 @@ class Home extends Component {
 
 
     renderBucketlists() {
-        return this.state.bucketlists.map((bucketlist) => {
-            return (<Bucketlist listName={bucketlist.list_name} key={bucketlist.id}
-                    id={bucketlist.id} items={bucketlist.items}
-                    bucketlist={bucketlist} onDelete={this.deleteBucketlist.bind(this)}
-                    onEdit={this.editBucketlist.bind(this)}
-                    onDeleteItem={this.deleteBucketlistItem.bind(this)}
-                    onEditItem={this.editBucketlistItem.bind(this)}
-                    onAddItem={this.addBucketlistItem.bind(this)}/>)
-        })
+
+        return this.state.bucketlists.length ?
+            (this.state.bucketlists.map((bucketlist) => {
+                return (<Bucketlist listName={bucketlist.list_name} key={bucketlist.id}
+                        id={bucketlist.id} items={bucketlist.items}
+                        bucketlist={bucketlist} onDelete={this.deleteBucketlist.bind(this)}
+                        onEdit={this.editBucketlist.bind(this)}
+                        onDeleteItem={this.deleteBucketlistItem.bind(this)}
+                        onEditItem={this.editBucketlistItem.bind(this)}
+                        onAddItem={this.addBucketlistItem.bind(this)}/>)
+            })) : null
     }
 
     onEnter() {
