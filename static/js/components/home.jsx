@@ -599,7 +599,7 @@ class Home extends Component {
 
     renderBucketlists() {
 
-        return this.state.bucketlists.length ?
+        return this.state.bucketlists ?
             (this.state.bucketlists.map((bucketlist) => {
                 return (<Bucketlist listName={bucketlist.list_name} key={bucketlist.id}
                         id={bucketlist.id} items={bucketlist.items}
