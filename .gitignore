@@ -1,7 +1,6 @@
 node_modules/
 tasks.md
 .imdone/
-*/migrations/
 *.sh
 staticfiles/
 .coverage
