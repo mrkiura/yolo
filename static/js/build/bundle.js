@@ -39250,6 +39250,7 @@
 	                null,
 	                _react2.default.createElement(_lists.ListItem, {
 	                    primaryText: this.props.itemName,
+	                    className: this.props.className,
 	                    id: 'list-item',
 	                    disabled: true,
 	                    children: _react2.default.createElement(
@@ -39440,14 +39441,22 @@
 
 	            if (bucketlistItems.length) {
 	                return bucketlistItems.map(function (bucketlistItem) {
-	                    return bucketlistItem.done !== true ? _react2.default.createElement(BucketListItem, { itemName: bucketlistItem.item_name,
+	                    return bucketlistItem.done ? _react2.default.createElement(BucketListItem, { itemName: bucketlistItem.item_name,
+	                        className: 'item-done',
 	                        key: bucketlistItem.id,
 	                        done: bucketlistItem.done,
 	                        id: bucketlistItem.id, item: bucketlistItem,
 	                        bucketlist: _this7.props.bucketlist,
 	                        onEditItem: _this7.props.onEditItem,
 	                        onDeleteItem: _this7.props.onDeleteItem
-	                    }) : null;
+	                    }) : _react2.default.createElement(BucketListItem, { itemName: bucketlistItem.item_name,
+	                        className: '',
+	                        key: bucketlistItem.id,
+	                        done: bucketlistItem.done,
+	                        id: bucketlistItem.id, item: bucketlistItem,
+	                        bucketlist: _this7.props.bucketlist,
+	                        onEditItem: _this7.props.onEditItem,
+	                        onDeleteItem: _this7.props.onDeleteItem });
 	                });
 	            } else {
 	                return _react2.default.createElement(_lists.ListItem, {

@@ -186,6 +186,7 @@ class BucketListItem extends Component {
             <div>
                 <ListItem
                     primaryText={this.props.itemName}
+                    className={this.props.className}
                     id='list-item'
                     disabled={true}
                     children={
@@ -329,15 +330,23 @@ class Bucketlist extends Component {
     renderBucketListItems(bucketlistItems) {
         if (bucketlistItems.length) {
             return bucketlistItems.map((bucketlistItem) => {
-                return (bucketlistItem.done !== true) ?
+                return (bucketlistItem.done) ?
                     <BucketListItem itemName={bucketlistItem.item_name}
+                        className="item-done"
                         key={bucketlistItem.id}
                         done={bucketlistItem.done}
                         id={bucketlistItem.id} item={bucketlistItem}
                         bucketlist={this.props.bucketlist}
                         onEditItem={this.props.onEditItem}
                         onDeleteItem={this.props.onDeleteItem}
-                    />: null
+                    />: <BucketListItem itemName={bucketlistItem.item_name}
+                        className=""
+                        key={bucketlistItem.id}
+                        done={bucketlistItem.done}
+                        id={bucketlistItem.id} item={bucketlistItem}
+                        bucketlist={this.props.bucketlist}
+                        onEditItem={this.props.onEditItem}
+                        onDeleteItem={this.props.onDeleteItem} />
             })
         } else {
             return (<ListItem
