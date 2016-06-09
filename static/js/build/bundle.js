@@ -65,15 +65,15 @@
 
 	var _home2 = _interopRequireDefault(_home);
 
-	var _landing = __webpack_require__(381);
+	var _landing = __webpack_require__(382);
 
 	var _landing2 = _interopRequireDefault(_landing);
 
-	var _signupForm = __webpack_require__(382);
+	var _signupForm = __webpack_require__(383);
 
 	var _signupForm2 = _interopRequireDefault(_signupForm);
 
-	var _loginForm = __webpack_require__(385);
+	var _loginForm = __webpack_require__(386);
 
 	var _loginForm2 = _interopRequireDefault(_loginForm);
 
@@ -39035,15 +39035,19 @@
 
 	var _search2 = _interopRequireDefault(_search);
 
-	var _dialog = __webpack_require__(370);
+	var _clear = __webpack_require__(370);
+
+	var _clear2 = _interopRequireDefault(_clear);
+
+	var _dialog = __webpack_require__(371);
 
 	var _dialog2 = _interopRequireDefault(_dialog);
 
-	var _textField = __webpack_require__(373);
+	var _textField = __webpack_require__(374);
 
 	var _textField2 = _interopRequireDefault(_textField);
 
-	var _autoComplete = __webpack_require__(380);
+	var _autoComplete = __webpack_require__(381);
 
 	var _autoComplete2 = _interopRequireDefault(_autoComplete);
 
@@ -39583,7 +39587,10 @@
 	            deleteError: false,
 	            editError: false,
 	            addItemError: false,
-	            dataSource: []
+	            dataSource: [],
+	            initialBucketlists: [],
+	            serching: false,
+	            query: ''
 	        };
 	        return _this8;
 	    }
@@ -39790,7 +39797,32 @@
 	    }, {
 	        key: 'handleUpdateInput',
 	        value: function handleUpdateInput(value) {
+	            this.setState({
+	                query: value,
+	                searching: true,
+	                initialBucketlists: this.state.bucketlists
+	            });
 	            console.log(value);
+	        }
+	    }, {
+	        key: 'handleSearch',
+	        value: function handleSearch(searchText, index) {
+	            this.setState({
+	                bucketlists: this.state.bucketlists.filter(function (bucketlist) {
+	                    if (bucketlist.list_name == searchText) {
+	                        return bucketlist;
+	                    }
+	                })
+	            });
+	        }
+	    }, {
+	        key: 'cancelSearch',
+	        value: function cancelSearch() {
+	            this.setState({
+	                bucketlists: this.state.initialBucketlists,
+	                searching: false,
+	                query: ''
+	            });
 	        }
 	    }, {
 	        key: 'render',
@@ -39808,22 +39840,32 @@
 	                    'div',
 	                    {
 	                        className: 'center' },
+	                    _react2.default.createElement(
+	                        _iconButton2.default,
+	                        {
+	                            touch: true, disabled: true
+	                        },
+	                        _react2.default.createElement(_search2.default, { className: 'item-search' })
+	                    ),
 	                    _react2.default.createElement(_autoComplete2.default, {
 	                        animated: true,
 	                        hintText: 'Search for a bucketlist',
+	                        searchText: this.state.query,
 	                        filter: _autoComplete2.default.caseInsensitiveFilter,
 	                        dataSource: this.state.bucketlists.map(function (bucketlist) {
 	                            return bucketlist.list_name;
 	                        }),
-	                        onUpdateInput: this.handleUpdateInput.bind(this)
+	                        onUpdateInput: this.handleUpdateInput.bind(this),
+	                        onNewRequest: this.handleSearch.bind(this)
 	                    }),
-	                    _react2.default.createElement(
+	                    this.state.searching ? _react2.default.createElement(
 	                        _iconButton2.default,
 	                        {
-	                            touch: true
+	                            touch: true,
+	                            onClick: this.cancelSearch.bind(this)
 	                        },
-	                        _react2.default.createElement(_search2.default, { style: style.itemSearch })
-	                    )
+	                        _react2.default.createElement(_clear2.default, { className: 'item-search' })
+	                    ) : null
 	                ),
 	                _react2.default.createElement(
 	                    'div',
@@ -44759,6 +44801,47 @@
 /* 370 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(154);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactAddonsPureRenderMixin = __webpack_require__(200);
+
+	var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
+
+	var _svgIcon = __webpack_require__(249);
+
+	var _svgIcon2 = _interopRequireDefault(_svgIcon);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var ContentClear = _react2.default.createClass({
+	  displayName: 'ContentClear',
+
+	  mixins: [_reactAddonsPureRenderMixin2.default],
+
+	  render: function render() {
+	    return _react2.default.createElement(
+	      _svgIcon2.default,
+	      this.props,
+	      _react2.default.createElement('path', { d: 'M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z' })
+	    );
+	  }
+	});
+
+	exports.default = ContentClear;
+	module.exports = exports['default'];
+
+/***/ },
+/* 371 */
+/***/ function(module, exports, __webpack_require__) {
+
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -44795,7 +44878,7 @@
 
 	var _flatButton2 = _interopRequireDefault(_flatButton);
 
-	var _overlay = __webpack_require__(371);
+	var _overlay = __webpack_require__(372);
 
 	var _overlay2 = _interopRequireDefault(_overlay);
 
@@ -44815,7 +44898,7 @@
 
 	var _warning2 = _interopRequireDefault(_warning);
 
-	var _deprecatedPropType = __webpack_require__(372);
+	var _deprecatedPropType = __webpack_require__(373);
 
 	var _deprecatedPropType2 = _interopRequireDefault(_deprecatedPropType);
 
@@ -45412,7 +45495,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 371 */
+/* 372 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -45557,7 +45640,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 372 */
+/* 373 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -45586,25 +45669,6 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 373 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _TextField = __webpack_require__(374);
-
-	var _TextField2 = _interopRequireDefault(_TextField);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	exports.default = _TextField2.default;
-	module.exports = exports['default'];
-
-/***/ },
 /* 374 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -45625,6 +45689,25 @@
 
 /***/ },
 /* 375 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _TextField = __webpack_require__(376);
+
+	var _TextField2 = _interopRequireDefault(_TextField);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = _TextField2.default;
+	module.exports = exports['default'];
+
+/***/ },
+/* 376 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -45659,7 +45742,7 @@
 
 	var _uniqueId2 = _interopRequireDefault(_uniqueId);
 
-	var _enhancedTextarea = __webpack_require__(376);
+	var _enhancedTextarea = __webpack_require__(377);
 
 	var _enhancedTextarea2 = _interopRequireDefault(_enhancedTextarea);
 
@@ -45671,15 +45754,15 @@
 
 	var _contextPure2 = _interopRequireDefault(_contextPure);
 
-	var _TextFieldHint = __webpack_require__(377);
+	var _TextFieldHint = __webpack_require__(378);
 
 	var _TextFieldHint2 = _interopRequireDefault(_TextFieldHint);
 
-	var _TextFieldLabel = __webpack_require__(378);
+	var _TextFieldLabel = __webpack_require__(379);
 
 	var _TextFieldLabel2 = _interopRequireDefault(_TextFieldLabel);
 
-	var _TextFieldUnderline = __webpack_require__(379);
+	var _TextFieldUnderline = __webpack_require__(380);
 
 	var _TextFieldUnderline2 = _interopRequireDefault(_TextFieldUnderline);
 
@@ -46190,7 +46273,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 376 */
+/* 377 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46396,7 +46479,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 377 */
+/* 378 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46474,7 +46557,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 378 */
+/* 379 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46586,7 +46669,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 379 */
+/* 380 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46724,7 +46807,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 380 */
+/* 381 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46753,7 +46836,7 @@
 
 	var _keyCode2 = _interopRequireDefault(_keyCode);
 
-	var _textField = __webpack_require__(373);
+	var _textField = __webpack_require__(374);
 
 	var _textField2 = _interopRequireDefault(_textField);
 
@@ -46777,7 +46860,7 @@
 
 	var _propTypes2 = _interopRequireDefault(_propTypes);
 
-	var _deprecatedPropType = __webpack_require__(372);
+	var _deprecatedPropType = __webpack_require__(373);
 
 	var _deprecatedPropType2 = _interopRequireDefault(_deprecatedPropType);
 
@@ -47279,7 +47362,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 381 */
+/* 382 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/heavy_machinery/Dropbox/dev/class5/cps/yolo-bucketlist/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/heavy_machinery/Dropbox/dev/class5/cps/yolo-bucketlist/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -47340,7 +47423,7 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/heavy_machinery/Dropbox/dev/class5/cps/yolo-bucketlist/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "landing.jsx" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ },
-/* 382 */
+/* 383 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/heavy_machinery/Dropbox/dev/class5/cps/yolo-bucketlist/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/heavy_machinery/Dropbox/dev/class5/cps/yolo-bucketlist/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -47359,7 +47442,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _textField = __webpack_require__(373);
+	var _textField = __webpack_require__(374);
 
 	var _textField2 = _interopRequireDefault(_textField);
 
@@ -47373,7 +47456,7 @@
 
 	var _reactRouter = __webpack_require__(271);
 
-	var _snackbar = __webpack_require__(383);
+	var _snackbar = __webpack_require__(384);
 
 	var _snackbar2 = _interopRequireDefault(_snackbar);
 
@@ -47525,7 +47608,7 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/heavy_machinery/Dropbox/dev/class5/cps/yolo-bucketlist/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "signupForm.jsx" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ },
-/* 383 */
+/* 384 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -47564,7 +47647,7 @@
 
 	var _contextPure2 = _interopRequireDefault(_contextPure);
 
-	var _styleResizable = __webpack_require__(384);
+	var _styleResizable = __webpack_require__(385);
 
 	var _styleResizable2 = _interopRequireDefault(_styleResizable);
 
@@ -47572,7 +47655,7 @@
 
 	var _warning2 = _interopRequireDefault(_warning);
 
-	var _deprecatedPropType = __webpack_require__(372);
+	var _deprecatedPropType = __webpack_require__(373);
 
 	var _deprecatedPropType2 = _interopRequireDefault(_deprecatedPropType);
 
@@ -47942,7 +48025,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 384 */
+/* 385 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -48006,7 +48089,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 385 */
+/* 386 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/heavy_machinery/Dropbox/dev/class5/cps/yolo-bucketlist/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/heavy_machinery/Dropbox/dev/class5/cps/yolo-bucketlist/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -48025,7 +48108,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _textField = __webpack_require__(373);
+	var _textField = __webpack_require__(374);
 
 	var _textField2 = _interopRequireDefault(_textField);
 
@@ -48037,7 +48120,7 @@
 
 	var _superagent2 = _interopRequireDefault(_superagent);
 
-	var _snackbar = __webpack_require__(383);
+	var _snackbar = __webpack_require__(384);
 
 	var _snackbar2 = _interopRequireDefault(_snackbar);
 

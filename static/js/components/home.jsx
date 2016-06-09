@@ -14,8 +14,9 @@ import IconMenu from 'material-ui/lib/menus/icon-menu';
 import MoreVertIcon from 'material-ui/lib/svg-icons/navigation/more-vert';
 import {grey400} from 'material-ui/lib/styles/colors';
 import ImageEdit from 'material-ui/lib/svg-icons/image/edit';
-import Delete from 'material-ui/lib/svg-icons/action/delete'
-import Search from 'material-ui/lib/svg-icons/action/search'
+import Delete from 'material-ui/lib/svg-icons/action/delete';
+import Search from 'material-ui/lib/svg-icons/action/search';
+import Clear from 'material-ui/lib/svg-icons/content/clear';
 import Dialog from 'material-ui/lib/dialog';
 import TextField from 'material-ui/lib/text-field';
 import AutoComplete from 'material-ui/lib/auto-complete';
@@ -454,6 +455,9 @@ class Home extends Component {
             editError: false,
             addItemError: false,
             dataSource: [],
+            initialBucketlists: [],
+            serching: false,
+            query: ''
             };
     }
     componentDidMount() {
@@ -658,7 +662,28 @@ class Home extends Component {
             })
     }
     handleUpdateInput(value) {
+        this.setState({
+            query: value,
+            searching: true,
+            initialBucketlists: this.state.bucketlists
+        })
         console.log(value)
+    }
+    handleSearch(searchText, index) {
+            this.setState({
+                bucketlists: this.state.bucketlists.filter((bucketlist) => {
+                    if (bucketlist.list_name == searchText) {
+                        return bucketlist
+                    }
+                })
+            })
+    }
+    cancelSearch() {
+        this.setState({
+            bucketlists: this.state.initialBucketlists,
+            searching: false,
+            query: ''
+        })
     }
     render() {
         const bucketlists = this.renderBucketlists();
@@ -668,16 +693,25 @@ class Home extends Component {
             <div className="container-fluid">
                 <div
                     className="center">
+                    <IconButton
+                      touch={true} disabled={true}
+                    ><Search className="item-search"/></IconButton>
                     <AutoComplete
                         animated={true}
                         hintText="Search for a bucketlist"
+                        searchText={this.state.query}
                         filter={AutoComplete.caseInsensitiveFilter}
                         dataSource={this.state.bucketlists.map((bucketlist) => {return bucketlist.list_name})}
                         onUpdateInput={this.handleUpdateInput.bind(this)}
+                        onNewRequest={this.handleSearch.bind(this)}
                         />
-                     <IconButton
-                       touch={true}
-                     ><Search style={style.itemSearch}/></IconButton>
+                    {this.state.searching ?
+                        <IconButton
+                            touch={true}
+                            onClick={this.cancelSearch.bind(this)}
+                            ><Clear className="item-search"/></IconButton>
+                        : null
+                    }
                 </div>
                 <div className="list-input">
                     <div className="input-group">

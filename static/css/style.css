@@ -50,6 +50,10 @@ p {
 .item-action {
     transform: translateY(-35%);
 }
+
+.item-search {
+  transform: translateY(30%);
+}
 .center {
   transform: translateY(50%);
 	margin:0 auto;
