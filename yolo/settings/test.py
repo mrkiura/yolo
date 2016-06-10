@@ -116,6 +116,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': 'yolo-testdb',
+        'USER': 'heavy_machinery',
     }
 }
 
