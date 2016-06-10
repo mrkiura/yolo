@@ -14,7 +14,6 @@ let routes = (<Router history={browserHistory}>
                     <IndexRoute component={LoginForm}/>
                     <Route path="/home" component={Home}/>
                     <Route path="/login" component={LoginForm}/>
-                    <Route path="/bucketlists" component={Home}/>
                     <Route path="/register" component={SignupForm}/>
                 </Route>
               </Router>)
