@@ -61,12 +61,10 @@ class BucketlistActions(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
     def test_bucketlist_access(self):
-        self.client.post('/api/v1/bucketlists/', {'list_name': 'Another one'},
-                         format='json')
         response = self.client.get('/api/v1/bucketlists/')
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 2)
+        self.assertIn('Travelling', response.data[0].values())
 
     def test_unauthenticated_bucketlist_access(self):
         self.client.credentials(HTTP_AUTHORIZATION='JWT ' + '')
