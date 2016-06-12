@@ -20,6 +20,8 @@ import Clear from 'material-ui/lib/svg-icons/content/clear';
 import Dialog from 'material-ui/lib/dialog';
 import TextField from 'material-ui/lib/text-field';
 import AutoComplete from 'material-ui/lib/auto-complete';
+import Menu from './menu.jsx';
+import { browserHistory } from 'react-router';
 
 const style = {
     float: 'right',
@@ -382,68 +384,68 @@ class Bucketlist extends Component {
             />
         ]
         return (
-            <div className="col-xs-12 col-md-4 bucketlist">
-                <Card >
-                    <CardHeader
-                        title="Bucketlist"
-                        subtitle={this.props.listName}
-                        actAsExpander={true}
-                        showExpandableButton={true}
-                         />
-                    <CardText expandable={true}>
-                        <List>
-                            {this.renderBucketListItems(this.props.items)}
-                        </List>
-                        <div>
-                            <br />
-                            <TextField
-                                name="newItemName"
-                                hintText="Add an item to the bucketlist..."
-                                value={this.state.newItemName}
-                                onChange={this.handleFieldChange}/>
-                            <FlatButton label="Add"
-                                onClick={this.handleAddItem}/>
+                <div className="col-xs-12 col-md-4 bucketlist">
+                    <Card >
+                        <CardHeader
+                            title="Bucketlist"
+                            subtitle={this.props.listName}
+                            actAsExpander={true}
+                            showExpandableButton={true}
+                            />
+                        <CardText expandable={true}>
+                            <List>
+                                {this.renderBucketListItems(this.props.items)}
+                            </List>
+                            <div>
+                                <br />
+                                <TextField
+                                    name="newItemName"
+                                    hintText="Add an item to the bucketlist..."
+                                    value={this.state.newItemName}
+                                    onChange={this.handleFieldChange}/>
+                                <FlatButton label="Add"
+                                    onClick={this.handleAddItem}/>
 
-                        </div>
-                    </CardText>
-                    <CardActions style={style.right}>
-                        <IconButton
-                            touch={true}
-                            tooltip="edit"
-                            tooltipPosition="top-center"
-                            onTouchTap={this.handleEditDialog}
-                            ><ImageEdit /></IconButton>
-                        <IconButton
-                            touch={true}
-                            tooltip="delete"
-                            tooltipPosition="top-center"
-                            onTouchTap={this.handleDeleteDialog}
-                            ><Delete/></IconButton>
-                        <Dialog
-                            actions={editDialogActions}
-                            modal={false}
-                            open={this.state.showEditDialog}
-                            onRequestClose={this.handleEditDialog}
-                            >
-                        <TextField
-                            defaultValue={this.props.bucketlist.list_name}
-                            name="newName"
-                            onChange={this.handleFieldChange}
+                            </div>
+                        </CardText>
+                        <CardActions style={style.right}>
+                            <IconButton
+                                touch={true}
+                                tooltip="edit"
+                                tooltipPosition="top-center"
+                                onTouchTap={this.handleEditDialog}
+                                ><ImageEdit /></IconButton>
+                            <IconButton
+                                touch={true}
+                                tooltip="delete"
+                                tooltipPosition="top-center"
+                                onTouchTap={this.handleDeleteDialog}
+                                ><Delete/></IconButton>
+                            <Dialog
+                                actions={editDialogActions}
+                                modal={false}
+                                open={this.state.showEditDialog}
+                                onRequestClose={this.handleEditDialog}
+                                >
+                                <TextField
+                                    defaultValue={this.props.bucketlist.list_name}
+                                    name="newName"
+                                    onChange={this.handleFieldChange}
 
 
-                        />
-                        </Dialog>
-                        <Dialog
-                            actions={deleteDialogActions}
-                            modal={false}
-                            open={this.state.showDeleteDialog}
-                            onRequestClose={this.handleDeleteDialog}
-                            >
-                        Delete bucketlist?
-                        </Dialog>
-                    </CardActions>
-                </Card>
-            </div>
+                                    />
+                            </Dialog>
+                            <Dialog
+                                actions={deleteDialogActions}
+                                modal={false}
+                                open={this.state.showDeleteDialog}
+                                onRequestClose={this.handleDeleteDialog}
+                                >
+                                Delete bucketlist?
+                            </Dialog>
+                        </CardActions>
+                    </Card>
+                </div>
         )
     }
 }
@@ -468,6 +470,13 @@ class Home extends Component {
             serching: false,
             query: ''
             };
+    }
+    componentWillMount() {
+        const loggedIn = typeof (JSON.parse(localStorage.getItem('token')
+            || '{}')) ==='string' ? true: false
+        if (loggedIn === false) {
+            window.location.href='/login'
+        }
     }
     componentDidMount() {
         this.setState({
@@ -694,50 +703,64 @@ class Home extends Component {
             query: ''
         })
     }
+    handleLogout() {
+        localStorage.clear()
+        browserHistory.push('/login')
+        this.setState({
+            loggedIn: false,
+            hasUsername: false
+        })
+    }
+
     render() {
         const bucketlists = this.renderBucketlists();
         let bucketlistNodes = <div className="component">{bucketlists}</div>
         return (
-
-            <div className="container-fluid">
-                <div
-                    className="center">
-                    <IconButton
-                      touch={true} disabled={true}
-                    ><Search className="item-search"/></IconButton>
-                    <AutoComplete
-                        animated={true}
-                        hintText="Search for a bucketlist"
-                        searchText={this.state.query}
-                        filter={AutoComplete.caseInsensitiveFilter}
-                        dataSource={this.state.bucketlists.map((bucketlist) => {return bucketlist.list_name})}
-                        onUpdateInput={this.handleUpdateInput.bind(this)}
-                        onNewRequest={this.handleSearch.bind(this)}
-                        />
-                    {this.state.searching ?
+            <div>
+                <Menu
+                    handleLogout={this.handleLogout.bind(this)}
+                    loggedIn={true}
+                />
+                <div className="container-fluid">
+                    <div
+                        className="center">
                         <IconButton
-                            touch={true}
-                            onClick={this.cancelSearch.bind(this)}
-                            ><Clear className="item-search"/></IconButton>
-                        : null
-                    }
-                </div>
-                <div className="list-input">
-                    <div className="input-group">
-                        <input type="text" className="form-control" placeholder="Add bucketlist..."
-                            valueLink={this.makeValueLink('listName')}/>
-                        <span className="input-group-btn">
-                            <button className="btn btn-secondary" type="button"
-                                onClick={this.submitBucketlist}>Add</button>
-                        </span>
+                            touch={true} disabled={true}
+                            ><Search className="item-search"/></IconButton>
+                        <AutoComplete
+                            animated={true}
+                            hintText="Search for a bucketlist"
+                            searchText={this.state.query}
+                            filter={AutoComplete.caseInsensitiveFilter}
+                            dataSource={this.state.bucketlists.map((bucketlist) => {return bucketlist.list_name})}
+                            onUpdateInput={this.handleUpdateInput.bind(this)}
+                            onNewRequest={this.handleSearch.bind(this)}
+                            />
+                        {this.state.searching ?
+                            <IconButton
+                                touch={true}
+                                onClick={this.cancelSearch.bind(this)}
+                                ><Clear className="item-search"/></IconButton>
+                            : null
+                        }
                     </div>
-                </div>
-                <div className="parent">
-                    <div className="component">
-                        {bucketlistNodes}
+                    <div className="list-input">
+                        <div className="input-group">
+                            <input type="text" className="form-control" placeholder="Add bucketlist..."
+                                valueLink={this.makeValueLink('listName')}/>
+                            <span className="input-group-btn">
+                                <button className="btn btn-secondary" type="button"
+                                    onClick={this.submitBucketlist}>Add</button>
+                            </span>
+                        </div>
                     </div>
-                </div>
+                    <div className="parent">
+                        <div className="component">
+                            {bucketlistNodes}
+                        </div>
+                    </div>
 
+                </div>
             </div>
         );
     }
