@@ -1,36 +1,16 @@
-from __future__ import unicode_literals
-from django.contrib.auth.models import User
-from django.db import models
+from __future__ import unicode_literals # pragma: no cover
+from django.contrib.auth.models import User # pragma: no cover
+from django.db import models # pragma: no cover
 
 
-class Bucketlist(models.Model):
-    """
-    Define a bucketlist.
-
-    Attributes:
-        user (ForeignKey): ForeignKey to the user.
-        list_name (str): A unique identifier for a bucketlist.
-        date_created (dateTime): Date of bucketlist creation.
-        date_modified (dateTime): Date of bucketlist modification.
-    """
-
+class Bucketlist(models.Model): # pragma: no cover
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
     list_name = models.CharField(max_length=100, blank=True, default='')
     created_by = models.CharField(max_length=100, blank=True, default='')
 
 
-class BucketlistItem(models.Model):
-    """Define items in a user's bucketlist.
-
-    Attributes:
-        bucketlist (ForeignKey): ForeignKey to the bucketlist.
-        item_name (str): A unique identifier for a bucketlist.
-        date_created (dateTime): Date of bucketlist item creation.
-        done (bool): A flag to mark completed bucketlist items.
-        date_modified (dateTime): Date of bucketlist item modification.
-    """
-
+class BucketlistItem(models.Model): # pragma: no cover
     bucketlist = models.ForeignKey(Bucketlist, on_delete=models.CASCADE,
                                    related_name="items")
     item_name = models.CharField(max_length=100, blank=True, default='')
