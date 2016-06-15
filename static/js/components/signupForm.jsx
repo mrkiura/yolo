@@ -1,14 +1,9 @@
-import { render } from 'react-dom'
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import TextField from 'material-ui/lib/text-field';
 import RaisedButton from 'material-ui/lib/raised-button';
 import request from 'superagent';
-import {browserHistory} from 'react-router';
 import Snackbar from 'material-ui/lib/snackbar';
 
-const style = {
-  margin: 12,
-};
 
 export default class SignupForm extends Component {
     constructor() {
@@ -105,6 +100,7 @@ export default class SignupForm extends Component {
                             name="password2"
                             onChange={this.handleFieldChange}
                             />
+                        <br/>
                         <br/>
                         <RaisedButton label="REGISTER" secondary={true}
                             onMouseDown={this.handleSubmit}/>

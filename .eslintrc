@@ -15,5 +15,6 @@
       2,
       "single"
     ]
-  }
+  },
+  "plugins": ["react"]
 }
