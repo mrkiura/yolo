@@ -46759,6 +46759,10 @@
 
 	var _reactRouter = __webpack_require__(315);
 
+	var _menu = __webpack_require__(279);
+
+	var _menu2 = _interopRequireDefault(_menu);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -46842,60 +46846,67 @@
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'container-fluid parent' },
+	        null,
+	        _react2.default.createElement(_menu2.default, {
+	          loggedIn: false
+	        }),
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'component center' },
+	          { className: 'container-fluid parent' },
 	          _react2.default.createElement(
-	            'p',
-	            null,
-	            'Register to continue'
-	          ),
-	          _react2.default.createElement(_textField2.default, {
-	            hintText: 'Enter your username',
-	            floatingLabelText: 'Username',
-	            type: 'text',
-	            name: 'username',
-	            onChange: this.handleFieldChange
-	          }),
-	          _react2.default.createElement('br', null),
-	          _react2.default.createElement(_textField2.default, {
-	            hintText: 'Email Field',
-	            floatingLabelText: 'Email',
-	            type: 'email',
-	            name: 'email',
-	            onChange: this.handleFieldChange
-	          }),
-	          _react2.default.createElement('br', null),
-	          _react2.default.createElement(_textField2.default, {
-	            hintText: 'Password Field',
-	            floatingLabelText: 'Password',
-	            type: 'password',
-	            name: 'password',
-	            onChange: this.handleFieldChange
-	          }),
-	          _react2.default.createElement('br', null),
-	          _react2.default.createElement(_textField2.default, {
-	            hintText: 'Password Field',
-	            floatingLabelText: 'Confirm Password',
-	            type: 'password',
-	            name: 'password2',
-	            onChange: this.handleFieldChange
-	          }),
-	          _react2.default.createElement('br', null),
-	          _react2.default.createElement('br', null),
-	          _react2.default.createElement(_raisedButton2.default, {
-	            label: 'REGISTER',
-	            secondary: true,
-	            onMouseDown: this.handleSubmit
-	          }),
-	          _react2.default.createElement(_snackbar2.default, {
-	            className: 'toast-alerts',
-	            open: this.state.error,
-	            message: this.state.errorMessage,
-	            autoHideDuration: 2000,
-	            onRequestClose: this.handleRequestClose
-	          })
+	            'div',
+	            { className: 'component center' },
+	            _react2.default.createElement(
+	              'p',
+	              null,
+	              'Register to continue'
+	            ),
+	            _react2.default.createElement(_textField2.default, {
+	              hintText: 'Enter your username',
+	              floatingLabelText: 'Username',
+	              type: 'text',
+	              name: 'username',
+	              onChange: this.handleFieldChange
+	            }),
+	            _react2.default.createElement('br', null),
+	            _react2.default.createElement(_textField2.default, {
+	              hintText: 'Email Field',
+	              floatingLabelText: 'Email',
+	              type: 'email',
+	              name: 'email',
+	              onChange: this.handleFieldChange
+	            }),
+	            _react2.default.createElement('br', null),
+	            _react2.default.createElement(_textField2.default, {
+	              hintText: 'Password Field',
+	              floatingLabelText: 'Password',
+	              type: 'password',
+	              name: 'password',
+	              onChange: this.handleFieldChange
+	            }),
+	            _react2.default.createElement('br', null),
+	            _react2.default.createElement(_textField2.default, {
+	              hintText: 'Password Field',
+	              floatingLabelText: 'Confirm Password',
+	              type: 'password',
+	              name: 'password2',
+	              onChange: this.handleFieldChange
+	            }),
+	            _react2.default.createElement('br', null),
+	            _react2.default.createElement('br', null),
+	            _react2.default.createElement(_raisedButton2.default, {
+	              label: 'REGISTER',
+	              secondary: true,
+	              onMouseDown: this.handleSubmit
+	            }),
+	            _react2.default.createElement(_snackbar2.default, {
+	              className: 'toast-alerts',
+	              open: this.state.error,
+	              message: this.state.errorMessage,
+	              autoHideDuration: 2000,
+	              onRequestClose: this.handleRequestClose
+	            })
+	          )
 	        )
 	      );
 	    }
@@ -47392,6 +47403,10 @@
 
 	var _reactRouter = __webpack_require__(315);
 
+	var _menu = __webpack_require__(279);
+
+	var _menu2 = _interopRequireDefault(_menu);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -47468,53 +47483,60 @@
 	        value: function render() {
 	            return _react2.default.createElement(
 	                'div',
-	                { className: 'container-fluid parent' },
+	                null,
+	                _react2.default.createElement(_menu2.default, {
+	                    loggedIn: false
+	                }),
 	                _react2.default.createElement(
 	                    'div',
-	                    { className: 'component center' },
+	                    { className: 'container-fluid parent' },
 	                    _react2.default.createElement(
-	                        'p',
-	                        null,
-	                        'Login to continue'
-	                    ),
-	                    _react2.default.createElement(_textField2.default, {
-	                        hintText: 'Enter your username',
-	                        floatingLabelText: 'Username',
-	                        type: 'text',
-	                        name: 'username',
-	                        onChange: this.handleFieldChange
-	                    }),
-	                    _react2.default.createElement('br', null),
-	                    _react2.default.createElement(_textField2.default, {
-	                        hintText: 'Password Field',
-	                        floatingLabelText: 'Password',
-	                        type: 'password',
-	                        name: 'password',
-	                        onChange: this.handleFieldChange
-	                    }),
-	                    _react2.default.createElement('br', null),
-	                    _react2.default.createElement('br', null),
-	                    _react2.default.createElement(_raisedButton2.default, { label: 'LOGIN', secondary: true,
-	                        onMouseDown: this.handleSubmit }),
-	                    _react2.default.createElement('br', null),
-	                    _react2.default.createElement('br', null),
-	                    _react2.default.createElement(
-	                        'p',
-	                        null,
-	                        'Need an account? ',
+	                        'div',
+	                        { className: 'component center' },
 	                        _react2.default.createElement(
-	                            _reactRouter.Link,
-	                            { to: '/register' },
-	                            'Sign up'
-	                        )
-	                    ),
-	                    _react2.default.createElement(_snackbar2.default, {
-	                        className: 'toast-alerts',
-	                        open: this.state.error,
-	                        message: 'Please provide a correct username and password',
-	                        autoHideDuration: 2000,
-	                        onRequestClose: this.handleRequestClose.bind(this)
-	                    })
+	                            'p',
+	                            null,
+	                            'Login to continue'
+	                        ),
+	                        _react2.default.createElement(_textField2.default, {
+	                            hintText: 'Enter your username',
+	                            floatingLabelText: 'Username',
+	                            type: 'text',
+	                            name: 'username',
+	                            onChange: this.handleFieldChange
+	                        }),
+	                        _react2.default.createElement('br', null),
+	                        _react2.default.createElement(_textField2.default, {
+	                            hintText: 'Password Field',
+	                            floatingLabelText: 'Password',
+	                            type: 'password',
+	                            name: 'password',
+	                            onChange: this.handleFieldChange
+	                        }),
+	                        _react2.default.createElement('br', null),
+	                        _react2.default.createElement('br', null),
+	                        _react2.default.createElement(_raisedButton2.default, { label: 'LOGIN', secondary: true,
+	                            onMouseDown: this.handleSubmit }),
+	                        _react2.default.createElement('br', null),
+	                        _react2.default.createElement('br', null),
+	                        _react2.default.createElement(
+	                            'p',
+	                            null,
+	                            'Need an account? ',
+	                            _react2.default.createElement(
+	                                _reactRouter.Link,
+	                                { to: '/register' },
+	                                'Sign up'
+	                            )
+	                        ),
+	                        _react2.default.createElement(_snackbar2.default, {
+	                            className: 'toast-alerts',
+	                            open: this.state.error,
+	                            message: 'Please provide a correct username and password',
+	                            autoHideDuration: 2000,
+	                            onRequestClose: this.handleRequestClose.bind(this)
+	                        })
+	                    )
 	                )
 	            );
 	        }

@@ -4,6 +4,7 @@ import RaisedButton from 'material-ui/lib/raised-button';
 import request from 'superagent';
 import Snackbar from 'material-ui/lib/snackbar';
 import { Link } from 'react-router';
+import Menu from './menu.jsx';
 
 
 export default class LoginForm extends Component {
@@ -59,42 +60,47 @@ export default class LoginForm extends Component {
   }
     render() {
         return(
+          <div>
+            <Menu
+              loggedIn={false}
+            />
             <div className="container-fluid parent">
-                <div className="component center">
+              <div className="component center">
 
-                    <p>Login to continue</p>
-                    <TextField
-                        hintText="Enter your username"
-                        floatingLabelText="Username"
-                        type="text"
-                        name="username"
-                        onChange={this.handleFieldChange}
-                        />
-                    <br/>
-                    <TextField
-                        hintText="Password Field"
-                        floatingLabelText="Password"
-                        type="password"
-                        name="password"
-                        onChange={this.handleFieldChange}
-                        />
-                    <br/>
-                    <br/>
-                    <RaisedButton label="LOGIN" secondary={true}
-                        onMouseDown={this.handleSubmit}/>
-                    <br/>
-                    <br/>
-                    <p>Need an account? <Link to="/register">Sign up</Link></p>
+                <p>Login to continue</p>
+                <TextField
+                  hintText="Enter your username"
+                  floatingLabelText="Username"
+                  type="text"
+                  name="username"
+                  onChange={this.handleFieldChange}
+                  />
+                <br/>
+                <TextField
+                  hintText="Password Field"
+                  floatingLabelText="Password"
+                  type="password"
+                  name="password"
+                  onChange={this.handleFieldChange}
+                  />
+                <br/>
+                <br/>
+                <RaisedButton label="LOGIN" secondary={true}
+                  onMouseDown={this.handleSubmit}/>
+                <br/>
+                <br/>
+                <p>Need an account? <Link to="/register">Sign up</Link></p>
 
-                    <Snackbar
-                        className="toast-alerts"
-                        open={this.state.error}
-                        message="Please provide a correct username and password"
-                        autoHideDuration={2000}
-                        onRequestClose={this.handleRequestClose.bind(this)}
-                        />
-                </div>
+                <Snackbar
+                  className="toast-alerts"
+                  open={this.state.error}
+                  message="Please provide a correct username and password"
+                  autoHideDuration={2000}
+                  onRequestClose={this.handleRequestClose.bind(this)}
+                  />
+              </div>
             </div>
+          </div>
         );
     }
 }

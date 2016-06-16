@@ -4,6 +4,7 @@ import RaisedButton from 'material-ui/lib/raised-button';
 import request from 'superagent';
 import Snackbar from 'material-ui/lib/snackbar';
 import { browserHistory } from 'react-router';
+import Menu from './menu.jsx';
 
 
 export default class SignupForm extends Component {
@@ -68,16 +69,20 @@ export default class SignupForm extends Component {
   }
   render() {
     return(
-      <div className="container-fluid parent">
-        <div className="component center">
-          <p>Register to continue</p>
+      <div>
+        <Menu
+          loggedIn={false}
+        />
+        <div className="container-fluid parent">
+          <div className="component center">
+            <p>Register to continue</p>
             <TextField
               hintText="Enter your username"
               floatingLabelText="Username"
               type="text"
               name="username"
               onChange={this.handleFieldChange}
-            />
+              />
             <br/>
             <TextField
               hintText="Email Field"
@@ -85,7 +90,7 @@ export default class SignupForm extends Component {
               type="email"
               name="email"
               onChange={this.handleFieldChange}
-            />
+              />
             <br/>
             <TextField
               hintText="Password Field"
@@ -93,7 +98,7 @@ export default class SignupForm extends Component {
               type="password"
               name="password"
               onChange={this.handleFieldChange}
-            />
+              />
             <br/>
             <TextField
               hintText="Password Field"
@@ -101,23 +106,24 @@ export default class SignupForm extends Component {
               type="password"
               name="password2"
               onChange={this.handleFieldChange}
-            />
+              />
             <br/>
             <br/>
             <RaisedButton
               label="REGISTER"
               secondary={true}
               onMouseDown={this.handleSubmit}
-            />
+              />
             <Snackbar
               className="toast-alerts"
               open={this.state.error}
               message={this.state.errorMessage}
               autoHideDuration={2000}
               onRequestClose={this.handleRequestClose}
-            />
-              </div>
-            </div>
+              />
+          </div>
+        </div>
+      </div>
       );
   }
 
