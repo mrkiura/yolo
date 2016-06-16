@@ -258,18 +258,22 @@ class Home extends Component {
     });
   }
   handleSearch(searchText, index) {
-    this.setState({
-      bucketlists: this.state.bucketlists.filter((bucketlist) => {
-        if (bucketlist.list_name === searchText) {
-          return bucketlist
-        } else {
-          this.setState({
-            searchError: true,
-          });
-          this.cancelSearch();
-        }
-      }),
-    });
+    const dataSource = this.state.bucketlists.map((bucketlist) => {return bucketlist.list_name;});
+    if (dataSource.indexOf(searchText) === -1) {
+      this.setState({
+        searchError: true,
+      }, () => {
+        this.cancelSearch();
+      });
+    } else {
+      this.setState({
+        bucketlists: this.state.bucketlists.filter((bucketlist) => {
+          if (bucketlist.list_name === searchText) {
+            return bucketlist;
+          }
+        }),
+      });
+    }
   }
   cancelSearch() {
     this.setState({

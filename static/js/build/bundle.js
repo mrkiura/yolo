@@ -20075,18 +20075,24 @@
 	    value: function handleSearch(searchText, index) {
 	      var _this11 = this;
 
-	      this.setState({
-	        bucketlists: this.state.bucketlists.filter(function (bucketlist) {
-	          if (bucketlist.list_name === searchText) {
-	            return bucketlist;
-	          } else {
-	            _this11.setState({
-	              searchError: true
-	            });
-	            _this11.cancelSearch();
-	          }
-	        })
+	      var dataSource = this.state.bucketlists.map(function (bucketlist) {
+	        return bucketlist.list_name;
 	      });
+	      if (dataSource.indexOf(searchText) === -1) {
+	        this.setState({
+	          searchError: true
+	        }, function () {
+	          _this11.cancelSearch();
+	        });
+	      } else {
+	        this.setState({
+	          bucketlists: this.state.bucketlists.filter(function (bucketlist) {
+	            if (bucketlist.list_name === searchText) {
+	              return bucketlist;
+	            }
+	          })
+	        });
+	      }
 	    }
 	  }, {
 	    key: 'cancelSearch',
