@@ -6,7 +6,6 @@ from serializers import UserSerializer, BucketlistSerializer, \
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
-from rest_framework_jwt.settings import api_settings
 from permissions import IsOwner
 from rest_framework.decorators import detail_route, list_route
 
@@ -24,17 +23,23 @@ class UserCreateViewSet(viewsets.ModelViewSet):
 
     def create(self, request):
         data = request.data
-        username, email, password = data['username'], data['email'], \
-            data['password']
-        user = User.objects.create_user(username=username, password=password,
-                                        email=email)
-        jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
-        jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
-        payload = jwt_payload_handler(user)
-        token = jwt_encode_handler(payload)
-        return Response({'token': token},
-                        status=status.HTTP_201_CREATED)
-
+        username, email = data.get('username'), data.get('email')
+        password, confirm_password = data.get('password'),\
+            data.get('confirm_password')
+        if password == confirm_password:
+            serializer = self.get_serializer(data=data)
+            if serializer.is_valid():
+                User.objects.create_user(username=username, password=password,
+                                         email=email)
+                return Response(serializer.data,
+                                status=status.HTTP_201_CREATED)
+            else:
+                return Response({'error':
+                                 'The email was not valid.'},
+                                status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response({'error': 'The passwords do not match'},
+                            status=status.HTTP_400_BAD_REQUEST)
 
 class BucketListViewSet(viewsets.ModelViewSet):
     """

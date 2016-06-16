@@ -46732,7 +46732,7 @@
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	    value: true
+	  value: true
 	});
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -46757,6 +46757,8 @@
 
 	var _snackbar2 = _interopRequireDefault(_snackbar);
 
+	var _reactRouter = __webpack_require__(315);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -46768,133 +46770,138 @@
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	var SignupForm = function (_Component) {
-	    _inherits(SignupForm, _Component);
+	  _inherits(SignupForm, _Component);
 
-	    function SignupForm() {
-	        _classCallCheck(this, SignupForm);
+	  function SignupForm() {
+	    _classCallCheck(this, SignupForm);
 
-	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(SignupForm).call(this));
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(SignupForm).call(this));
 
-	        _this.handleSubmit = _this.handleSubmit.bind(_this);
-	        _this.handleFieldChange = _this.handleFieldChange.bind(_this);
-	        _this.state = {
-	            username: '',
-	            password: '',
-	            password2: '',
-	            token: '',
-	            error: false
-	        };
-	        return _this;
+	    _this.handleSubmit = _this.handleSubmit.bind(_this);
+	    _this.handleFieldChange = _this.handleFieldChange.bind(_this);
+	    _this.handleRequestClose = _this.handleRequestClose.bind(_this);
+	    _this.state = {
+	      username: '',
+	      password: '',
+	      password2: '',
+	      token: '',
+	      error: false,
+	      errorMessage: ''
+	    };
+	    return _this;
+	  }
+
+	  _createClass(SignupForm, [{
+	    key: 'handleSubmit',
+	    value: function handleSubmit(event) {
+	      event.preventDefault();
+	      if (this.state.password !== this.state.password2) {
+	        this.setState({ error: true });
+	      }
+	      this.registerUser(this.state.username, this.state.email, this.state.password, this.state.password2);
 	    }
+	  }, {
+	    key: 'handleFieldChange',
+	    value: function handleFieldChange(event) {
+	      event.preventDefault();
+	      var key = event.target.name;
+	      var value = event.target.value;
+	      this.setState(_defineProperty({}, key, value));
+	    }
+	  }, {
+	    key: 'registerUser',
+	    value: function registerUser(username, email, password, confirmPassword) {
+	      var _this2 = this;
 
-	    _createClass(SignupForm, [{
-	        key: 'handleSubmit',
-	        value: function handleSubmit(event) {
-	            event.preventDefault();
-	            if (this.state.password != this.state.password2) {
-	                this.setState({ error: true });
-	            }
-	            this.registerUser(this.state.username, this.state.email, this.state.password);
+	      _superagent2.default.post('/api/v1/auth/register/').send({ username: username, email: email, password: password, confirm_password: confirmPassword }).end(function (err, result) {
+	        if (result.status === 201) {
+	          _this2.setState({
+	            token: result.body.token
+	          }, function () {
+	            localStorage.setItem('token', JSON.stringify(_this2.state.token));
+	            localStorage.setItem('username', JSON.stringify(_this2.state.username));
+	            _reactRouter.browserHistory.push('/login');
+	          });
+	        } else {
+	          _this2.setState({
+	            error: true,
+	            errorMessage: result.body.error
+	          });
 	        }
-	    }, {
-	        key: 'handleFieldChange',
-	        value: function handleFieldChange(event) {
-	            event.preventDefault();
-	            var key = event.target.name;
-	            var value = event.target.value;
-	            this.setState(_defineProperty({}, key, value));
-	        }
-	    }, {
-	        key: 'registerUser',
-	        value: function registerUser(username, email, password) {
-	            var _this2 = this;
+	      });
+	    }
+	  }, {
+	    key: 'handleRequestClose',
+	    value: function handleRequestClose() {
+	      this.setState({
+	        error: false
+	      });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'container-fluid parent' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'component center' },
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            'Register to continue'
+	          ),
+	          _react2.default.createElement(_textField2.default, {
+	            hintText: 'Enter your username',
+	            floatingLabelText: 'Username',
+	            type: 'text',
+	            name: 'username',
+	            onChange: this.handleFieldChange
+	          }),
+	          _react2.default.createElement('br', null),
+	          _react2.default.createElement(_textField2.default, {
+	            hintText: 'Email Field',
+	            floatingLabelText: 'Email',
+	            type: 'email',
+	            name: 'email',
+	            onChange: this.handleFieldChange
+	          }),
+	          _react2.default.createElement('br', null),
+	          _react2.default.createElement(_textField2.default, {
+	            hintText: 'Password Field',
+	            floatingLabelText: 'Password',
+	            type: 'password',
+	            name: 'password',
+	            onChange: this.handleFieldChange
+	          }),
+	          _react2.default.createElement('br', null),
+	          _react2.default.createElement(_textField2.default, {
+	            hintText: 'Password Field',
+	            floatingLabelText: 'Confirm Password',
+	            type: 'password',
+	            name: 'password2',
+	            onChange: this.handleFieldChange
+	          }),
+	          _react2.default.createElement('br', null),
+	          _react2.default.createElement('br', null),
+	          _react2.default.createElement(_raisedButton2.default, {
+	            label: 'REGISTER',
+	            secondary: true,
+	            onMouseDown: this.handleSubmit
+	          }),
+	          _react2.default.createElement(_snackbar2.default, {
+	            className: 'toast-alerts',
+	            open: this.state.error,
+	            message: this.state.errorMessage,
+	            autoHideDuration: 2000,
+	            onRequestClose: this.handleRequestClose
+	          })
+	        )
+	      );
+	    }
+	  }]);
 
-	            _superagent2.default.post('/api/v1/auth/register/').send({ 'username': username, 'email': email, 'password': password }).end(function (err, result) {
-	                if (result.status === 201) {
-	                    _this2.setState({
-	                        token: result.body.token
-	                    }, function () {
-	                        localStorage.setItem('token', JSON.stringify(_this2.state.token));
-	                        localStorage.setItem('username', JSON.stringify(_this2.state.username));
-	                        console.log(_this2.state);
-	                        _this2.props.history.pushState({ token: _this2.state.token }, '/home');
-	                    });
-	                } else {
-	                    _this2.setState({
-	                        error: true
-	                    });
-	                }
-	            });
-	        }
-	    }, {
-	        key: 'handleRequestClose',
-	        value: function handleRequestClose() {
-	            this.setState({
-	                error: false
-	            });
-	        }
-	    }, {
-	        key: 'render',
-	        value: function render() {
-	            return _react2.default.createElement(
-	                'div',
-	                { className: 'container-fluid parent' },
-	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'component center' },
-	                    _react2.default.createElement(
-	                        'p',
-	                        null,
-	                        'Register to continue'
-	                    ),
-	                    _react2.default.createElement(_textField2.default, {
-	                        hintText: 'Enter your username',
-	                        floatingLabelText: 'Username',
-	                        type: 'text',
-	                        name: 'username',
-	                        onChange: this.handleFieldChange
-	                    }),
-	                    _react2.default.createElement('br', null),
-	                    _react2.default.createElement(_textField2.default, {
-	                        hintText: 'Email Field',
-	                        floatingLabelText: 'Email',
-	                        type: 'email',
-	                        name: 'email',
-	                        onChange: this.handleFieldChange
-	                    }),
-	                    _react2.default.createElement('br', null),
-	                    _react2.default.createElement(_textField2.default, {
-	                        hintText: 'Password Field',
-	                        floatingLabelText: 'Password',
-	                        type: 'password',
-	                        name: 'password',
-	                        onChange: this.handleFieldChange
-	                    }),
-	                    _react2.default.createElement('br', null),
-	                    _react2.default.createElement(_textField2.default, {
-	                        hintText: 'Password Field',
-	                        floatingLabelText: 'Confirm Password',
-	                        type: 'password',
-	                        name: 'password2',
-	                        onChange: this.handleFieldChange
-	                    }),
-	                    _react2.default.createElement('br', null),
-	                    _react2.default.createElement('br', null),
-	                    _react2.default.createElement(_raisedButton2.default, { label: 'REGISTER', secondary: true,
-	                        onMouseDown: this.handleSubmit }),
-	                    _react2.default.createElement(_snackbar2.default, {
-	                        className: 'toast-alerts',
-	                        open: this.state.error,
-	                        message: 'Please provide a correct username and password',
-	                        autoHideDuration: 4000,
-	                        onRequestClose: this.handleRequestClose
-	                    })
-	                )
-	            );
-	        }
-	    }]);
-
-	    return SignupForm;
+	  return SignupForm;
 	}(_react.Component);
 
 	exports.default = SignupForm;

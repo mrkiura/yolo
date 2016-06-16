@@ -1,6 +1,8 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 from models import Bucketlist, BucketlistItem
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -10,9 +12,16 @@ class UserSerializer(serializers.ModelSerializer):
                                      style={'input_type': 'password'},
                                      required=True, write_only=True)
 
+    def validate(self, data):
+        try:
+            validate_email(data['email'])
+            return data
+        except ValidationError:
+            raise serializers.ValidationError('The email is invalid.')
+
     class Meta:
         model = User
-        fields = ('username', 'email', 'password',)
+        fields = ('username', 'email', 'password')
 
 class BucketlistItemSerializer(serializers.ModelSerializer):
     item_name = serializers.CharField(max_length=100)
