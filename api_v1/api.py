@@ -153,6 +153,7 @@ class BucketListItemViewSet(viewsets.ModelViewSet):
             return Response(
                 {'error': 'The requested item was not found'},
                 status=status.HTTP_404_NOT_FOUND)
+
     def destroy(self, request, pk_bucketlist, pk_item):
         try:
             item = BucketlistItem.objects.get(pk=pk_item)
