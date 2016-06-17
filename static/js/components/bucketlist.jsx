@@ -25,6 +25,11 @@ const style = {
   label: {
     fontWeight: 'normal',
   },
+  validationError: {
+    float: 'left',
+    color: 'red',
+    fontSize: '12px',
+  },
 };
 
 export default class Bucketlist extends Component {
@@ -37,6 +42,7 @@ export default class Bucketlist extends Component {
         showDeleteDialog: false,
         newName: '',
         newItemName: '',
+        editNameError: false,
         editItemError: false,
       };
         // Bind methods
@@ -76,12 +82,20 @@ export default class Bucketlist extends Component {
     }
 
     handleConfirmEdit() {
-      this.handleEditDialog();
-      this.setState({
-        editName: true,
-      }, () => {
-        this.handleEdit();
-      });
+      if (this.state.newName !== '') {
+        this.handleEditDialog();
+        this.setState({
+          editName: true,
+        }, () => {
+          this.handleEdit();
+        });
+      } else {
+        this.setState({
+          editName: true,
+        }, () => {
+          this.handleEdit();
+        });
+      }
     }
 
     handleCancelEdit() {
@@ -103,6 +117,16 @@ export default class Bucketlist extends Component {
     const value = event.target.value;
     this.setState({
       [key]: value,
+    }, () => {
+      if (this.state.newName === '') {
+        this.setState({
+          editNameError: true,
+        });
+      } else {
+        this.setState({
+          editNameError: false,
+        });
+      }
     });
   }
   handleEdit() {
@@ -225,6 +249,12 @@ export default class Bucketlist extends Component {
                           name="newName"
                           onChange={this.handleFieldChange}
                         />
+                        <br />
+                        {
+                          this.state.editNameError ?
+                        <span style={style.validationError}>This field is required</span>
+                        : null
+                        }
                         </Dialog>
                           <Dialog
                             actions={deleteDialogActions}

@@ -19914,6 +19914,9 @@
 	    value: function editBucketlist(newName, bucketlist) {
 	      var _this4 = this;
 
+	      if (newName === '') {
+	        return;
+	      }
 	      var bucketlists = [].concat(_toConsumableArray(this.state.bucketlists));
 	      var bucketlistIndex = bucketlists.indexOf(bucketlist);
 	      var list = bucketlist;
@@ -19934,7 +19937,6 @@
 	      var _this5 = this;
 
 	      if (itemName === '') {
-	        this.setState({ addError: true });
 	        return;
 	      }
 	      var bucketlists = [].concat(_toConsumableArray(this.state.bucketlists));
@@ -19957,13 +19959,16 @@
 	    value: function editBucketlistItem(newItem, item, bucketlist) {
 	      var _this6 = this;
 
+	      if (newItem.item_name === '') {
+	        return;
+	      }
 	      var bucketlists = [].concat(_toConsumableArray(this.state.bucketlists));
 	      var bucketlistIndex = bucketlists.indexOf(bucketlist);
 	      var itemIndex = bucketlist.items.indexOf(item);
 	      var listItem = item;
 	      listItem.item_name = newItem.item_name;
 	      listItem.done = newItem.done;
-	      bucketlist.items.splice(itemIndex, 1, item);
+	      bucketlist.items.splice(itemIndex, 1, listItem);
 	      bucketlists.splice(bucketlistIndex, 1, bucketlist);
 	      this.setState({ bucketlists: bucketlists });
 	      _superagent2.default.put('/api/v1/bucketlists/' + bucketlist.id + '/items/' + item.id + '/').set('Authorization', 'JWT ' + this.props.location.state.token || JSON.parse(localStorage.getItem('username') || '{}') || 'token').send(newItem).end(function (err, result) {
@@ -36694,6 +36699,11 @@
 	  },
 	  label: {
 	    fontWeight: 'normal'
+	  },
+	  validationError: {
+	    float: 'left',
+	    color: 'red',
+	    fontSize: '12px'
 	  }
 	};
 
@@ -36712,6 +36722,7 @@
 	      showDeleteDialog: false,
 	      newName: '',
 	      newItemName: '',
+	      editNameError: false,
 	      editItemError: false
 	    };
 	    // Bind methods
@@ -36765,12 +36776,20 @@
 	    value: function handleConfirmEdit() {
 	      var _this3 = this;
 
-	      this.handleEditDialog();
-	      this.setState({
-	        editName: true
-	      }, function () {
-	        _this3.handleEdit();
-	      });
+	      if (this.state.newName !== '') {
+	        this.handleEditDialog();
+	        this.setState({
+	          editName: true
+	        }, function () {
+	          _this3.handleEdit();
+	        });
+	      } else {
+	        this.setState({
+	          editName: true
+	        }, function () {
+	          _this3.handleEdit();
+	        });
+	      }
 	    }
 	  }, {
 	    key: 'handleCancelEdit',
@@ -36790,10 +36809,22 @@
 	  }, {
 	    key: 'handleFieldChange',
 	    value: function handleFieldChange(event) {
+	      var _this4 = this;
+
 	      event.preventDefault();
 	      var key = event.target.name;
 	      var value = event.target.value;
-	      this.setState(_defineProperty({}, key, value));
+	      this.setState(_defineProperty({}, key, value), function () {
+	        if (_this4.state.newName === '') {
+	          _this4.setState({
+	            editNameError: true
+	          });
+	        } else {
+	          _this4.setState({
+	            editNameError: false
+	          });
+	        }
+	      });
 	    }
 	  }, {
 	    key: 'handleEdit',
@@ -36813,7 +36844,7 @@
 	  }, {
 	    key: 'renderBucketListItems',
 	    value: function renderBucketListItems(bucketlistItems) {
-	      var _this4 = this;
+	      var _this5 = this;
 
 	      if (bucketlistItems.length) {
 	        return bucketlistItems.map(function (bucketlistItem) {
@@ -36822,17 +36853,17 @@
 	            key: bucketlistItem.id,
 	            done: bucketlistItem.done,
 	            id: bucketlistItem.id, item: bucketlistItem,
-	            bucketlist: _this4.props.bucketlist,
-	            onEditItem: _this4.props.onEditItem,
-	            onDeleteItem: _this4.props.onDeleteItem
+	            bucketlist: _this5.props.bucketlist,
+	            onEditItem: _this5.props.onEditItem,
+	            onDeleteItem: _this5.props.onDeleteItem
 	          }) : _react2.default.createElement(_bucketlistitem2.default, { itemName: bucketlistItem.item_name,
 	            className: '',
 	            key: bucketlistItem.id,
 	            done: bucketlistItem.done,
 	            id: bucketlistItem.id, item: bucketlistItem,
-	            bucketlist: _this4.props.bucketlist,
-	            onEditItem: _this4.props.onEditItem,
-	            onDeleteItem: _this4.props.onDeleteItem });
+	            bucketlist: _this5.props.bucketlist,
+	            onEditItem: _this5.props.onEditItem,
+	            onDeleteItem: _this5.props.onDeleteItem });
 	        });
 	      } else {
 	        return _react2.default.createElement(_lists.ListItem, {
@@ -36933,7 +36964,13 @@
 	                defaultValue: this.props.bucketlist.list_name,
 	                name: 'newName',
 	                onChange: this.handleFieldChange
-	              })
+	              }),
+	              _react2.default.createElement('br', null),
+	              this.state.editNameError ? _react2.default.createElement(
+	                'span',
+	                { style: style.validationError },
+	                'This field is required'
+	              ) : null
 	            ),
 	            _react2.default.createElement(
 	              _dialog2.default,
@@ -39536,6 +39573,11 @@
 	  },
 	  label: {
 	    fontWeight: 'normal'
+	  },
+	  validationError: {
+	    float: 'left',
+	    color: 'red',
+	    fontSize: '12px'
 	  }
 	};
 
@@ -39553,7 +39595,8 @@
 	      newItemName: '',
 	      editName: true,
 	      done: false,
-	      deleteName: true
+	      deleteName: true,
+	      editItemError: false
 	    };
 	    _this.handleEditDialog = _this.handleEditDialog.bind(_this);
 	    _this.handleDeleteDialog = _this.handleDeleteDialog.bind(_this);
@@ -39591,10 +39634,22 @@
 	  }, {
 	    key: 'handleFieldChange',
 	    value: function handleFieldChange(event) {
+	      var _this2 = this;
+
 	      event.preventDefault();
 	      var key = event.target.name;
 	      var value = event.target.value;
-	      this.setState(_defineProperty({}, key, value));
+	      this.setState(_defineProperty({}, key, value), function () {
+	        if (_this2.state.newItemName === '') {
+	          _this2.setState({
+	            editItemError: true
+	          });
+	        } else {
+	          _this2.setState({
+	            editItemError: false
+	          });
+	        }
+	      });
 	    }
 	  }, {
 	    key: 'handleCheckbox',
@@ -39607,25 +39662,33 @@
 	  }, {
 	    key: 'handleConfirmEdit',
 	    value: function handleConfirmEdit() {
-	      var _this2 = this;
+	      var _this3 = this;
 
-	      this.handleEditDialog();
-	      this.setState({
-	        editName: true
-	      }, function () {
-	        _this2.handleEdit();
-	      });
+	      if (this.state.newItemName !== '') {
+	        this.handleEditDialog();
+	        this.setState({
+	          editName: true
+	        }, function () {
+	          _this3.handleEdit();
+	        });
+	      } else {
+	        this.setState({
+	          editName: true
+	        }, function () {
+	          _this3.handleEdit();
+	        });
+	      }
 	    }
 	  }, {
 	    key: 'handleConfirmDelete',
 	    value: function handleConfirmDelete() {
-	      var _this3 = this;
+	      var _this4 = this;
 
 	      this.handleDeleteDialog();
 	      this.setState({
 	        deleteName: true
 	      }, function () {
-	        _this3.handleDelete();
+	        _this4.handleDelete();
 	      });
 	    }
 	  }, {
@@ -39730,6 +39793,12 @@
 	            name: 'newItemName',
 	            onChange: this.handleFieldChange
 	          }),
+	          _react2.default.createElement('br', null),
+	          this.state.editItemError ? _react2.default.createElement(
+	            'span',
+	            { style: style.validationError },
+	            'This field is required'
+	          ) : null,
 	          _react2.default.createElement('br', null),
 	          _react2.default.createElement(_checkbox2.default, {
 	            label: 'Mark item as done',

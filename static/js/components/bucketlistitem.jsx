@@ -26,6 +26,11 @@ const style = {
   label: {
     fontWeight: 'normal',
   },
+  validationError: {
+    float: 'left',
+    color: 'red',
+    fontSize: '12px',
+  },
 };
 
 export default class BucketListItem extends Component {
@@ -38,6 +43,7 @@ export default class BucketListItem extends Component {
         editName: true,
         done: false,
         deleteName: true,
+        editItemError: false,
       };
       this.handleEditDialog = this.handleEditDialog.bind(this);
       this.handleDeleteDialog = this.handleDeleteDialog.bind(this);
@@ -74,6 +80,16 @@ export default class BucketListItem extends Component {
       const value = event.target.value;
       this.setState({
         [key]: value,
+      }, () => {
+        if (this.state.newItemName === '') {
+          this.setState({
+            editItemError: true,
+          });
+        } else {
+          this.setState({
+            editItemError: false,
+          });
+        }
       });
     }
 
@@ -85,12 +101,20 @@ export default class BucketListItem extends Component {
     }
 
     handleConfirmEdit() {
-      this.handleEditDialog();
-      this.setState({
-        editName: true,
-      }, () => {
-        this.handleEdit();
-      });
+      if (this.state.newItemName !== '') {
+        this.handleEditDialog();
+        this.setState({
+          editName: true,
+        }, () => {
+          this.handleEdit();
+        });
+      } else {
+        this.setState({
+          editName: true,
+        }, () => {
+          this.handleEdit();
+        });
+      }
     }
 
     handleConfirmDelete() {
@@ -193,6 +217,12 @@ export default class BucketListItem extends Component {
               name="newItemName"
               onChange={this.handleFieldChange}
             />
+            <br />
+            {
+              this.state.editItemError ?
+            <span style={style.validationError}>This field is required</span>
+            : null
+            }
             <br />
             <Checkbox
               label="Mark item as done"

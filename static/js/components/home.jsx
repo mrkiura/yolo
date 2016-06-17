@@ -95,6 +95,9 @@ class Home extends Component {
   }
 
   editBucketlist(newName, bucketlist) {
+    if (newName === '') {
+      return;
+    }
     const bucketlists = [...this.state.bucketlists];
     const bucketlistIndex = bucketlists.indexOf(bucketlist);
     const list = bucketlist;
@@ -118,7 +121,6 @@ class Home extends Component {
 
   addBucketlistItem(itemName, bucketlist) {
     if (itemName === '') {
-      this.setState({ addError: true });
       return;
     }
     const bucketlists = [...this.state.bucketlists];
@@ -144,13 +146,16 @@ class Home extends Component {
   }
 
   editBucketlistItem(newItem, item, bucketlist) {
+    if (newItem.item_name === '') {
+      return;
+    }
     const bucketlists = [...this.state.bucketlists];
     const bucketlistIndex = bucketlists.indexOf(bucketlist);
     const itemIndex = bucketlist.items.indexOf(item);
     const listItem = item;
     listItem.item_name = newItem.item_name;
     listItem.done = newItem.done;
-    bucketlist.items.splice(itemIndex, 1, item);
+    bucketlist.items.splice(itemIndex, 1, listItem);
     bucketlists.splice(bucketlistIndex, 1, bucketlist);
     this.setState({ bucketlists });
     request
