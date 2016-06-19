@@ -8,7 +8,27 @@ import Menu from './menu.jsx';
 import Bucketlist from './bucketlist.jsx';
 import { browserHistory } from 'react-router';
 import Snackbar from 'material-ui/lib/snackbar';
+import FloatingActionButton from 'material-ui/lib/floating-action-button';
+import ContentAdd from 'material-ui/lib/svg-icons/content/add';
+import Dialog from 'material-ui/lib/dialog';
+import TextField from 'material-ui/lib/text-field';
+import FlatButton from 'material-ui/lib/flat-button';
 
+const style = {
+  addButton: {
+    float: 'right',
+    marginRight: '25px',
+  },
+  dialog: {
+    margin: '0 auto',
+    width: '500px',
+  },
+  validationError: {
+    float: 'left',
+    color: 'red',
+    fontSize: '12px',
+  },
+};
 
 class Home extends Component {
   constructor() {
@@ -23,9 +43,13 @@ class Home extends Component {
     this.handleUpdateInput = this.handleUpdateInput.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.cancelSearch = this.cancelSearch.bind(this);
-    this.handleEmptyAdd = this.handleEmptyAdd.bind(this);
-    this.handleRequestClose = this.handleRequestClose.bind(this)
+    this.handleToggleError = this.handleToggleError.bind(this);
+    this.handleRequestClose = this.handleRequestClose.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
+    this.handleCancelAdd = this.handleCancelAdd.bind(this);
+    this.handleConfirmAdd = this.handleConfirmAdd.bind(this);
+    this.handleAddDialog = this.handleAddDialog.bind(this);
+
     this.state = {
       token: '',
       showAddButton: false,
@@ -41,6 +65,9 @@ class Home extends Component {
       serching: false,
       query: '',
       searchError: false,
+      addListDialog: false,
+      newList: '',
+      addListName: false,
     };
   }
   componentWillMount() {
@@ -127,7 +154,7 @@ class Home extends Component {
     const bucketlistIndex = bucketlists.indexOf(bucketlist);
     bucketlist.items.push({ item_name: itemName });
     bucketlists.splice(bucketlistIndex, 1, bucketlist);
-    this.setState({ bucketlists });
+    this.setState({ bucketlist: bucketlists });
     request
       .post(`/api/v1/bucketlists/${bucketlist.id}/items/`)
       .set('Authorization', 'JWT ' +
@@ -220,6 +247,7 @@ class Home extends Component {
         const newState = {};
         newState[key] = newValue;
         this.setState(newState);
+        this.handleToggleError();
       },
     };
   }
@@ -230,6 +258,7 @@ class Home extends Component {
       });
       return;
     }
+    this.handleAddDialog()
     this.setState({
       bucketlists: this.state.bucketlists.concat([{
         list_name: this.state.listName,
@@ -301,29 +330,69 @@ class Home extends Component {
       bucketlists: this.state.initialBucketlists,
     });
   }
-  handleEmptyAdd() {
+
+  handleAddDialog() {
     this.setState({
-      addError: false,
+      addListDialog: !this.state.addListDialog,
     });
+  }
+
+  handleConfirmAdd() {
+    if (this.state.listName !== '') {
+      this.handleAddDialog();
+      this.setState({
+        addListName: true,
+      }, () => {
+        this.submitBucketlist();
+      });
+    } else {
+      this.setState({
+        addListName: true,
+      });
+    }
+  }
+
+  handleCancelAdd() {
+    this.handleAddDialog();
+    this.setState({
+      addListName: false,
+    });
+  }
+
+  handleToggleError() {
+    if (this.state.listName === '') {
+      this.setState({
+        addError: true,
+      });
+    } else {
+      this.setState({
+        addError: false,
+      });
+    }
   }
 
   render() {
     const bucketlists = this.displayBucketlists();
     const bucketlistNodes = <div className="component">{bucketlists}</div>
-    const searchBar = <AutoComplete
-      animated={true}
-      hintText="Search for a bucketlist"
-      searchText={this.state.query}
-      filter={AutoComplete.caseInsensitiveFilter}
-      dataSource={this.state.bucketlists.map((bucketlist) => {return bucketlist.list_name})}
-      onUpdateInput={this.handleUpdateInput}
-      onNewRequest={this.handleSearch}
-    />
+    const addDialogActions = [
+      <FlatButton
+        label="Cancel"
+        secondary={true}
+        onClick={this.handleCancelAdd}
+      />,
+      <FlatButton
+        label="Add"
+        primary={true}
+        onClick={this.handleConfirmAdd}
+      />
+    ];
     return (
-        <div>
+        <div className="body-content">
           <Menu
               handleLogout={this.handleLogout}
               loggedIn={true}
+              username={(JSON.parse(localStorage.getItem('username')
+                    || '{}'))}
           />
           <div className="container-fluid">
             <div
@@ -348,21 +417,33 @@ class Home extends Component {
                 : null
               }
             </div>
+                          <FloatingActionButton
+                            style={style.addButton}
+                            onClick={this.handleAddDialog}>
+                            <ContentAdd />
+                          </FloatingActionButton>
+              <Dialog
+                contentStyle={style.dialog}
+                actions={addDialogActions}
+                modal={false}
+                open={this.state.addListDialog}
+                onRequestClose={this.handleAddDialog}
+              >
+              <TextField
+                hintText="Add a bucketlist"
+                onFocus={this.handleToggleError}
+                onEnterKeyDown={this.submitBucketlist}
+                valueLink={this.makeValueLink('listName')}
+              />
+              <br />
+              {
+                this.state.addError ?
+              <span style={style.validationError}>This field is required</span>
+              : null
+              }
+              </Dialog>
               <div className="list-input">
                 <div className="input-group">
-                    <input type="text" className="form-control" placeholder="Add bucketlist..."
-                      valueLink={this.makeValueLink('listName')}/>
-                    <span className="input-group-btn">
-                        <button className="btn btn-secondary" type="button"
-                            onClick={this.submitBucketlist}>Add</button>
-                    </span>
-                    <Snackbar
-                      className="toast-alerts"
-                      open={this.state.addError}
-                      message="Pleae provide a name."
-                      autoHideDuration={2000}
-                      onRequestClose={this.handleEmptyAdd}
-                    />
                     <Snackbar
                       className="toast-alerts"
                       open={this.state.searchError}
@@ -375,9 +456,9 @@ class Home extends Component {
                     <div className="parent">
                         <div className="component">
                             {bucketlistNodes}
+
                         </div>
                     </div>
-
                 </div>
             </div>
         );

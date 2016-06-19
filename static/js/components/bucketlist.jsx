@@ -5,9 +5,12 @@ import FlatButton from 'material-ui/lib/flat-button';
 import { List, ListItem } from 'material-ui/lib/lists';
 import ImageEdit from 'material-ui/lib/svg-icons/image/edit';
 import Delete from 'material-ui/lib/svg-icons/action/delete';
+import FileFolderOpen from 'material-ui/lib/svg-icons/file/folder-open';
+import Badge from 'material-ui/lib/badge';
 import Dialog from 'material-ui/lib/dialog';
 import TextField from 'material-ui/lib/text-field';
 import BucketListItem from './bucketlistitem.jsx';
+import Colors from 'material-ui/lib/styles/colors';
 
 const style = {
   float: 'right',
@@ -29,6 +32,16 @@ const style = {
     float: 'left',
     color: 'red',
     fontSize: '12px',
+  },
+  card: {
+    borderRadius: '5px',
+  },
+  dialog: {
+    margin: '0 auto',
+    width: '500px',
+  },
+  deleteButton: {
+    color: 'red',
   },
 };
 
@@ -201,13 +214,38 @@ export default class Bucketlist extends Component {
     ];
     return (
             <div className="col-xs-12 col-md-4 bucketlist">
-                <Card actAsExpander={true}>
+                <Card actAsExpander={true}
+                  style={style.card}>
                     <CardHeader
                       title={this.props.listName}
-                      subtitle="more.."
                       actAsExpander={true}
                       showExpandableButton={true}
-                    />
+                    >
+                    <div>
+                      <Badge
+                        badgeContent={this.props.items.length}
+                        secondary={true}
+                        badgeStyle={{ fontSize: 10, marginTop: 10 }}
+                        >
+                      </Badge>
+                      <div style={style.right}>
+                        <IconButton
+                          touch={true}
+                          tooltip="edit"
+                          tooltipPosition="top-center"
+                          onTouchTap={this.handleEditDialog}
+                          ><ImageEdit color={Colors.cyan500}/></IconButton>
+                        <IconButton
+                          touch={true}
+                          tooltip="delete"
+                          tooltipPosition="top-center"
+                          onTouchTap={this.handleDeleteDialog}
+                          ><Delete color={Colors.pinkA200} /></IconButton>
+                      </div>
+
+                    </div>
+                    </CardHeader>
+                    <br />
                     <CardText expandable={true}>
                         <List>
                             {this.renderBucketListItems(this.props.items)}
@@ -219,6 +257,7 @@ export default class Bucketlist extends Component {
                             hintText="Add an item to the bucketlist..."
                             value={this.state.newItemName}
                             onChange={this.handleFieldChange}
+                            onEnterKeyDown={this.handleAddItem}
                           />
                           <FlatButton label="Add"
                             onClick={this.handleAddItem}
@@ -226,19 +265,8 @@ export default class Bucketlist extends Component {
                         </div>
                     </CardText>
                     <CardActions style={style.right}>
-                      <IconButton
-                        touch={true}
-                        tooltip="edit"
-                        tooltipPosition="top-center"
-                        onTouchTap={this.handleEditDialog}
-                      ><ImageEdit /></IconButton>
-                      <IconButton
-                        touch={true}
-                        tooltip="delete"
-                        tooltipPosition="top-center"
-                        onTouchTap={this.handleDeleteDialog}
-                      ><Delete/></IconButton>
                       <Dialog
+                        contentStyle={style.dialog}
                         actions={editDialogActions}
                         modal={false}
                         open={this.state.showEditDialog}
@@ -247,6 +275,7 @@ export default class Bucketlist extends Component {
                       <TextField
                         defaultValue={this.props.bucketlist.list_name}
                         name="newName"
+                        onEnterKeyDown={this.handleConfirmEdit}
                         onChange={this.handleFieldChange}
                       />
                       <br />
@@ -257,6 +286,7 @@ export default class Bucketlist extends Component {
                       }
                       </Dialog>
                         <Dialog
+                          contentStyle={style.dialog}
                           actions={deleteDialogActions}
                           modal={false}
                           open={this.state.showDeleteDialog}

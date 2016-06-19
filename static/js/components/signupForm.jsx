@@ -69,7 +69,7 @@ export default class SignupForm extends Component {
   }
   render() {
     return(
-      <div>
+      <div className="body-landing">
         <Menu
           loggedIn={false}
         />
@@ -82,6 +82,7 @@ export default class SignupForm extends Component {
               type="text"
               name="username"
               onChange={this.handleFieldChange}
+              onEnterKeyDown={this.handleSubmit}
               />
             <br/>
             <TextField
@@ -90,6 +91,7 @@ export default class SignupForm extends Component {
               type="email"
               name="email"
               onChange={this.handleFieldChange}
+              onEnterKeyDown={this.handleSubmit}
               />
             <br/>
             <TextField
@@ -98,6 +100,7 @@ export default class SignupForm extends Component {
               type="password"
               name="password"
               onChange={this.handleFieldChange}
+              onEnterKeyDown={this.handleSubmit}
               />
             <br/>
             <TextField
@@ -106,6 +109,7 @@ export default class SignupForm extends Component {
               type="password"
               name="password2"
               onChange={this.handleFieldChange}
+              onEnterKeyDown={this.handleSubmit}
               />
             <br/>
             <br/>

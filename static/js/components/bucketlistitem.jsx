@@ -8,6 +8,7 @@ import ImageEdit from 'material-ui/lib/svg-icons/image/edit';
 import Delete from 'material-ui/lib/svg-icons/action/delete';
 import Dialog from 'material-ui/lib/dialog';
 import TextField from 'material-ui/lib/text-field';
+import Colors from 'material-ui/lib/styles/colors';
 
 
 const style = {
@@ -30,6 +31,10 @@ const style = {
     float: 'left',
     color: 'red',
     fontSize: '12px',
+  },
+  dialog: {
+    margin: '0 auto',
+    width: '500px',
   },
 };
 
@@ -195,18 +200,19 @@ export default class BucketListItem extends Component {
                   tooltip="edit"
                   tooltipPosition="bottom-left"
                   onTouchTap={this.handleEditDialog}
-                ><ImageEdit /></IconButton>
+                ><ImageEdit color={Colors.cyan500} /></IconButton>
                 <IconButton
                   touch={true}
                   tooltip="delete"
                   tooltipPosition="bottom-left"
                   onTouchTap={this.handleDeleteDialog}
-                ><Delete/></IconButton>
+                ><Delete color={Colors.pinkA200}/></IconButton>
                 <br/>
               </div>
               }
               />
             <Dialog
+              contentStyle={style.dialog}
               actions={editDialogActions}
               modal={false}
               open={this.state.showEditDialog}
@@ -215,6 +221,7 @@ export default class BucketListItem extends Component {
             <TextField
               defaultValue={this.props.itemName}
               name="newItemName"
+              onEnterKeyDown={this.handleConfirmEdit}
               onChange={this.handleFieldChange}
             />
             <br />
@@ -234,6 +241,7 @@ export default class BucketListItem extends Component {
             />
             </Dialog>
             <Dialog
+              contentStyle={style.dialog}
               actions={deleteDialogActions}
               modal={false}
               open={this.state.showDeleteDialog}

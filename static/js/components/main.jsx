@@ -8,7 +8,7 @@ class Main extends Component {
     render() {
         return (
             <div>
-                <div className="body-landing">
+                <div >
                     {this.props.children}
                 </div>
             </div>

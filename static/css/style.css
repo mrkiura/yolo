@@ -9,7 +9,19 @@ p {
   height: 100vh;
   padding-bottom: 1%;
   position: relative;
-  background:url("../images/life_pic.jpg") no-repeat center center fixed;
+  background:url("../images/bucketlist5.jpg") no-repeat center center fixed;
+  background-size: 100%;
+}
+
+.body-content {
+  font-family:"Roboto", sans-serif;
+	color:black;
+	font-size:22px;
+  padding-bottom: 1%;
+  position: relative;
+  background-color:#cfd8dc;
+  min-height: 100vh;
+  background-image:none;
   background-size: 100%;
 }
 
@@ -45,7 +57,8 @@ p {
   padding-top: 25px;
   width: 33.33%;
   float: left;
-  opacity: 0.6;
+  border-radius: 15px !important;
+  /*opacity: 0.6;*/
 }
 
 .item-action {
@@ -65,10 +78,24 @@ p {
 	margin:0 auto;
 	width:30%;
 }
+.right-center {
+  transform: translateY(50%);
+	margin:0 auto;
+	width:30%;
+}
 
+.dialog {
+  max-width: 700px;
+  width:30%;
+  margin:0 auto;
+}
+
+.nav {
+  background:url("../images/yolo_logo.png") !important;
+}
 .empty-list {
   transform: translateY(70%);
 	margin:0 auto;
-  opacity: 0.6;
+  /*opacity: 0.6;*/
 	width:38%;
 }
