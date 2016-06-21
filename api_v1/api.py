@@ -139,7 +139,7 @@ class BucketListItemViewSet(viewsets.ModelViewSet):
             item = BucketlistItem.objects.get(pk=pk_item)
             if item.created_by == request.user.username:
                 item_name = request.data.get('item_name', '')
-                done = request.data.get('done')
+                done = request.data.get('done', item.done)
                 if item_name:
                     item.item_name = item_name
                 item.done = done
