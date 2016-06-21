@@ -98,10 +98,15 @@ export default class BucketListItem extends Component {
       });
     }
 
-    handleCheckbox(event, isInputChecked) {
-      event.preventDefault();
+    handleCheckbox() {
+      const checked = document.getElementById('edit-done').checked
+      if (this.state.newItemName === '') {
+        this.setState({
+          newItemName: this.props.itemName,
+        });
+      }
       this.setState({
-        done: isInputChecked,
+        done: checked,
       });
     }
 
@@ -232,11 +237,14 @@ export default class BucketListItem extends Component {
             }
             <br />
             <Checkbox
-              label="Mark item as done"
+              id="edit-done"
+              label="Update done status"
               labelPosition="left"
               name="done"
+              defaultChecked={this.props.done}
+              onClick={this.handleCheckbox}
               style={style.checkbox}
-              onCheck={this.handleCheckbox}
+
               labelStyle={style.label}
             />
             </Dialog>

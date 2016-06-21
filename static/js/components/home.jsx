@@ -146,13 +146,15 @@ class Home extends Component {
         });
   }
 
-  addBucketlistItem(itemName, bucketlist) {
+  addBucketlistItem(itemName, done, bucketlist) {
     if (itemName === '') {
       return;
     }
+    console.log(itemName, done);
     const bucketlists = [...this.state.bucketlists];
     const bucketlistIndex = bucketlists.indexOf(bucketlist);
-    bucketlist.items.push({ item_name: itemName });
+    const doneStatus = done;
+    bucketlist.items.push({ item_name: itemName, done: doneStatus });
     bucketlists.splice(bucketlistIndex, 1, bucketlist);
     this.setState({ bucketlist: bucketlists });
     request
@@ -160,7 +162,7 @@ class Home extends Component {
       .set('Authorization', 'JWT ' +
           this.props.location.state.token || (JSON.parse(localStorage
             .getItem('username') || '{}') || 'token'))
-      .send({ item_name: itemName })
+      .send({ item_name: itemName, done: doneStatus })
       .end((err, result) => {
         if (result.status === 201) {
           this.fetchBucketlists();

@@ -5,12 +5,12 @@ import FlatButton from 'material-ui/lib/flat-button';
 import { List, ListItem } from 'material-ui/lib/lists';
 import ImageEdit from 'material-ui/lib/svg-icons/image/edit';
 import Delete from 'material-ui/lib/svg-icons/action/delete';
-import FileFolderOpen from 'material-ui/lib/svg-icons/file/folder-open';
 import Badge from 'material-ui/lib/badge';
 import Dialog from 'material-ui/lib/dialog';
 import TextField from 'material-ui/lib/text-field';
 import BucketListItem from './bucketlistitem.jsx';
 import Colors from 'material-ui/lib/styles/colors';
+import Checkbox from 'material-ui/lib/checkbox';
 
 const style = {
   float: 'right',
@@ -24,6 +24,7 @@ const style = {
   },
   checkbox: {
     marginBottom: 16,
+    width: '50%',
   },
   label: {
     fontWeight: 'normal',
@@ -57,6 +58,7 @@ export default class Bucketlist extends Component {
       newItemName: '',
       editNameError: false,
       editItemError: false,
+      done: false,
     };
         // Bind methods
     this.handleDeleteDialog = this.handleDeleteDialog.bind(this);
@@ -67,7 +69,10 @@ export default class Bucketlist extends Component {
     this.handleConfirmDelete = this.handleConfirmDelete.bind(this);
     this.handleFieldChange = this.handleFieldChange.bind(this);
     this.handleAddItem = this.handleAddItem.bind(this);
+    this.handleCheckbox = this.handleCheckbox.bind(this);
+    this.makeValueLink = this.makeValueLink.bind(this);
   }
+
   handleEditDialog() {
     this.setState({
       showEditDialog: !this.state.showEditDialog,
@@ -149,12 +154,32 @@ export default class Bucketlist extends Component {
   }
 
   handleAddItem() {
-    this.props.onAddItem(this.state.newItemName, this.props.bucketlist)
+    this.props.onAddItem(this.state.newItemName, this.state.done, this.props.bucketlist)
     this.setState({
       newItemName: '',
+      done: false,
     });
   }
 
+  handleCheckbox() {
+    const checked = document.getElementById('add-done').checked;
+    this.setState({
+      done: checked,
+    }, () => {
+      console.log(this.state.done);
+    });
+  }
+
+  makeValueLink(key) {
+    return {
+      value: this.state[key],
+      requestChange: (newValue) => {
+        const newState = {};
+        newState[key] = newValue;
+        this.setState(newState);
+      },
+    };
+  }
   renderBucketListItems(bucketlistItems) {
     if (bucketlistItems.length) {
       return bucketlistItems.map((bucketlistItem) => {
@@ -259,9 +284,20 @@ export default class Bucketlist extends Component {
                             onChange={this.handleFieldChange}
                             onEnterKeyDown={this.handleAddItem}
                           />
-                          <FlatButton label="Add"
-                            onClick={this.handleAddItem}
-                          />
+                        <FlatButton label="Add"
+                          secondary
+                          style={{ float: 'right', transform: 'translateY(120%)' }}
+                          onClick={this.handleAddItem}
+                        />
+                      <Checkbox
+                        label="Mark item as done"
+                        labelPosition="left"
+                        name="done"
+                        checkedLink={this.makeValueLink('done')}
+                        iconStyle={{ marginRight: 5 }}
+                        style={ style.checkbox}
+                        labelStyle={style.label}
+                      />
                         </div>
                     </CardText>
                     <CardActions style={style.right}>

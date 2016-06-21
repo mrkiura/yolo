@@ -114,10 +114,12 @@ class BucketListItemViewSet(viewsets.ModelViewSet):
 
     def create(self, request, pk_bucketlist):
         bucketlist = Bucketlist.objects.get(pk=pk_bucketlist)
+        done = request.data.get('done', False)
         if request.user.username == bucketlist.created_by:
             data = {'item_name': request.data['item_name'],
                     'created_by': request.user.username,
-                    'bucketlist_id': int(pk_bucketlist)}
+                    'bucketlist_id': int(pk_bucketlist),
+                    'done': done}
             serializer = self.get_serializer(data=data)
             if serializer.is_valid():
                 serializer.save(bucketlist_id=pk_bucketlist)
@@ -140,8 +142,7 @@ class BucketListItemViewSet(viewsets.ModelViewSet):
                 done = request.data.get('done')
                 if item_name:
                     item.item_name = item_name
-                if done:
-                    item.done = done
+                item.done = done
                 serializer = self.get_serializer(item)
                 item.save()
                 return Response(serializer.data)
