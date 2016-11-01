@@ -52,7 +52,8 @@ class BucketListViewSet(viewsets.ModelViewSet):
             return Response(serializer.data)
         else:
             return Response(
-                {'error': 'You dont have permissions to access the bucketlist'})
+                {'error': 'You dont have permissions to access the bucketlist'},
+                status=status.HTTP_401_UNAUTHORIZED)
 
     def create(self, request):
         data = {'list_name': request.data['list_name'],
@@ -62,7 +63,8 @@ class BucketListViewSet(viewsets.ModelViewSet):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
-            return Response({'error': 'Please provide a valid bucketlistname'})
+            return Response({'error': 'Please provide a valid bucketlistname'},
+                            status=status.HTTP_400_BAD_REQUEST)
 
     @list_route()
     def list_bucketlists(self, request):
@@ -86,7 +88,7 @@ class BucketListViewSet(viewsets.ModelViewSet):
             else:
                 return Response(
                     {'error': 'You dont have permissions to access the bucketlist'},
-                    status=status.HTTP_403_FORBIDDEN)
+                    status=status.HTTP_401_UNAUTHORIZED)
         else:
             return Response(
                 {'error': 'You dont have permissions to access the bucketlist'},
@@ -118,10 +120,12 @@ class BucketListItemViewSet(viewsets.ModelViewSet):
                                 status=status.HTTP_201_CREATED)
             else:
                 return Response(
-                    {'error': 'Please provide a valid bucketlist item name'})
+                    {'error': 'Please provide a valid bucketlist item name'},
+                    status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response(
-                {'error': 'You dont have permissions to edit the bucketlist'})
+                {'error': 'You dont have permissions to edit the bucketlist'},
+                status=status.HTTP_401_UNAUTHORIZED)
 
     def update(self, request, pk_bucketlist, pk_item):
         try:
@@ -139,7 +143,7 @@ class BucketListItemViewSet(viewsets.ModelViewSet):
             else:
                 return Response(
                     {'error': 'You dont have permissions to edit the item'},
-                    status=status.HTTP_403_FORBIDDEN)
+                    status=status.HTTP_401_UNAUTHORIZED)
         except BucketlistItem.DoesNotExist:
             return Response(
                 {'error': 'The requested item was not found'},
@@ -153,7 +157,7 @@ class BucketListItemViewSet(viewsets.ModelViewSet):
             else:
                 return Response(
                     {'error': 'You dont have permissions to delete the item'},
-                    status=status.HTTP_403_FORBIDDEN)
+                    status=status.HTTP_401_UNAUTHORIZED)
         except BucketlistItem.DoesNotExist:
             return Response(
                 {'error': 'The requested item was not found'},
@@ -162,9 +166,5 @@ class BucketListItemViewSet(viewsets.ModelViewSet):
     @list_route()
     def list_items(self, request, pk_bucketlist):
         items = BucketlistItem.objects.filter(bucketlist_id=pk_bucketlist)
-        page = self.paginate_queryset(items)
-        if page:
-            serializer = self.get_serializer(page, many=True)
-            return self.get_paginated_response(serializer.data)
         serializer = self.get_serializer(items, many=True)
         return Response(serializer.data)

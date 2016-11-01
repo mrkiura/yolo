@@ -1,5 +1,5 @@
 from .base import *
-
+import os
 
 """
 Django settings for yolo project.
@@ -63,7 +63,9 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',),
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.TokenAuthentication',),
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication'),
     'TEST_REQUEST_RENDERER_CLASSES': (
         'rest_framework.renderers.MultiPartRenderer',
         'rest_framework.renderers.JSONRenderer',
@@ -112,10 +114,13 @@ STATIC_ROOT = 'staticfiles'
 
 WSGI_APPLICATION = 'yolo.wsgi.application'
 
+PROJECT_DIR = os.path.abspath(os.path.dirname(__file__))
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'yolo-testdb',
+        'NAME': os.path.join(PROJECT_DIR, 'yolo-test.db'),
+        'USER': 'heavy_machinery',
     }
 }
 

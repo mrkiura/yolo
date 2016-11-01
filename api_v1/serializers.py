@@ -15,6 +15,14 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ('username', 'email', 'password',)
 
 class BucketlistItemSerializer(serializers.ModelSerializer):
+    item_name = serializers.CharField(max_length=100)
+
+    def validate(self, data):
+        """Ensure item_name is not empty."""
+        if data['item_name'] == '':
+            raise serializers.ValidationError('Item name can not be empty.')
+        return data
+
     class Meta:
         model = BucketlistItem
         fields = ('id', 'item_name', 'done', 'created_by',
@@ -23,6 +31,13 @@ class BucketlistItemSerializer(serializers.ModelSerializer):
 
 class BucketlistSerializer(serializers.ModelSerializer):
     items = BucketlistItemSerializer(many=True, read_only=True)
+    list_name = serializers.CharField(max_length=100)
+
+    def validate(self, data):
+        """Ensure list_name is not equal."""
+        if data['list_name'] == '':
+            raise serializers.ValidationError('List name can not be empty.')
+        return data
 
     class Meta:
         model = Bucketlist

@@ -1,14 +1,10 @@
-import { render } from 'react-dom'
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import TextField from 'material-ui/lib/text-field';
 import RaisedButton from 'material-ui/lib/raised-button';
 import request from 'superagent';
 import Snackbar from 'material-ui/lib/snackbar';
-import { Link, browserHistory } from 'react-router';
+import { Link } from 'react-router';
 
-const style = {
-  margin: 12,
-};
 
 export default class LoginForm extends Component {
     constructor() {
@@ -83,16 +79,19 @@ export default class LoginForm extends Component {
                         onChange={this.handleFieldChange}
                         />
                     <br/>
+                    <br/>
                     <RaisedButton label="LOGIN" secondary={true}
                         onMouseDown={this.handleSubmit}/>
+                    <br/>
+                    <br/>
                     <p>Need an account? <Link to="/register">Sign up</Link></p>
 
                     <Snackbar
                         className="toast-alerts"
                         open={this.state.error}
                         message="Please provide a correct username and password"
-                        autoHideDuration={4000}
-                        onRequestClose={this.handleRequestClose}
+                        autoHideDuration={2000}
+                        onRequestClose={this.handleRequestClose.bind(this)}
                         />
                 </div>
             </div>
