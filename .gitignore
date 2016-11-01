@@ -1,0 +1,7 @@
+node_modules/
+tasks.md
+.imdone/
+*.sh
+staticfiles/
+.coverage
+.coveragerc
