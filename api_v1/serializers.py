@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from models import Bucketlist, BucketlistItem
+from api_v1.models import Bucketlist, BucketlistItem
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 
