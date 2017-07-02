@@ -1,1 +1,1 @@
-from base import *
+from yolo.settings.base import *

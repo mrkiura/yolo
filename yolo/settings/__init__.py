@@ -1,8 +1,8 @@
 import os
 
 if os.getenv('HEROKU') is not None:
-    from .prod import *
+    from yolo.settings.prod import *
 elif os.getenv('TRAVIS') is not None:
-    from test import *
+    from yolo.settings.test import *
 else:
-    from base import *
+    from yolo.settings.base import *

@@ -15,7 +15,7 @@ Including another URLconf
 """
 
 from django.conf.urls import url
-from api import BucketListViewSet, BucketListItemViewSet,\
+from api_v1.api import BucketListViewSet, BucketListItemViewSet,\
     UserCreateViewSet
 from rest_framework_jwt.views import obtain_jwt_token
 from rest_framework_jwt.views import refresh_jwt_token

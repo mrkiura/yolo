@@ -1,12 +1,12 @@
 from django.contrib.auth.models import User
-from models import Bucketlist, BucketlistItem
+from api_v1.models import Bucketlist, BucketlistItem
 from rest_framework import viewsets
-from serializers import UserSerializer, BucketlistSerializer, \
+from api_v1.serializers import UserSerializer, BucketlistSerializer, \
     BucketlistItemSerializer
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
-from permissions import IsOwner
+from api_v1.permissions import IsOwner
 from rest_framework.decorators import detail_route, list_route
 
 
