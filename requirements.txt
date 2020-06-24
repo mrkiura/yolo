@@ -9,7 +9,7 @@ django-allauth==0.25.2
 django-filter==0.13.0
 django-nose==1.4.3
 django-test==0.4030
-djangorestframework==3.3.3
+djangorestframework==3.9.1
 djangorestframework-jwt==1.8.0
 docopt==0.6.2
 drf-nested-routers==0.11.1
