@@ -18,7 +18,7 @@ factory-boy==2.7.0
 fake-factory==0.5.7
 gnureadline==6.3.3
 gunicorn==19.6.0
-httpie==0.9.3
+httpie==1.0.3
 ipaddress==1.0.16
 ipdb==0.9.3
 ipython==4.2.0
