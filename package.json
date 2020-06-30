@@ -27,7 +27,7 @@
     "react-router": "^2.4.0",
     "react-swipeable-views": "^0.6.0",
     "react-tap-event-plugin": "^0.2.2",
-    "superagent": "^1.8.3"
+    "superagent": "^5.3.1"
   },
   "devDependencies": {
     "babel-core": "^6.7.6",
